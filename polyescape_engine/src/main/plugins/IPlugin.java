@@ -6,9 +6,16 @@ import java.util.Map;
 public interface IPlugin {
 
     /**
-     * Returns the list of expected arguments as Strings
+     * Returns the list of expected arguments to initialize this plugin as Strings
      */
     List<String> listArgs();
+
+    /**
+     * Returns the expected list of input arguments as a JSON formatted string
+     *
+     * @return String
+     */
+    String getJSONSchema();
 
     /**
      * Reads the input data submitted from an external entity to this plugin
@@ -18,16 +25,9 @@ public interface IPlugin {
     void readIn(Map<String, String> args);
 
     /**
-     * Outputs the response, given a configuration and the inputs
+     * Outputs the response, given the plugin initialization and the user input
      *
      * @return Map
      */
     Map<String, String> checkOut();
-
-    /**
-     * Returns the plugin representation as a JSON String
-     *
-     * @return String
-     */
-    String toJSONString();
 }
