@@ -1,4 +1,4 @@
-package main.plugins;
+package polytech.teamf.plugins;
 
 public abstract class Plugin implements IPlugin {
 

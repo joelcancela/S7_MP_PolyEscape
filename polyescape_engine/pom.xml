@@ -7,6 +7,20 @@
   <version>1.0-SNAPSHOT</version>
   <name>polyescape Maven Webapp</name>
   <url>http://maven.apache.org</url>
+    <build>
+        <finalName>polyescape</finalName>
+        <sourceDirectory>src</sourceDirectory>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -16,8 +30,18 @@
     </dependency>
       <dependency>
           <groupId>com.sun.jersey</groupId>
-          <artifactId>jersey-client</artifactId>
-          <version>1.8</version>
+          <artifactId>jersey-server</artifactId>
+          <version>1.18.1</version>
+      </dependency>
+      <dependency>
+          <groupId>com.sun.jersey</groupId>
+          <artifactId>jersey-core</artifactId>
+          <version>1.18.1</version>
+      </dependency>
+      <dependency>
+          <groupId>com.sun.jersey</groupId>
+          <artifactId>jersey-servlet</artifactId>
+          <version>1.18.1</version>
       </dependency>
        <!-- https://mvnrepository.com/artifact/org.json/json -->
       <dependency>
@@ -26,17 +50,4 @@
           <version>20171018</version>
       </dependency>
   </dependencies>
-  <build>
-    <finalName>polyescape</finalName>
-      <plugins>
-          <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-compiler-plugin</artifactId>
-              <configuration>
-                  <source>1.8</source>
-                  <target>1.8</target>
-              </configuration>
-          </plugin>
-      </plugins>
-  </build>
 </project>

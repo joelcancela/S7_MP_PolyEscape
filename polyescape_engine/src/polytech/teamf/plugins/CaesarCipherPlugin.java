@@ -1,4 +1,4 @@
-package main.plugins;
+package polytech.teamf.plugins;
 
 import org.json.JSONObject;
 
