@@ -23,10 +23,27 @@ angular.module('polyEscapeApp')
         keyboard: false
       };
 
+      $rootScope.addStepModal = {
+        templateUrl: 'views/modals/addStepModal.html',
+        // backdrop: 'static',
+        keyboard: false
+      };
+
 
       $rootScope.escapeGameStory = "Echappez-vous dans le temps imparti en résolvant les éngimes !";
       $rootScope.escapeGameTimeLimit = 60;
       $rootScope.escapeGameSteps = [];
+      $rootScope.stepTypes = [{name: "Caesar code", value: "caesarcode", inputStory: true}];//TODO
+
+      $scope.addStep = function () {
+        $rootScope.addStepModalInstance = $uibModal.open($rootScope.addStepModal);//creates modalForceToggle instance
+        $rootScope.addStepModalInstance.result.then(function (res) {//result of the modal
+          if (res) {//if the user confirms the force toggle
+            $rootScope.escapeGameSteps.push(res);
+            console.log("Added steps " + res);
+          }
+        });
+      };
 
       $scope.setTimeLimit = function () {
         $rootScope.timelimitModalInstance = $uibModal.open($rootScope.timelimitModal);//creates modalForceToggle instance
@@ -51,7 +68,7 @@ angular.module('polyEscapeApp')
       $scope.playEscapeGame = function () {
         if ($rootScope.escapeGameSteps.length === 0) {
           $window.alert("Vous n'avez pas d'étapes pour votre escape game !");
-        }else{
+        } else {
           $rootScope.configIsReady = true;
           $window.location.hash = "#/play";
         }
