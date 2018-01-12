@@ -1,31 +1,28 @@
 package main.plugins;
 
-import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public interface IPlugin {
 
     /**
-     * Initializes the plugin with an associative array
-     * Acts like a constructor
-     *
-     * @param args The construction arguments
-     * @return IPlugin
+     * Returns the list of expected arguments as Strings
      */
-    IPlugin initialize(HashMap<String, String> args);
+    List<String> listArgs();
 
     /**
      * Reads the input data submitted from an external entity to this plugin
      *
      * @param args The inputs as an array
      */
-    void readIn(HashMap<String, String> args);
+    void readIn(Map<String, String> args);
 
     /**
      * Outputs the response, given a configuration and the inputs
      *
-     * @return HashMap
+     * @return Map
      */
-    HashMap<String, String> checkOut();
+    Map<String, String> checkOut();
 
     /**
      * Returns the plugin representation as a JSON String
