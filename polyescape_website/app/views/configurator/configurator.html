@@ -1,0 +1,38 @@
+<div class="container" ng-controller="ConfigCtrl">
+  <div class="row">
+    <div class="col-sm-10">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Numéro</th>
+          <th>Type de l'étape</th>
+          <th>Configuration</th>
+        </tr>
+        </thead>
+        <tr ng-repeat="step in escapeGameSteps">
+          <td>{{ $index + 1 }}</td>
+          <td>{{ step.type }}</td>
+          <td><a class="btn btn-default glyphicon glyphicon-cog"></a></td>
+        </tr>
+      </table>
+    </div>
+    <div class="col-sm-2">
+      <a class="btn btn-default" ng-click="setStory()">Définir une histoire d'introduction (facultatif)</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2 col-lg-offset-10">
+      <a class="btn btn-default">Ajouter une épreuve</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2 col-lg-offset-10">
+      <a class="btn btn-default" ng-click="setTimeLimit()">Définir le temps limite (60 min par défaut)</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-2 col-lg-offset-10">
+      <a class="btn btn-success" ng-click="playEscapeGame()">Jouer</a>
+    </div>
+  </div>
+</div>

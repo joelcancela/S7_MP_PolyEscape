@@ -15,7 +15,8 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'ui.bootstrap'
   ])
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
@@ -28,6 +29,11 @@ angular
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl',
         controllerAs: 'about'
+      })
+      .when('/play', {
+        templateUrl: 'views/gamerunner/game_runner.html',
+        controller: 'GameRunnerCtrl',
+        controllerAs: 'gamerunner'
       })
       .otherwise({
         redirectTo: '/'

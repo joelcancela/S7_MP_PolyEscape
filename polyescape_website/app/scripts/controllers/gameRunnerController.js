@@ -8,7 +8,7 @@
  * Controller of the polyEscapeApp
  */
 angular.module('polyEscapeApp')
-  .controller('MainCtrl', ['$rootScope', '$scope',
-    function ($rootScope, $scope) {
+  .controller('GameRunnerCtrl', ['$rootScope', '$scope', '$window', '$uibModal', 'PolyEscapeAPIService',
+    function ($rootScope, $scope, $window, $uibModal, PolyEscapeAPIService) {
 
     }]);
