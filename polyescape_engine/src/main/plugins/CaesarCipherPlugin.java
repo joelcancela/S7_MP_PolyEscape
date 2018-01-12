@@ -8,6 +8,18 @@ import java.util.*;
 public class CaesarCipherPlugin extends Plugin {
 
     /**
+     * Initialization arguments
+     */
+    static {
+        // Constructor arguments
+        CaesarCipherPlugin.ARGS.add("plain_text");
+        CaesarCipherPlugin.ARGS.add("cipher_padding");
+
+        // Schema arguments
+        CaesarCipherPlugin.JSON_SCHEMA.put("attempt_text", "the user attempt");
+    }
+
+    /**
      * The ciphered text as returned by the private method toCaesar()
      */
     private String ciphered_text = "";
@@ -20,7 +32,7 @@ public class CaesarCipherPlugin extends Plugin {
     /**
      * Caesar cipher table
      */
-    private List<Character> alpha_beta_array = new ArrayList<Character>();
+    private List<Character> alpha_beta_array = new ArrayList<>();
 
     /**
      * Initializes the plugin
@@ -59,22 +71,6 @@ public class CaesarCipherPlugin extends Plugin {
         this.alpha_beta_array.add('Z');
 
         this.ciphered_text = toCaesar(plain_text, cipher_padding);
-    }
-
-    public List<String> listArgs() {
-
-        // TODO : implement in abstract class with javadoc parser
-
-        List<String> args = new LinkedList<String>();
-        args.add("plain_text");
-        args.add("cipher_padding");
-
-        return args;
-    }
-
-    public String getJSONSchema() {
-        return new JSONObject()
-                .put("attempt_text", "The user text attempt").toString();
     }
 
     public void readIn(Map<String, String> args) {

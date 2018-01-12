@@ -1,21 +1,37 @@
 package main.plugins;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 public interface IPlugin {
 
     /**
-     * Returns the list of expected arguments to initialize this plugin as Strings
+     * Plugin constructor arguments
      */
-    List<String> listArgs();
+    List<String> ARGS = new LinkedList<>();
 
     /**
-     * Returns the expected list of input arguments as a JSON formatted string
-     *
-     * @return String
+     * Plugin input schema
      */
-    String getJSONSchema();
+    Map<String, String> JSON_SCHEMA = new HashMap<>();
+
+    /**
+     * Returns the List of String of expected arguments to initialize this plugin
+     */
+    static List<String> listArgs() {
+        return ARGS;
+    }
+
+    /**
+     * Returns the expected list of input arguments
+     *
+     * @return Map
+     */
+    static Map<String, String> getJSONSchema() {
+        return JSON_SCHEMA;
+    }
 
     /**
      * Reads the input data submitted from an external entity to this plugin
