@@ -26,7 +26,7 @@ public interface IPlugin {
      *
      * @return Map
      */
-    static Map<String, String> getJSONSchema() {
+    static Map<String, String> getSchema() {
         return SCHEMA;
     }
 
@@ -36,6 +36,7 @@ public interface IPlugin {
      *
      * @param args The inputs as an array
      * @return Map
+     * @throws Exception Error if anything wrong happens
      */
-    Map<String, String> play(Map<String, String> args);
+    Map<String, String> play(Map<String, String> args) throws Exception;
 }

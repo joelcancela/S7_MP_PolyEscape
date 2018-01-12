@@ -73,7 +73,7 @@ public class CaesarCipherPlugin extends Plugin {
         this.ciphered_text = toCaesar(plain_text, cipher_padding);
     }
 
-    public Map<String, String> play(Map<String, String> args) {
+    public Map<String, String> play(Map<String, String> args) throws InvalidParameterException {
 
         Map<String, String> ret = new HashMap<>();
 
@@ -95,8 +95,7 @@ public class CaesarCipherPlugin extends Plugin {
 
     public String toString() {
         return new JSONObject()
-                .put("ciphered_text", this.ciphered_text)
-                .put("plain_text", this.plain_text).toString();
+                .put("ciphered_text", this.ciphered_text).toString();
     }
 
     private String toCaesar(String plain_text, int cipher_padding) {
@@ -105,7 +104,12 @@ public class CaesarCipherPlugin extends Plugin {
         StringBuilder builder = new StringBuilder();
 
         for (int i = 0; i < plain_text.length(); i++) {
-            int index = this.alpha_beta_array.indexOf(plain_text.charAt(i)) + cipher_padding;
+            char c = plain_text.charAt(i);
+            if (this.alpha_beta_array.indexOf(c) == -1) {
+                continue;
+            }
+            int index = this.alpha_beta_array.indexOf(c) + cipher_padding;
+            index = index % 26;
             builder.append(this.alpha_beta_array.get(index));
         }
 

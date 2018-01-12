@@ -1,12 +1,12 @@
 package main.plugins;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class PluginFactory {
 
-    public static IPlugin create(String className, HashMap<String, String> args) {
+    public static Plugin create(String className, Map<String, String> args) {
 
-        IPlugin plugin = null;
+        Plugin plugin = null;
 
         if (className.equals("CaesarCipherPlugin")) {
             plugin = new CaesarCipherPlugin(args.get("plain_text"), Integer.parseInt(args.get("cipher_padding")));
