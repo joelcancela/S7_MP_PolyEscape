@@ -18,9 +18,8 @@ public class Parser {
      *parse a json file into plugins
      *  @param json the json object ready to be parsed
      *
-     * @throws IOException
      */
-    public Parser(String json) throws IOException {
+    public Parser(String json){
 
         plugins = new ArrayList();
         JSONArray ja = new JSONArray(json);
