@@ -1,5 +1,10 @@
 package polytech.teamf.api;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import polytech.teamf.plugins.IPlugin;
+import polytech.teamf.plugins.Plugin;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.io.File;
@@ -12,17 +17,18 @@ import java.util.List;
 @Path("/plugins")
 public class PluginsServices {
 
-    @Produces(MediaType.APPLICATION_XML)
-    public String getAllStepsType() throws IOException, ClassNotFoundException {
-
-        return "Hello";
-    }
-
     @GET
     @Path("/list")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getMessage() {
-        return "Hello world!";
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getAllStepsType() throws IOException, ClassNotFoundException {
+        Class[] classArray = getClasses("polytech.teamf.plugins");
+        JSONArray stepsType = new JSONArray();
+        for (Class c : classArray) {
+            if (Plugin.class.isAssignableFrom(c) && c != Plugin.class) {
+                stepsType.put(c.getName());
+            }
+        }
+        return stepsType.toString();
     }
 
     /**
