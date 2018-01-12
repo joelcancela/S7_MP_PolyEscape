@@ -1,42 +1,46 @@
 package main.game_engine;
 
-import main.plugins.Plugin;
-import org.ini4j.Profile;
-import org.ini4j.Wini;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 public class Parser {
 
-    public ArrayList<HashMap<String,String>> plugins;
+
+    private ArrayList<HashMap<String,String>> plugins;
     private String path;
 
-    public Parser(String aPath) throws IOException {
+
+    /**
+     *parse a json file into plugins
+     *  @param json the json object ready to be parsed
+     *
+     * @throws IOException
+     */
+    public Parser(String json) throws IOException {
 
         plugins = new ArrayList();
-        Wini ini = new Wini(new File(aPath));
+        JSONArray ja = new JSONArray(json);
 
 
-        //get all section --> our plugin
-        Collection<Profile.Section> list = ini.values();
-        for(Profile.Section section : list){
-                plugins.add(new HashMap());
-
-
-            //output keys of all options of one section
-            for(String key : section.keySet()){
-                plugins.get(plugins.size()-1).put(key,section.fetch(key));
-                }
+        for(int i=0;i<ja.length();i++){
+            JSONObject jo = ja.getJSONObject(i);
+            plugins.add(new HashMap());
+            for(String s : jo.keySet()){
+                plugins.get(plugins.size()-1).put(s,jo.getString(s));
+            }
         }
-
-
     }
 
 
+
+
+    public ArrayList<HashMap<String, String>> getPlugins() {
+        return plugins;
+    }
 
 
 }
