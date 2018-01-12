@@ -1,16 +1,13 @@
 package main.plugins;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public interface IPlugin {
 
     /**
      * Plugin constructor arguments
      */
-    List<String> ARGS = new LinkedList<>();
+    List<String> ARGS = new ArrayList<>();
 
     /**
      * Plugin input schema
