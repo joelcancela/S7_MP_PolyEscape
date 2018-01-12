@@ -1,0 +1,18 @@
+<div class="modal-header">
+  <h3 class="modal-title">
+    <span class="red">Ajouter une épreuve à l'escape game</span>
+  </h3>
+</div>
+<div class="modal-body">
+  <label>
+    Sélectionnez un type d'épreuve<br>
+    <select name="stepTypeSelect" ng-model="stepTypeSelect">
+      <option ng-repeat="stepType in stepTypes" value="{{stepType.value}}">{{stepType.name}}</option>
+    </select>
+  </label>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" type="button" ng-click="addStepModalInstance.close(createNewStep(stepType))">
+    Ajouter une étape
+  </button>
+</div>
