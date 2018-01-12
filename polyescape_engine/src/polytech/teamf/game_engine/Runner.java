@@ -24,17 +24,17 @@ public class Runner {
         PluginFactory factory = new PluginFactory(); //initialization of the factory
 
 
-        Parser p = new Parser(json); // parse the json
+        Parser parser = new Parser(json); // parse the json
 
-        ArrayList<HashMap<String, String>> l = p.getPlugins(); // we get all the
+        ArrayList<HashMap<String, String>> list = parser.getPlugins(); // we get all the
 
-        for(HashMap<String,String> h : l) { // fill the list of plugins thx to the parser datas
-            JSONObject obj = new JSONObject();
-            for (String str : h.keySet()) {
-                obj.append(str,h.get(str));
+        for(HashMap<String,String> map : list) { // fill the list of plugins thx to the parser datas
+            JSONObject toBuild = new JSONObject();
+            for (String str : map.keySet()) {
+                toBuild.append(str,map.get(str));
 
             }
-            plugins.add(factory.create(h.get("type") , obj));
+            plugins.add(factory.create(map.get("type") , toBuild));
 
         }
 
@@ -46,7 +46,7 @@ public class Runner {
      * @return
      */
     public JSONObject getDescription(){
-        return new JSONObject(currentPlugin.getDescription());
+        return new JSONObject().put("description",currentPlugin.getDescription());
     }
 
     /**
@@ -69,10 +69,10 @@ public class Runner {
         it++;
 
         if(plugins.size() == it)
-            return new JSONObject("finish");
+            return new JSONObject().put("status", "finish");
 
         currentPlugin = plugins.get(it);
-            return new JSONObject("ok");
+            return new JSONObject().put("status", "ok");
     }
 
 }
