@@ -15,7 +15,7 @@ public interface IPlugin {
     /**
      * Plugin input schema
      */
-    Map<String, String> JSON_SCHEMA = new HashMap<>();
+    Map<String, String> SCHEMA = new HashMap<>();
 
     /**
      * Returns the List of String of expected arguments to initialize this plugin
@@ -30,20 +30,15 @@ public interface IPlugin {
      * @return Map
      */
     static Map<String, String> getJSONSchema() {
-        return JSON_SCHEMA;
+        return SCHEMA;
     }
 
     /**
      * Reads the input data submitted from an external entity to this plugin
-     *
-     * @param args The inputs as an array
-     */
-    void readIn(Map<String, String> args);
-
-    /**
      * Outputs the response, given the plugin initialization and the user input
      *
+     * @param args The inputs as an array
      * @return Map
      */
-    Map<String, String> checkOut();
+    Map<String, String> play(Map<String, String> args);
 }

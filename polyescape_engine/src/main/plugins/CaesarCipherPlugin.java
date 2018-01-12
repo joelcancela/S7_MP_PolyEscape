@@ -16,7 +16,7 @@ public class CaesarCipherPlugin extends Plugin {
         CaesarCipherPlugin.ARGS.add("cipher_padding");
 
         // Schema arguments
-        CaesarCipherPlugin.JSON_SCHEMA.put("attempt_text", "the user attempt");
+        CaesarCipherPlugin.SCHEMA.put("attempt_text", "the user attempt");
     }
 
     /**
@@ -73,7 +73,9 @@ public class CaesarCipherPlugin extends Plugin {
         this.ciphered_text = toCaesar(plain_text, cipher_padding);
     }
 
-    public void readIn(Map<String, String> args) {
+    public Map<String, String> play(Map<String, String> args) {
+
+        Map<String, String> ret = new HashMap<>();
 
         if (!args.containsKey("attempt_text")) {
             throw new InvalidParameterException();
@@ -81,17 +83,10 @@ public class CaesarCipherPlugin extends Plugin {
 
         if(this.plain_text.equals(args.get("attempt_text"))) {
             this.isValidatedState = true;
-        }
-    }
-
-    public Map<String, String> checkOut() {
-
-        Map<String, String> ret = new HashMap<String, String>();
-
-        if (this.isValidatedState) {
             ret.put("success", "true");
         }
-        else {
+
+        if (!this.isValidatedState) {
             ret.put("success", "false");
         }
 
