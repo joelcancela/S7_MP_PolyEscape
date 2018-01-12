@@ -1,5 +1,8 @@
 package polytech.teamf.plugins;
 
+import netscape.javascript.JSObject;
+import org.json.JSONObject;
+
 import java.util.*;
 
 public interface IPlugin {
@@ -34,9 +37,9 @@ public interface IPlugin {
      * Reads the input data submitted from an external entity to this plugin
      * Outputs the response, given the plugin initialization and the user input
      *
-     * @param args The inputs as an array
-     * @return Map
+     * @param args The inputs a JSObject
+     * @return JSObject
      * @throws Exception Error if anything wrong happens
      */
-    Map<String, String> play(Map<String, String> args) throws Exception;
+    JSONObject play(JSONObject args) throws Exception;
 }

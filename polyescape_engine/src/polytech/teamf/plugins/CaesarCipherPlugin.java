@@ -77,19 +77,21 @@ public class CaesarCipherPlugin extends Plugin {
         this.ciphered_text = toCaesar(plain_text, cipher_padding);
     }
 
-    public Map<String, String> play(Map<String, String> args) throws InvalidParameterException {
+    @Override
+    public JSONObject play(JSONObject args) {
 
-        Map<String, String> ret = new HashMap<>();
+        JSONObject ret = new JSONObject();
 
-        if (!args.containsKey("attempt_text")) {
-            throw new InvalidParameterException();
+        try {
+            if (this.plain_text.equals(args.getString("attempt_text"))) {
+                this.isValidatedState = true;
+                ret.put("success", "true");
+            }
+            else {
+                ret.put("success", "false");
+            }
         }
-
-        if(this.plain_text.equals(args.get("attempt_text"))) {
-            this.isValidatedState = true;
-            ret.put("success", "true");
-        }
-        else {
+        catch (Exception e) {
             ret.put("success", "false");
         }
 

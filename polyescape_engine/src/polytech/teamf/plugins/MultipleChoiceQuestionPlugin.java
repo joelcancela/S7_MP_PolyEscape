@@ -26,19 +26,22 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
     }
 
     @Override
-    public Map<String, String> play(Map<String, String> args) throws Exception {
-        Map<String, String> ret = new HashMap<>();
+    public JSONObject play(JSONObject args) {
 
-        if (!args.containsKey("attempt_answers_csv")) {
-            throw new InvalidParameterException();
-        }
+        JSONObject ret = new JSONObject();
 
-        String[] attempt_answers = args.get("attempt_answers_csv").split(",");
-        if (Arrays.equals(this.answers, attempt_answers)) {
-            this.isValidatedState = true;
-            ret.put("success", "true");
+        try {
+            String[] attempt_answers = args.getString("attempt_answers_csv").split(",");
+
+            if (Arrays.equals(this.answers, attempt_answers)) {
+                this.isValidatedState = true;
+                ret.put("success", "true");
+            }
+            else {
+                ret.put("success", "false");
+            }
         }
-        else {
+        catch (Exception e) {
             ret.put("success", "false");
         }
 

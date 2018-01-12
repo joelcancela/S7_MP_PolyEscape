@@ -1,18 +1,25 @@
 package polytech.teamf.plugins;
 
-import java.util.Map;
+import org.json.JSONObject;
 
 public class PluginFactory {
 
-    public static Plugin create(String className, Map<String, String> args) {
+    public static Plugin create(String className, JSONObject args) {
 
         Plugin plugin = null;
 
         if (className.equals("CaesarCipherPlugin")) {
-            plugin = new CaesarCipherPlugin(args.get("description"), args.get("plain_text"), Integer.parseInt(args.get("cipher_padding")));
+            plugin = new CaesarCipherPlugin(
+                    args.getString("description"),
+                    args.getString("plain_text"),
+                    args.getInt("cipher_padding")
+            );
         }
         if (className.equals("MultipleChoiceQuestionPlugin")) {
-            plugin = new MultipleChoiceQuestionPlugin(args.get("description"), args.get("attempt_answers_csv"));
+            plugin = new MultipleChoiceQuestionPlugin(
+                    args.getString("description"),
+                    args.getString("attempt_answers_csv")
+            );
         }
 
         return plugin;
