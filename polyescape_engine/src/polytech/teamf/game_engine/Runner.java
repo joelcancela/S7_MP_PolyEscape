@@ -1,5 +1,7 @@
 package polytech.teamf.game_engine;
 
+import netscape.javascript.JSObject;
+import org.json.JSONObject;
 import polytech.teamf.plugins.IPlugin;
 import polytech.teamf.plugins.Plugin;
 import polytech.teamf.plugins.PluginFactory;
@@ -9,49 +11,68 @@ import java.util.HashMap;
 
 public class Runner {
 
-    private ArrayList<Plugin> plugins;
-    private IPlugin currentPlugin;
+    private ArrayList<Plugin> plugins; // list of plugins ordered
+    private Plugin currentPlugin;
+    int it = 0; // where are we in the plugins list
 
-
-    public Runner(String path) {
+    /**
+     * runner that parse the json & instance plugins
+     * @param json
+     */
+    public Runner(String json) {
 
         PluginFactory factory = new PluginFactory(); //initialization of the factory
 
 
-        Parser p = new Parser(path);
+        Parser p = new Parser(json); // parse the json
 
-        ArrayList<HashMap<String, String>> l = p.getPlugins();
+        ArrayList<HashMap<String, String>> l = p.getPlugins(); // we get all the
 
-//        for(HashMap<String,String> h : l) // fill the list of plugins thx to the parser datas
-        // plugins.add(factory.create(h.get("name") , h));
+        for(HashMap<String,String> h : l) { // fill the list of plugins thx to the parser datas
+            JSONObject obj = new JSONObject();
+            for (String str : h.keySet()) {
+                obj.append(str,h.get(str));
 
+            }
+            plugins.add(factory.create(h.get("type") , obj));
+
+        }
+
+        currentPlugin = plugins.get(it);
+    }
+
+    /**
+     * get the description / contexte  of the plugin
+     * @return
+     */
+    public JSONObject getDescription(){
+        return new JSONObject(currentPlugin.getDescription());
+    }
+
+    /**
+     * you give a answer and it say if you are right or wrong
+     * @param guess
+     * @return
+     * @throws Exception
+     */
+    public JSONObject sendGuess_GetResponse(String guess) throws Exception {
+        return currentPlugin.play(new JSONObject(guess));
 
     }
 
-    public void run() {
 
-        for (Plugin p : plugins) {
-            //TODO link this class to REST API done by young Jeremy ;)
-            // p.toJSONString(); // todo send this to rest api
+    /**
+     * the current plugin is the next on the list
+     */
+    public JSONObject nextPlugin(){
 
-            boolean isNotOk = false;
-            while (isNotOk) {
-                // todo wait the response from RESt api
-                //      HashMap<String,String> result =  p.play(); // todo put the given response here
+        it++;
 
-                //       if(result.get("success") == "true"){
-                // todo envoyer bonne réponse a la vue
-                //        }
-                //       else{
-                // todo envoyer mauvaise réponse a la vue
-                //     }
+        if(plugins.size() == it)
+            return new JSONObject("finish");
 
-
-                // todo send response to API rest
-
-            }
-        }
-
+        currentPlugin = plugins.get(it);
+            return new JSONObject("ok");
     }
 
 }
