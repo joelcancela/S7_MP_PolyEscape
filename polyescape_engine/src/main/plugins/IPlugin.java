@@ -26,4 +26,11 @@ public interface IPlugin {
      * @return HashMap
      */
     HashMap<String, String> checkOut();
+
+    /**
+     * Returns the plugin representation as a JSON String
+     *
+     * @return String
+     */
+    String toJSONString();
 }
