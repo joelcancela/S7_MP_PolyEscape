@@ -17,6 +17,12 @@ import java.util.List;
 @Path("/plugins")
 public class PluginsServices {
 
+    /**
+     * Get all the classes which inherits the Plugin class and return theirs full name.
+     * @return A string obtained from a JSONArray filled with the full class names.
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     @GET
     @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)

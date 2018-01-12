@@ -8,10 +8,11 @@ import polytech.teamf.plugins.PluginFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Runner {
 
-    private ArrayList<Plugin> plugins; // list of plugins ordered
+    private List<Plugin> plugins = new ArrayList<>(); // list of plugins ordered
     private Plugin currentPlugin;
     int it = 0; // where are we in the plugins list
 
@@ -21,7 +22,6 @@ public class Runner {
      */
     public Runner(String json) {
 
-        PluginFactory factory = new PluginFactory(); //initialization of the factory
 
 
         Parser parser = new Parser(json); // parse the json
@@ -31,10 +31,10 @@ public class Runner {
         for(HashMap<String,String> map : list) { // fill the list of plugins thx to the parser datas
             JSONObject toBuild = new JSONObject();
             for (String str : map.keySet()) {
-                toBuild.append(str,map.get(str));
+                toBuild.put(str,map.get(str));
 
             }
-            plugins.add(factory.create(map.get("type") , toBuild));
+            plugins.add(PluginFactory.create(map.get("type") , toBuild));
 
         }
 
