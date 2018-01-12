@@ -37,10 +37,14 @@ public class CaesarCipherPlugin extends Plugin {
     /**
      * Initializes the plugin
      *
+     * @param description The plugin description
      * @param plain_text The plain text to discover
      * @param cipher_padding The cipher padding used by the algorithm to shift letters
      */
-    CaesarCipherPlugin(String plain_text, int cipher_padding) {
+    CaesarCipherPlugin(String description, String plain_text, int cipher_padding) {
+
+        super(description);
+
         this.plain_text = plain_text;
 
         this.alpha_beta_array.add('A');
@@ -95,6 +99,7 @@ public class CaesarCipherPlugin extends Plugin {
 
     public String toString() {
         return new JSONObject()
+                .put("description", this.description)
                 .put("ciphered_text", this.ciphered_text).toString();
     }
 
