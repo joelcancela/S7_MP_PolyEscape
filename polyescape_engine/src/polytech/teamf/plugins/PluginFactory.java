@@ -9,7 +9,7 @@ public class PluginFactory {
         Plugin plugin = null;
 
         if (className.equals("CaesarCipherPlugin")) {
-            plugin = new CaesarCipherPlugin(args.get("plain_text"), Integer.parseInt(args.get("cipher_padding")));
+            plugin = new CaesarCipherPlugin(args.get("description"), args.get("plain_text"), Integer.parseInt(args.get("cipher_padding")));
         }
 
         return plugin;
