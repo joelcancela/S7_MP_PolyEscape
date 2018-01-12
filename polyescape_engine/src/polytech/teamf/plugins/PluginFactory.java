@@ -11,6 +11,9 @@ public class PluginFactory {
         if (className.equals("CaesarCipherPlugin")) {
             plugin = new CaesarCipherPlugin(args.get("description"), args.get("plain_text"), Integer.parseInt(args.get("cipher_padding")));
         }
+        if (className.equals("MultipleChoiceQuestionPlugin")) {
+            plugin = new MultipleChoiceQuestionPlugin(args.get("description"), args.get("attempt_answers_csv"));
+        }
 
         return plugin;
     }

@@ -89,8 +89,7 @@ public class CaesarCipherPlugin extends Plugin {
             this.isValidatedState = true;
             ret.put("success", "true");
         }
-
-        if (!this.isValidatedState) {
+        else {
             ret.put("success", "false");
         }
 
