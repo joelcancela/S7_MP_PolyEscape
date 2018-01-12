@@ -2,8 +2,8 @@ package polytech.teamf.plugins;
 
 import org.json.JSONObject;
 
-import java.security.InvalidParameterException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CaesarCipherPlugin extends Plugin {
 
