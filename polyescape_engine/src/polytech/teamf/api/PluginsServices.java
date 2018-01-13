@@ -68,7 +68,7 @@ public class PluginsServices {
             if (Plugin.class.isAssignableFrom(c) && c != Plugin.class) {
 
                 try {
-                    Plugin p = (Plugin) c.getConstructors()[0].newInstance();
+                    Plugin p = (Plugin) c.newInstance(); // Call default constructor
 
                     List<String> argz = p.getArgs();
                     for (String arg : argz) {
