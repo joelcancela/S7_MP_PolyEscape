@@ -1,7 +1,9 @@
 package polytech.teamf.api;
 
+import javafx.util.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import polytech.teamf.plugins.IPlugin;
 import polytech.teamf.plugins.Plugin;
 
 import javax.ws.rs.GET;
@@ -10,10 +12,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 
 @Path("/plugins")
 public class PluginsServices {
@@ -49,18 +53,44 @@ public class PluginsServices {
     @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)
     public String getAllStepsType() throws IOException, ClassNotFoundException {
+
         Class[] classArray = getClasses("polytech.teamf.plugins");
-        JSONArray steps = new JSONArray();
+
+        JSONArray jsonPlugins = new JSONArray();
+
         for (Class c : classArray) {
-            JSONObject step = new JSONObject();
-            //JSONArray stepArgs = new JSONArray();
+
+            JSONObject jsonPlugin = new JSONObject();
+
+            JSONArray jsonPluginArgs = new JSONArray();
+            JSONObject jsonPluginSchema = new JSONObject();
+
             if (Plugin.class.isAssignableFrom(c) && c != Plugin.class) {
-                step.put("type", c.getName());
-                //step.put("args", stepArgs);
-                steps.put(step);
+
+                try {
+                    Plugin p = (Plugin) c.getConstructors()[0].newInstance();
+
+                    List<String> argz = p.getArgs();
+                    for (String arg : argz) {
+                        jsonPluginArgs.put(arg);
+                    }
+
+                    Map<String, String> schem = p.getSchema();
+                    for (Map.Entry<String, String> entry : schem.entrySet()) {
+                        jsonPluginSchema.put(entry.getKey(), entry.getValue());
+                    }
+                } catch (Exception e) {
+                }
+
+                jsonPlugin.put("type", c.getName());
+                jsonPlugin.put("args", jsonPluginArgs);
+                jsonPlugin.put("schema", jsonPluginSchema);
+
+                jsonPlugins.put(jsonPlugin);
             }
         }
-        return steps.toString();
+
+        return jsonPlugins.toString();
     }
 
     /**

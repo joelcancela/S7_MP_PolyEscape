@@ -1,23 +1,10 @@
 package polytech.teamf.plugins;
 
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class CaesarCipherPlugin extends Plugin {
-
-    /**
-     * Initialization arguments
-     */
-    static {
-        // Constructor arguments
-        CaesarCipherPlugin.ARGS.add("plain_text");
-        CaesarCipherPlugin.ARGS.add("cipher_padding");
-
-        // Schema arguments
-        CaesarCipherPlugin.SCHEMA.put("attempt_text", "the user attempt");
-    }
 
     /**
      * The ciphered text as returned by the private method toCaesar()
@@ -33,6 +20,19 @@ public class CaesarCipherPlugin extends Plugin {
      * Caesar cipher table
      */
     private List<Character> alpha_beta_array = new ArrayList<>();
+
+    /**
+     * Default constructor
+     * Used by the API Reflection Engine
+     */
+    public CaesarCipherPlugin() {
+        super();
+        // ARGS
+        super.getArgs().add("plain_text");
+        super.getArgs().add("cipher_padding");
+        // SCHEMA
+        this.schema.put("attempt_text", "the user attempt");
+    }
 
     /**
      * Initializes the plugin

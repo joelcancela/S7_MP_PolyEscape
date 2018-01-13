@@ -1,24 +1,35 @@
 package polytech.teamf.plugins;
 
 import org.json.JSONObject;
-
 import java.util.Arrays;
 
 public class MultipleChoiceQuestionPlugin extends Plugin {
 
-    static {
-        // Init
-        MultipleChoiceQuestionPlugin.ARGS.add("answers_csv");
-
-        // Schema
-        MultipleChoiceQuestionPlugin.SCHEMA.put("attempt_answers_csv", "The user answers as a CSV string");
-    }
-
+    /**
+     * Correct answers of the question
+     */
     private String[] answers;
 
+    /**
+     * Default constructor
+     * Used by the API Reflection Engine
+     */
+    public MultipleChoiceQuestionPlugin() {
+        super();
+        // ARGS
+        super.getArgs().add("answers_csv");
+        // SCHEMA
+        this.schema.put("attempt_answers_csv", "The user answers as a CSV string");
+    }
+
+    /**
+     * Initializes the plugin
+     *
+     * @param description The plugin description
+     * @param answers_csv The list of answers as a CSV string
+     */
     MultipleChoiceQuestionPlugin(String description, String answers_csv) {
         super(description);
-
         this.answers = answers_csv.split(",");
     }
 

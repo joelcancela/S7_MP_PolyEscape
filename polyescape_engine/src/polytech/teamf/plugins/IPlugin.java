@@ -1,9 +1,6 @@
 package polytech.teamf.plugins;
 
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,29 +8,15 @@ public interface IPlugin {
 
     /**
      * Plugin constructor arguments
+     * @return List
      */
-    List<String> ARGS = new ArrayList<>();
+    List<String> getArgs();
 
     /**
      * Plugin input schema
-     */
-    Map<String, String> SCHEMA = new HashMap<>();
-
-    /**
-     * Returns the List of String of expected arguments to initialize this plugin
-     */
-    static List<String> listArgs() {
-        return ARGS;
-    }
-
-    /**
-     * Returns the expected list of input arguments
-     *
      * @return Map
      */
-    static Map<String, String> getSchema() {
-        return SCHEMA;
-    }
+    Map<String, String> getSchema();
 
     /**
      * Reads the input data submitted from an external entity to this plugin
