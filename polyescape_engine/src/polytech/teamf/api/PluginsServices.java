@@ -2,10 +2,11 @@ package polytech.teamf.api;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import polytech.teamf.plugins.IPlugin;
 import polytech.teamf.plugins.Plugin;
 
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.io.IOException;
@@ -17,39 +18,95 @@ import java.util.List;
 @Path("/plugins")
 public class PluginsServices {
 
+    /**
+     * @api {get} /plugins/list The list of available plugins
+     * @apiName PluginsList
+     * @apiGroup Plugins
+     * @apiVersion 0.1.0
+     *
+     * @apiSuccess (200) {String} plugins The plugins list
+     *
+     * @apiSuccessExample Example data on success
+     * [{
+     *     "type": "polytech.teamf.plugins.CaesarCipherPlugin",
+     *     "args":
+     *     [
+     *     "description",
+     *     "plain_text",
+     *     "cipher_padding"
+     *     ]
+     * }]
+     */
+
+    /**
+     * Get all the classes which inherits the Plugin class and return their full name and the list of args needed to use them.
+     *
+     * @return A string obtained from a JSONArray filled with the full class names.
+     * @throws IOException            See {@link #getClasses(String)}.
+     * @throws ClassNotFoundException See {@link #findClasses(File, String)}.
+     */
     @GET
     @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)
     public String getAllStepsType() throws IOException, ClassNotFoundException {
         Class[] classArray = getClasses("polytech.teamf.plugins");
-        JSONArray stepsType = new JSONArray();
+        JSONArray steps = new JSONArray();
         for (Class c : classArray) {
+            JSONObject step = new JSONObject();
+            //JSONArray stepArgs = new JSONArray();
             if (Plugin.class.isAssignableFrom(c) && c != Plugin.class) {
-                stepsType.put(c.getName());
+                step.put("type", c.getName());
+                //step.put("args", stepArgs);
+                steps.put(step);
             }
         }
-        return stepsType.toString();
+        return steps.toString();
+    }
+
+    /**
+     * @api {get} /plugins/description The current played plugin description
+     * @apiName PluginsDescription
+     * @apiGroup Plugins
+     * @apiVersion 0.1.0
+     *
+     * @apiSuccess (200) {String} description The plugin description
+     *
+     * @apiSuccessExample Example data on success
+     * {
+     *     "description": "Plugin description"
+     * }
+     */
+
+    /**
+     * Get the current played plugin description.
+     *
+     * @return A string obtained from a JSONObject filled with the current played plugin description.
+     */
+    @GET
+    @Path("/description")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getPluginDescription() {
+        return ServiceManager.getRunnerInstance(null).getDescription().toString();
     }
 
     /**
      * Scans all classes accessible from the context class loader which belong to the given package and subpackages.
      *
-     * @param packageName The base package
-     * @return The classes
-     * @throws ClassNotFoundException
-     * @throws IOException
+     * @param packageName The base package.
+     * @return The classes found in the package.
+     * @throws ClassNotFoundException See {@link #findClasses(File, String)}.
+     * @throws IOException            Triggered if the classLoader cant get the resource given the package name.
      */
     private static Class[] getClasses(String packageName) throws ClassNotFoundException, IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        assert classLoader != null;
         String path = packageName.replace('.', '/');
         Enumeration resources = classLoader.getResources(path);
-        List<File> dirs = new ArrayList<File>();
+        List<File> dirs = new ArrayList<>();
         while (resources.hasMoreElements()) {
             URL resource = (URL) resources.nextElement();
             dirs.add(new File(resource.getFile()));
         }
-        List<Class> classes = new ArrayList();
+        List<Class> classes = new ArrayList<>();
         for (File directory : dirs) {
             classes.addAll(findClasses(directory, packageName));
         }
@@ -59,10 +116,10 @@ public class PluginsServices {
     /**
      * Recursive method used to find all classes in a given directory and subdirs.
      *
-     * @param directory   The base directory
-     * @param packageName The package name for classes found inside the base directory
-     * @return The classes
-     * @throws ClassNotFoundException
+     * @param directory   The base directory.
+     * @param packageName The package name for classes found inside the base directory.
+     * @return The classes found in the package contained in the directory.
+     * @throws ClassNotFoundException Triggered if no class has been found in a package.
      */
     private static List findClasses(File directory, String packageName) throws ClassNotFoundException {
         List classes = new ArrayList();

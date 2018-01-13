@@ -8,6 +8,8 @@ public abstract class Plugin implements IPlugin {
 
     protected boolean isValidatedState = false;
 
+    protected static final String SUCCESS = "success";
+
     protected String description = "";
 
     Plugin(String description) {

@@ -1,57 +1,86 @@
 package polytech.teamf.game_engine;
 
+import org.json.JSONObject;
 import polytech.teamf.plugins.IPlugin;
 import polytech.teamf.plugins.Plugin;
 import polytech.teamf.plugins.PluginFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Runner {
 
-    private ArrayList<Plugin> plugins;
-    private IPlugin currentPlugin;
+    /**
+     * The list of plugins ordered
+     */
+    private List<Plugin> plugins = new ArrayList<>();
 
+    private Plugin currentPlugin;
 
-    public Runner(String path) {
+    /**
+     * The current plugin number in {@link #plugins}.
+     */
+    private int it = 0;
 
-        PluginFactory factory = new PluginFactory(); //initialization of the factory
+    /**
+     * Runner that parse the json & instantiate plugins.
+     *
+     * @param json The plugins configuration.
+     */
+    public Runner(String json) {
 
+        Parser parser = new Parser(json); // parse the json
 
-        Parser p = new Parser(path);
+        List<HashMap<String, String>> list = parser.getPlugins(); // get the plugins list
 
-        ArrayList<HashMap<String, String>> l = p.getPlugins();
-
-//        for(HashMap<String,String> h : l) // fill the list of plugins thx to the parser datas
-        // plugins.add(factory.create(h.get("name") , h));
-
-
-    }
-
-    public void run() {
-
-        for (Plugin p : plugins) {
-            //TODO link this class to REST API done by young Jeremy ;)
-            // p.toJSONString(); // todo send this to rest api
-
-            boolean isNotOk = false;
-            while (isNotOk) {
-                // todo wait the response from RESt api
-                //      HashMap<String,String> result =  p.play(); // todo put the given response here
-
-                //       if(result.get("success") == "true"){
-                // todo envoyer bonne réponse a la vue
-                //        }
-                //       else{
-                // todo envoyer mauvaise réponse a la vue
-                //     }
-
-
-                // todo send response to API rest
-
+        for (HashMap<String, String> map : list) { // fill the list of plugins thx to the parser data
+            JSONObject toBuild = new JSONObject();
+            for (String str : map.keySet()) {
+                toBuild.put(str, map.get(str));
             }
+            plugins.add(PluginFactory.create(map.get("type"), toBuild));
+
         }
 
+        currentPlugin = plugins.get(it);
+    }
+
+    /**
+     * Get the description / context of the plugin.
+     *
+     * @return A JSONObject containing the current plugin description.
+     */
+    public JSONObject getDescription() {
+        return new JSONObject().put("description", currentPlugin.getDescription());
+    }
+
+    /**
+     * Given an answer, tells if you are right or wrong
+     *
+     * @param guess The player's answer to the current step.
+     * @return The answer's result.
+     * @throws Exception See {@link IPlugin#play(org.json.JSONObject)}
+     */
+    public JSONObject sendGuess_GetResponse(String guess) throws Exception {
+        return currentPlugin.play(new JSONObject(guess));
+    }
+
+    /**
+     * The current plugin becomes the next in the list if there is another plugin to play (next step in the game).
+     *
+     * @return A JSONObject containing the status of the game. The status will be "finish" in case there are no more
+     * plugins to play or "ok" otherwise.
+     */
+    public JSONObject nextPlugin() {
+
+        it++;
+
+        if (plugins.size() == it)
+            return new JSONObject().put("status", "finish");
+
+        currentPlugin = plugins.get(it);
+        return new JSONObject().put("status", "ok");
     }
 
 }

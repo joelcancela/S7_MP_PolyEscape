@@ -5,10 +5,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Parser {
 
-    private ArrayList<HashMap<String, String>> plugins;
+    private List<HashMap<String, String>> plugins;
     private String path;
 
     /**
@@ -18,22 +19,20 @@ public class Parser {
      */
     public Parser(String json) {
 
-        plugins = new ArrayList();
+        plugins = new ArrayList<>();
         JSONArray ja = new JSONArray(json);
-
 
         for (int i = 0; i < ja.length(); i++) {
             JSONObject jo = ja.getJSONObject(i);
-            plugins.add(new HashMap());
+            plugins.add(new HashMap<>());
             for (String s : jo.keySet()) {
                 plugins.get(plugins.size() - 1).put(s, jo.getString(s));
             }
         }
     }
 
-    public ArrayList<HashMap<String, String>> getPlugins() {
+    public List<HashMap<String, String>> getPlugins() {
         return plugins;
     }
-
 
 }
