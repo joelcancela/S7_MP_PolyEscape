@@ -1,0 +1,203 @@
+[
+  {
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "varname1",
+            "description": "<p>No type.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "varname2",
+            "description": "<p>With type.</p>"
+          }
+        ]
+      }
+    },
+    "type": "",
+    "url": "",
+    "version": "0.0.0",
+    "filename": "./doc/main.js",
+    "group": "C__Users_Kovox_IdeaProjects_escapegame_private_doc_main_js",
+    "groupTitle": "C__Users_Kovox_IdeaProjects_escapegame_private_doc_main_js",
+    "name": ""
+  },
+  {
+    "type": "get",
+    "url": "/plugins/description",
+    "title": "The current played plugin description",
+    "name": "PluginsDescription",
+    "group": "Plugins",
+    "version": "0.1.0",
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "description",
+            "description": "<p>The plugin description</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Example data on success",
+          "content": "{\n    \"description\": \"Plugin description\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./polyescape_engine/src/polytech/teamf/api/PluginsServices.java",
+    "groupTitle": "Plugins"
+  },
+  {
+    "type": "get",
+    "url": "/plugins/list",
+    "title": "The list of available plugins",
+    "name": "PluginsList",
+    "group": "Plugins",
+    "version": "0.1.0",
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "plugins",
+            "description": "<p>The plugins list</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Example data on success",
+          "content": "[{\n    \"type\": \"polytech.teamf.plugins.CaesarCipherPlugin\",\n    \"args\":\n    [\n    \"description\",\n    \"plain_text\",\n    \"cipher_padding\"\n    ]\n}]",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./polyescape_engine/src/polytech/teamf/api/PluginsServices.java",
+    "groupTitle": "Plugins"
+  },
+  {
+    "type": "put",
+    "url": "/runners/instantiate",
+    "title": "Instantiate the runner",
+    "name": "InstantiateRunner",
+    "group": "Runners",
+    "version": "0.1.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "config",
+            "description": "<p>The plugins configuration</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Request-Example:",
+          "content": "[{\n    \"type\": \"CaesarCipherPlugin\",\n    \"description\": \"Put a description here\",\n    \"plain_text\": \"Put the text to cipher here\",\n    \"cipher_padding\": \"5\"\n}]",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "EmptyConfiguration",
+            "description": "<p>The configuration was empty. Minimum of <code>1</code> plugin configuration is required.</p>"
+          }
+        ]
+      }
+    },
+    "filename": "./polyescape_engine/src/polytech/teamf/api/RunnerServices.java",
+    "groupTitle": "Runners"
+  },
+  {
+    "type": "POST",
+    "url": "/runners/answer",
+    "title": "Give an answer to solve the current step",
+    "name": "RunnerAnswer",
+    "group": "Runners",
+    "version": "0.1.0",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "answer",
+            "description": "<p>The player's answer</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Request-Example (Be careful, a request is plugin specific):",
+          "content": "{\n    \"attempt_text\": \"Put your answer here\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "EmptyAnswer",
+            "description": "<p>The answer was empty. <code>1</code> has to be given.</p>"
+          }
+        ]
+      }
+    },
+    "filename": "./polyescape_engine/src/polytech/teamf/api/RunnerServices.java",
+    "groupTitle": "Runners"
+  },
+  {
+    "type": "get",
+    "url": "/runners/result",
+    "title": "Retrieve the last player's answer result.",
+    "name": "RunnerResult",
+    "group": "Runners",
+    "version": "0.1.0",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "200",
+            "description": "<p>{String} result The last result</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Example data on success",
+          "content": "{\n    \"success\": \"true\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./polyescape_engine/src/polytech/teamf/api/RunnerServices.java",
+    "groupTitle": "Runners"
+  }
+]
