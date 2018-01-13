@@ -32,12 +32,12 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
 
             if (Arrays.equals(this.answers, attempt_answers)) {
                 this.isValidatedState = true;
-                ret.put("success", "true");
+                ret.put(SUCCESS, "true");
             } else {
-                ret.put("success", "false");
+                ret.put(SUCCESS, "false");
             }
         } catch (Exception e) {
-            ret.put("success", "false");
+            ret.put(SUCCESS, "false");
         }
 
         return ret;

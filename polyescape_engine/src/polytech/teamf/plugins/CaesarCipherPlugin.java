@@ -85,14 +85,14 @@ public class CaesarCipherPlugin extends Plugin {
         try {
             if (this.plain_text.equals(args.getString("attempt_text"))) {
                 this.isValidatedState = true;
-                ret.put("success", "true");
+                ret.put(SUCCESS, "true");
             }
             else {
-                ret.put("success", "false");
+                ret.put(SUCCESS, "false");
             }
         }
         catch (Exception e) {
-            ret.put("success", "false");
+            ret.put(SUCCESS, "false");
         }
 
         return ret;

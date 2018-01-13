@@ -1,6 +1,5 @@
 package polytech.teamf.game_engine;
 
-import netscape.javascript.JSObject;
 import org.json.JSONObject;
 import polytech.teamf.plugins.IPlugin;
 import polytech.teamf.plugins.Plugin;
@@ -12,29 +11,35 @@ import java.util.List;
 
 public class Runner {
 
-    private List<Plugin> plugins = new ArrayList<>(); // list of plugins ordered
+    /**
+     * The list of plugins ordered
+     */
+    private List<Plugin> plugins = new ArrayList<>();
+
     private Plugin currentPlugin;
-    int it = 0; // where are we in the plugins list
 
     /**
-     * runner that parse the json & instance plugins
-     * @param json
+     * The current plugin number in {@link #plugins}.
+     */
+    private int it = 0;
+
+    /**
+     * Runner that parse the json & instantiate plugins.
+     *
+     * @param json The plugins configuration.
      */
     public Runner(String json) {
 
-
-
         Parser parser = new Parser(json); // parse the json
 
-        ArrayList<HashMap<String, String>> list = parser.getPlugins(); // we get all the
+        List<HashMap<String, String>> list = parser.getPlugins(); // get the plugins list
 
-        for(HashMap<String,String> map : list) { // fill the list of plugins thx to the parser datas
+        for (HashMap<String, String> map : list) { // fill the list of plugins thx to the parser data
             JSONObject toBuild = new JSONObject();
             for (String str : map.keySet()) {
-                toBuild.put(str,map.get(str));
-
+                toBuild.put(str, map.get(str));
             }
-            plugins.add(PluginFactory.create(map.get("type") , toBuild));
+            plugins.add(PluginFactory.create(map.get("type"), toBuild));
 
         }
 
@@ -42,37 +47,40 @@ public class Runner {
     }
 
     /**
-     * get the description / contexte  of the plugin
-     * @return
+     * Get the description / context of the plugin.
+     *
+     * @return A JSONObject containing the current plugin description.
      */
-    public JSONObject getDescription(){
-        return new JSONObject().put("description",currentPlugin.getDescription());
+    public JSONObject getDescription() {
+        return new JSONObject().put("description", currentPlugin.getDescription());
     }
 
     /**
-     * you give a answer and it say if you are right or wrong
-     * @param guess
-     * @return
-     * @throws Exception
+     * Given an answer, tells if you are right or wrong
+     *
+     * @param guess The player's answer to the current step.
+     * @return The answer's result.
+     * @throws Exception See {@link IPlugin#play(org.json.JSONObject)}
      */
     public JSONObject sendGuess_GetResponse(String guess) throws Exception {
         return currentPlugin.play(new JSONObject(guess));
-
     }
 
-
     /**
-     * the current plugin is the next on the list
+     * The current plugin becomes the next in the list if there is another plugin to play (next step in the game).
+     *
+     * @return A JSONObject containing the status of the game. The status will be "finish" in case there are no more
+     * plugins to play or "ok" otherwise.
      */
-    public JSONObject nextPlugin(){
+    public JSONObject nextPlugin() {
 
         it++;
 
-        if(plugins.size() == it)
+        if (plugins.size() == it)
             return new JSONObject().put("status", "finish");
 
         currentPlugin = plugins.get(it);
-            return new JSONObject().put("status", "ok");
+        return new JSONObject().put("status", "ok");
     }
 
 }

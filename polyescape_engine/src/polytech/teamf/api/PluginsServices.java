@@ -10,8 +10,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -42,11 +40,11 @@ public class PluginsServices {
      */
 
     /**
-     * Get all the classes which inherits the Plugin class and return theirs full name and the list of args needed to use them.
+     * Get all the classes which inherits the Plugin class and return their full name and the list of args needed to use them.
      *
      * @return A string obtained from a JSONArray filled with the full class names.
-     * @throws IOException
-     * @throws ClassNotFoundException
+     * @throws IOException See {@link #getClasses(String)}.
+     * @throws ClassNotFoundException See {@link #findClasses(File, String)}.
      */
     @GET
     @Path("/list")
@@ -69,22 +67,21 @@ public class PluginsServices {
     /**
      * Scans all classes accessible from the context class loader which belong to the given package and subpackages.
      *
-     * @param packageName The base package
-     * @return The classes
-     * @throws ClassNotFoundException
-     * @throws IOException
+     * @param packageName The base package.
+     * @return The classes found in the package.
+     * @throws ClassNotFoundException See {@link #findClasses(File, String)}.
+     * @throws IOException Triggered if the classLoader cant get the resource given the package name.
      */
     private static Class[] getClasses(String packageName) throws ClassNotFoundException, IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        assert classLoader != null;
         String path = packageName.replace('.', '/');
         Enumeration resources = classLoader.getResources(path);
-        List<File> dirs = new ArrayList<File>();
+        List<File> dirs = new ArrayList<>();
         while (resources.hasMoreElements()) {
             URL resource = (URL) resources.nextElement();
             dirs.add(new File(resource.getFile()));
         }
-        List<Class> classes = new ArrayList();
+        List<Class> classes = new ArrayList<>();
         for (File directory : dirs) {
             classes.addAll(findClasses(directory, packageName));
         }
@@ -94,10 +91,10 @@ public class PluginsServices {
     /**
      * Recursive method used to find all classes in a given directory and subdirs.
      *
-     * @param directory   The base directory
-     * @param packageName The package name for classes found inside the base directory
-     * @return The classes
-     * @throws ClassNotFoundException
+     * @param directory   The base directory.
+     * @param packageName The package name for classes found inside the base directory.
+     * @return The classes found in the package contained in the directory.
+     * @throws ClassNotFoundException Triggered if no class has been found in a package.
      */
     private static List findClasses(File directory, String packageName) throws ClassNotFoundException {
         List classes = new ArrayList();
