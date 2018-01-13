@@ -1,6 +1,5 @@
 package polytech.teamf.plugins;
 
-import netscape.javascript.JSObject;
 import org.json.JSONObject;
 
 import java.util.*;
