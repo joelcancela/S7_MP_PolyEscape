@@ -1,9 +1,7 @@
 package polytech.teamf.api;
 
-import javafx.util.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import polytech.teamf.plugins.IPlugin;
 import polytech.teamf.plugins.Plugin;
 
 import javax.ws.rs.GET;
@@ -12,7 +10,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -83,6 +80,7 @@ public class PluginsServices {
                 }
 
                 jsonPlugin.put("type", c.getName());
+                jsonPlugin.put("name", c.getSimpleName());
                 jsonPlugin.put("args", jsonPluginArgs);
                 jsonPlugin.put("schema", jsonPluginSchema);
 
