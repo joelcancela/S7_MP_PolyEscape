@@ -48,7 +48,7 @@ public class RunnerServices {
     }
 
     /**
-     * @api {POST} /runners/answer Give an answer to solve the current step and retrieve the result
+     * @api {post} /runners/answer Give an answer to solve the current step and retrieve the result
      * @apiName RunnerAnswer
      * @apiGroup Runners
      * @apiVersion 0.1.0

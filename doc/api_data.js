@@ -130,9 +130,9 @@ define({ "api": [
     "groupTitle": "Runners"
   },
   {
-    "type": "POST",
+    "type": "post",
     "url": "/runners/answer",
-    "title": "Give an answer to solve the current step",
+    "title": "Give an answer to solve the current step and retrieve the result",
     "name": "RunnerAnswer",
     "group": "Runners",
     "version": "0.1.0",
@@ -163,7 +163,7 @@ define({ "api": [
             "group": "Error 4xx",
             "optional": false,
             "field": "EmptyAnswer",
-            "description": "<p>The answer was empty. <code>1</code> has to be given.</p>"
+            "description": "<p>The answer was empty. <code>1</code> answer has to be given.</p>"
           }
         ]
       }
@@ -173,9 +173,9 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/runners/result",
-    "title": "Retrieve the last player's answer result.",
-    "name": "RunnerResult",
+    "url": "/runners/status",
+    "title": "Retrieve the status for the next step of the game.",
+    "name": "RunnerHasNext",
     "group": "Runners",
     "version": "0.1.0",
     "success": {
@@ -185,14 +185,14 @@ define({ "api": [
             "group": "Success 200",
             "optional": false,
             "field": "200",
-            "description": "<p>{String} result The last result</p>"
+            "description": "<p>{String} status The current runner status</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Example data on success",
-          "content": "{\n    \"success\": \"true\"\n}",
+          "content": "{\n    \"status\": \"ok\"\n}",
           "type": "json"
         }
       ]
