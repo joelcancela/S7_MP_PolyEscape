@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 @Path("/runners")
 public class RunnerServices {
 
-    private JSONObject lastAnswer = new JSONObject();
+    private JSONObject lastResult = new JSONObject();
 
     /**
      * @api {put} /runners/instantiate Instantiate the runner
@@ -78,12 +78,25 @@ public class RunnerServices {
     public Response answerStep(String answer) throws Exception {
         String result = "Answer correctly parsed";
         if (answer.isEmpty()) {
+            lastResult = new JSONObject();
             result = "EmptyAnswer: Answer is empty!";
             return Response.status(400).entity(result).build();
         }
-        lastAnswer = ServiceManager.getRunnerInstance(null).sendGuess_GetResponse(answer);
+        lastResult = ServiceManager.getRunnerInstance(null).sendGuess_GetResponse(answer);
         return Response.status(200).entity(result).build();
     }
 
+    /**
+     * Get the last result produced by the last player's answer.
+     *
+     * @return A JSONObject containing the result of the last answer. "success" is "true" if the correct
+     * answer was given, "success" is "false" otherwise.
+     */
+    @GET
+    @Path("/result")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getLastResult() {
+        return lastResult.toString();
+    }
 
 }

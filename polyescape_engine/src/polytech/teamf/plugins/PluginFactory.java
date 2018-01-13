@@ -8,7 +8,6 @@ public class PluginFactory {
 
         Plugin plugin = null;
 
-        System.out.println(args.toString());
         if (className.equals("CaesarCipherPlugin")) {
             plugin = new CaesarCipherPlugin(
                     args.getString("description"),
