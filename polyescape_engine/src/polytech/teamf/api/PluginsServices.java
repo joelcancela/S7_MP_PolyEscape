@@ -2,13 +2,16 @@ package polytech.teamf.api;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import polytech.teamf.plugins.IPlugin;
 import polytech.teamf.plugins.Plugin;
 
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -18,7 +21,29 @@ import java.util.List;
 public class PluginsServices {
 
     /**
-     * Get all the classes which inherits the Plugin class and return theirs full name.
+     * @api {get} /plugins/list The list of available plugins
+     * @apiName PluginsList
+     * @apiGroup Plugins
+     * @apiVersion 0.1.0
+     *
+     * @apiSuccess {String} config The plugins configuration
+     *
+     * @apiSuccessExample Example data on success
+     * [{
+     *     "type": "polytech.teamf.plugins.CaesarCipherPlugin",
+     *     "args":
+     *     [
+     *     "description",
+     *     "plain_text",
+     *     "cipher_padding"
+     *     ]
+     * }]
+     *
+     */
+
+    /**
+     * Get all the classes which inherits the Plugin class and return theirs full name and the list of args needed to use them.
+     *
      * @return A string obtained from a JSONArray filled with the full class names.
      * @throws IOException
      * @throws ClassNotFoundException
@@ -28,13 +53,17 @@ public class PluginsServices {
     @Produces(MediaType.APPLICATION_JSON)
     public String getAllStepsType() throws IOException, ClassNotFoundException {
         Class[] classArray = getClasses("polytech.teamf.plugins");
-        JSONArray stepsType = new JSONArray();
+        JSONArray steps = new JSONArray();
         for (Class c : classArray) {
+            JSONObject step = new JSONObject();
+            //JSONArray stepArgs = new JSONArray();
             if (Plugin.class.isAssignableFrom(c) && c != Plugin.class) {
-                stepsType.put(c.getName());
+                step.put("type", c.getName());
+                //step.put("args", stepArgs);
+                steps.put(step);
             }
         }
-        return stepsType.toString();
+        return steps.toString();
     }
 
     /**
