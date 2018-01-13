@@ -35,6 +35,17 @@ angular.module('polyEscapeApp')
       $rootScope.escapeGameSteps = [];
       $rootScope.stepTypes = [{name: "Caesar code", value: "caesarcode", inputStory: true}];//TODO
 
+      function init(){
+        var promise = PolyEscapeAPIService.getAvailablePlugins();
+        promise.then(function(data) {
+          alert('Connexion ok');
+          $rootScope.stepTypes = data;
+        }, function(reason) {
+          alert('Failed to connect to server: ' + reason);
+        });
+      };
+
+
       $scope.addStep = function () {
         $rootScope.addStepModalInstance = $uibModal.open($rootScope.addStepModal);//creates modalForceToggle instance
         $rootScope.addStepModalInstance.result.then(function (res) {//result of the modal
@@ -73,5 +84,7 @@ angular.module('polyEscapeApp')
           $window.location.hash = "#/play";
         }
       };
+
+      init();
 
     }]);

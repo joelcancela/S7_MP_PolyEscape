@@ -9,23 +9,19 @@
 angular.module('polyEscapeApp')
   .service('PolyEscapeAPIService', ['$http', '$q', function ($http, $q) {
 
-    /**
-     * @ngdoc function
-     * @name getAllConfig
-     * @description retrieve all the variables defined in app/resources/config.json
-     * @returns Function, a promise with the data in app/resources/config.json
-     */
-    this.getChangeLog = function () {
-      // var deferred = $q.defer();
-      // $http.get('./resources/changelog.json')
-      //   .success(function (data) {
-      //     deferred.resolve(data);
-      //   })
-      //   .error(function () {
-      //     deferred.reject(GUIConstantsService.ERROR_CHANGELOGJSON);
-      //   });
-      // return deferred.promise;
-    };
+    this.serverHost = "http://localhost:8080";
 
+    this.getAvailablePlugins = function () {
+      var deferred = $q.defer();
+      $http({
+        method: 'GET',
+        url: this.serverHost + '/plugins/list'
+      }).then(function successCallback(data) {
+        deferred.resolve(data);
+      }, function errorCallback(data) {
+        deferred.reject("Failed to retrieve available plugins");
+      });
+      return deferred.promise;
+    };
 
   }]);
