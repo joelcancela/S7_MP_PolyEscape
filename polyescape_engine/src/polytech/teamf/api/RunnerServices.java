@@ -48,7 +48,7 @@ public class RunnerServices {
     }
 
     /**
-     * @api {POST} /runners/answer Give an answer to solve the current step
+     * @api {post} /runners/answer Give an answer to solve the current step and retrieve the result
      * @apiName RunnerAnswer
      * @apiGroup Runners
      * @apiVersion 0.1.0
@@ -60,7 +60,7 @@ public class RunnerServices {
      *     "attempt_text": "Put your answer here"
      * }
      *
-     * @apiError EmptyAnswer The answer was empty. <code>1</code> has to be given.
+     * @apiError EmptyAnswer The answer was empty. <code>1</code> answer has to be given.
      */
 
     /**
@@ -73,28 +73,27 @@ public class RunnerServices {
     @POST
     @Path("/answer")
     @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response answerStep(String answer) throws Exception {
-        String result = "Answer correctly parsed";
         if (answer.isEmpty()) {
             ServiceManager.setLastResult(new JSONObject());
-            result = "EmptyAnswer: Answer is empty!";
-            return Response.status(400).entity(result).build();
+            return Response.status(400).entity("EmptyAnswer: Answer is empty!").build();
         }
         ServiceManager.setLastResult(ServiceManager.getRunnerInstance(null).sendGuess_GetResponse(answer));
-        return Response.status(200).entity(result).build();
+        return Response.ok(ServiceManager.getLastResult().toString(), MediaType.APPLICATION_JSON).build();
     }
 
     /**
-     * @api {get} /runners/result Retrieve the last player's answer result.
-     * @apiName RunnerResult
+     * @api {get} /runners/status Retrieve the status for the next step of the game.
+     * @apiName RunnerHasNext
      * @apiGroup Runners
      * @apiVersion 0.1.0
      *
-     * @apiSuccess 200 {String} result The last result
+     * @apiSuccess 200 {String} status The current runner status
      *
      * @apiSuccessExample Example data on success
      * {
-     *     "success": "true"
+     *     "status": "ok"
      * }
      */
 
@@ -105,10 +104,10 @@ public class RunnerServices {
      * answer was given, "success" is "false" otherwise.
      */
     @GET
-    @Path("/result")
+    @Path("/status")
     @Produces(MediaType.APPLICATION_JSON)
     public String getLastResult() {
-        return ServiceManager.getLastResult().toString();
+        return ServiceManager.getRunnerInstance(null).nextPlugin().toString();
     }
 
 }
