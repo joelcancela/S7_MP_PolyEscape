@@ -8,32 +8,21 @@
 
     <display-name>PolyEscape</display-name>
 
-    <filter>
-        <filter-name>jersey</filter-name>
-        <filter-class>
-            com.sun.jersey.spi.container.servlet.ServletContainer
-        </filter-class>
+    <servlet>
+        <servlet-name>PolyEscape</servlet-name>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
         <init-param>
-            <param-name>
-                com.sun.jersey.config.property.JSPTemplatesBasePath
-            </param-name>
-            <param-value>/WEB-INF/jsp</param-value>
+            <param-name>jersey.config.server.provider.packages</param-name>
+            <param-value>polytech.teamf</param-value>
         </init-param>
-        <init-param>
-            <param-name>
-                com.sun.jersey.config.property.WebPageContentRegex
-            </param-name>
-            <param-value>
-                (/(image|js|css)/?.*)|(/.*\.jsp)|(/WEB-INF/.*\.jsp)|
-                (/WEB-INF/.*\.jspf)|(/.*\.html)|(/favicon\.ico)|
-                (/robots\.txt)
-            </param-value>
-        </init-param>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>jersey</filter-name>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PolyEscape</servlet-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>
+    </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
 
 </web-app>
