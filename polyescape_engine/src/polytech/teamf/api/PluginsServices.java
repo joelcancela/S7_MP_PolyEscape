@@ -24,7 +24,7 @@ public class PluginsServices {
      * @apiGroup Plugins
      * @apiVersion 0.1.0
      *
-     * @apiSuccess {String} config The plugins configuration
+     * @apiSuccess (200) {String} plugins The plugins list
      *
      * @apiSuccessExample Example data on success
      * [{
@@ -36,14 +36,13 @@ public class PluginsServices {
      *     "cipher_padding"
      *     ]
      * }]
-     *
      */
 
     /**
      * Get all the classes which inherits the Plugin class and return their full name and the list of args needed to use them.
      *
      * @return A string obtained from a JSONArray filled with the full class names.
-     * @throws IOException See {@link #getClasses(String)}.
+     * @throws IOException            See {@link #getClasses(String)}.
      * @throws ClassNotFoundException See {@link #findClasses(File, String)}.
      */
     @GET
@@ -65,12 +64,38 @@ public class PluginsServices {
     }
 
     /**
+     * @api {get} /plugins/description The current played plugin description
+     * @apiName PluginsDescription
+     * @apiGroup Plugins
+     * @apiVersion 0.1.0
+     *
+     * @apiSuccess (200) {String} description The plugin description
+     *
+     * @apiSuccessExample Example data on success
+     * {
+     *     "description": "Plugin description"
+     * }
+     */
+
+    /**
+     * Get the current played plugin description.
+     *
+     * @return A string obtained from a JSONObject filled with the current played plugin description.
+     */
+    @GET
+    @Path("/description")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getPluginDescription() {
+        return ServiceManager.getRunnerInstance(null).getDescription().toString();
+    }
+
+    /**
      * Scans all classes accessible from the context class loader which belong to the given package and subpackages.
      *
      * @param packageName The base package.
      * @return The classes found in the package.
      * @throws ClassNotFoundException See {@link #findClasses(File, String)}.
-     * @throws IOException Triggered if the classLoader cant get the resource given the package name.
+     * @throws IOException            Triggered if the classLoader cant get the resource given the package name.
      */
     private static Class[] getClasses(String packageName) throws ClassNotFoundException, IOException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
