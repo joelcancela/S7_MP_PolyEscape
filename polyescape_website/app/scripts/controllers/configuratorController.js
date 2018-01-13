@@ -33,13 +33,13 @@ angular.module('polyEscapeApp')
       $rootScope.escapeGameStory = "Echappez-vous dans le temps imparti en résolvant les éngimes !";
       $rootScope.escapeGameTimeLimit = 60;
       $rootScope.escapeGameSteps = [];
-      $rootScope.stepTypes = [{name: "Caesar code", value: "caesarcode", inputStory: true}];//TODO
+      $rootScope.stepTypes = [];
 
       function init(){
         var promise = PolyEscapeAPIService.getAvailablePlugins();
-        promise.then(function(data) {
+        promise.then(function(result) {
           alert('Connexion ok');
-          $rootScope.stepTypes = data;
+          $rootScope.stepTypes = result.data;
         }, function(reason) {
           alert('Failed to connect to server: ' + reason);
         });
