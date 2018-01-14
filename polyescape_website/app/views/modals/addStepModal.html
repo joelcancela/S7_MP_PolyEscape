@@ -13,7 +13,7 @@
   <div ng-repeat="(arg, name) in parseJson(stepTypeSelect).args track by $index">
     Value: {{name}}
     <label>
-      <input ng-model="stepArgsValue[stepCreated][name]">
+      <input ng-model="stepArgsValue[stepCreated][name]" required>
     </label>
   </div>
 </div>

@@ -24,4 +24,34 @@ angular.module('polyEscapeApp')
       return deferred.promise;
     };
 
+    this.instantiateRunner = function (jsonSteps) {
+      var deferred = $q.defer();
+      $http({
+        method: 'PUT',
+        url: this.serverHost + '/runners/instantiate',
+        data: jsonSteps,
+        headers: {
+        "Content-Type": "text/plain"
+      }
+      }).then(function successCallback(data) {
+        deferred.resolve(data);
+      }, function errorCallback(data) {
+        deferred.reject("Failed to instantiate runner");
+      });
+      return deferred.promise;
+    };
+
+    this.getNextPlugin = function () {
+      var deferred = $q.defer();
+      $http({
+        method: 'GET',
+        url: this.serverHost + '/plugins/description'
+      }).then(function successCallback(data) {
+        deferred.resolve(data);
+      }, function errorCallback(data) {
+        deferred.reject("Failed to retrieve available plugins");
+      });
+      return deferred.promise;
+    };
+
   }]);

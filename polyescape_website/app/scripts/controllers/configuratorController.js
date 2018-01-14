@@ -103,6 +103,14 @@ angular.module('polyEscapeApp')
         return jsonStep;
       };
 
+      $scope.configStep = function (index) {
+      //TODO
+      };
+
+      $scope.removeStep = function (index) {
+        $rootScope.escapeGameSteps.splice(index, 1);
+      };
+
       init();
 
     }]);
