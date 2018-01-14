@@ -29,18 +29,29 @@ angular.module('polyEscapeApp')
         keyboard: false
       };
 
-
       $rootScope.escapeGameStory = "Echappez-vous dans le temps imparti en résolvant les éngimes !";
       $rootScope.escapeGameTimeLimit = 60;
-      $rootScope.escapeGameSteps = [];
-      $rootScope.stepTypes = [{name: "Caesar code", value: "caesarcode", inputStory: true}];//TODO
+      $rootScope.escapeGameSteps = [];//Escape game steps configured
+      $rootScope.stepTypes = [];//Steps available
+      $rootScope.stepArgsValue = [];
+      $rootScope.stepCreated = 0;
+
+      function init() {
+        var promise = PolyEscapeAPIService.getAvailablePlugins();
+        promise.then(function (result) {
+          // alert('Connexion ok');
+          $rootScope.stepTypes = result.data;
+        }, function (reason) {
+          alert('Failed to connect to server: ' + reason);
+        });
+      };
 
       $scope.addStep = function () {
         $rootScope.addStepModalInstance = $uibModal.open($rootScope.addStepModal);//creates modalForceToggle instance
         $rootScope.addStepModalInstance.result.then(function (res) {//result of the modal
           if (res) {//if the user confirms the force toggle
             $rootScope.escapeGameSteps.push(res);
-            console.log("Added steps " + res);
+            console.log("Added step " + res);
           }
         });
       };
@@ -73,5 +84,33 @@ angular.module('polyEscapeApp')
           $window.location.hash = "#/play";
         }
       };
+
+      $rootScope.parseJson = function (json) {
+        if (json === undefined) {
+          return;
+        }
+        return JSON.parse(json);
+      };
+
+      $rootScope.createNewStep = function (stepSelectedType) {
+        if (stepSelectedType === undefined) {
+          return;
+        }
+        var jsonType = {name: JSON.parse(stepSelectedType).name, type: JSON.parse(stepSelectedType).type};
+        var jsonStep = angular.extend({}, jsonType, $rootScope.stepArgsValue[$rootScope.stepCreated]);
+        $rootScope.stepCreated++;
+        console.log($rootScope.escapeGameSteps);
+        return jsonStep;
+      };
+
+      $scope.configStep = function (index) {
+      //TODO
+      };
+
+      $scope.removeStep = function (index) {
+        $rootScope.escapeGameSteps.splice(index, 1);
+      };
+
+      init();
 
     }]);

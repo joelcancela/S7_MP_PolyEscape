@@ -55,6 +55,14 @@ body {
   margin-top: 28px;
 }
 
+.sidebutton{
+  padding-bottom:  15px;
+}
+
+.config_table{
+  min-height: 300px;
+}
+
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .container {

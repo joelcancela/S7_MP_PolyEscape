@@ -80,6 +80,7 @@ public class PluginsServices {
                 }
 
                 jsonPlugin.put("type", c.getName());
+                jsonPlugin.put("name", c.getSimpleName());
                 jsonPlugin.put("args", jsonPluginArgs);
                 jsonPlugin.put("schema", jsonPluginSchema);
 
