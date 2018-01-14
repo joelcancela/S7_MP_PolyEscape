@@ -67,6 +67,8 @@ public class PluginsServices {
                 try {
                     Plugin p = (Plugin) c.newInstance(); // Call default constructor
 
+                    jsonPlugin.put("name", p.getName());
+
                     List<String> argz = p.getArgs();
                     for (String arg : argz) {
                         jsonPluginArgs.put(arg);
@@ -79,8 +81,7 @@ public class PluginsServices {
                 } catch (Exception e) {
                 }
 
-                jsonPlugin.put("type", c.getName());
-                jsonPlugin.put("name", c.getSimpleName());
+                jsonPlugin.put("type", c.getSimpleName());
                 jsonPlugin.put("args", jsonPluginArgs);
                 jsonPlugin.put("schema", jsonPluginSchema);
 

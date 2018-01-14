@@ -26,7 +26,12 @@ public abstract class Plugin implements IPlugin {
     /**
      * Plugin Description Field
      */
-    protected String description = "";
+    private String description = "";
+
+    /**
+     * Plugin Name
+     */
+    private String name = "";
 
     /**
      * Description Getter
@@ -37,19 +42,30 @@ public abstract class Plugin implements IPlugin {
     }
 
     /**
+     * Name Getter
+     * @return name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
      * Default Constructor
      */
     Plugin() {
         args.add("description");
+        args.add("name");
     }
 
     /**
      * Shared constructor with inherited plugins
      *
      * @param description The plugin description as a short text
+     * @param name The plugin name
      */
-    Plugin(String description) {
+    Plugin(String description, String name) {
         this.description = description;
+        this.name = name;
     }
 
     public boolean isValidatedState() {

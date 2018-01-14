@@ -11,6 +11,7 @@ public class PluginFactory {
         if (className.equals("CaesarCipherPlugin")) {
             plugin = new CaesarCipherPlugin(
                     args.getString("description"),
+                    args.getString("name"),
                     args.getString("plain_text"),
                     args.getInt("cipher_padding")
             );
@@ -18,6 +19,7 @@ public class PluginFactory {
         if (className.equals("MultipleChoiceQuestionPlugin")) {
             plugin = new MultipleChoiceQuestionPlugin(
                     args.getString("description"),
+                    args.getString("name"),
                     args.getString("attempt_answers_csv")
             );
         }

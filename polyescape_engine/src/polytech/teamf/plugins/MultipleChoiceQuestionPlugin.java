@@ -26,10 +26,11 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
      * Initializes the plugin
      *
      * @param description The plugin description
+     * @param name The plugin name
      * @param answers_csv The list of answers as a CSV string
      */
-    MultipleChoiceQuestionPlugin(String description, String answers_csv) {
-        super(description);
+    MultipleChoiceQuestionPlugin(String description, String name, String answers_csv) {
+        super(description, name);
         this.answers = answers_csv.split(",");
     }
 
@@ -56,6 +57,7 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
 
     public String toString() {
         return new JSONObject()
-                .put("description", this.description).toString();
+                .put("name", this.getName())
+                .put("description", this.getDescription()).toString();
     }
 }
