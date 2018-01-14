@@ -26,26 +26,27 @@ public class CaesarCipherPlugin extends Plugin {
      * Used by the API Reflection Engine
      */
     public CaesarCipherPlugin() {
-        super();
-        // ARGS
-        super.getArgs().add("plain_text");
-        super.getArgs().add("cipher_padding");
-        // SCHEMA
-        this.schema.put("attempt_text", "the user attempt");
+        this("", "", 0);
     }
 
     /**
      * Initializes the plugin
      *
      * @param description The plugin description
-     * @param name The plugin name
      * @param plain_text The plain text to discover
      * @param cipher_padding The cipher padding used by the algorithm to shift letters
      */
-    CaesarCipherPlugin(String description, String name, String plain_text, int cipher_padding) {
+    CaesarCipherPlugin(String description, String plain_text, int cipher_padding) {
 
-        super(description, name);
+        super(description, "Epreuve code Caesar");
 
+        // ARGS
+        super.getArgs().add("plain_text");
+        super.getArgs().add("cipher_padding");
+        // SCHEMA
+        this.schema.put("attempt_text", "The user attempt");
+
+        // FORM
         this.plain_text = plain_text;
 
         this.alpha_beta_array.add('A');

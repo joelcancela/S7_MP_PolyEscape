@@ -50,14 +50,6 @@ public abstract class Plugin implements IPlugin {
     }
 
     /**
-     * Default Constructor
-     */
-    Plugin() {
-        args.add("description");
-        args.add("name");
-    }
-
-    /**
      * Shared constructor with inherited plugins
      *
      * @param description The plugin description as a short text
@@ -66,6 +58,9 @@ public abstract class Plugin implements IPlugin {
     Plugin(String description, String name) {
         this.description = description;
         this.name = name;
+
+        // ARGS
+        args.add("description");
     }
 
     public boolean isValidatedState() {

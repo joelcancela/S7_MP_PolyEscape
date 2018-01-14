@@ -15,22 +15,23 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
      * Used by the API Reflection Engine
      */
     public MultipleChoiceQuestionPlugin() {
-        super();
-        // ARGS
-        super.getArgs().add("answers_csv");
-        // SCHEMA
-        this.schema.put("attempt_answers_csv", "The user answers as a CSV string");
+        this("", "");
     }
 
     /**
      * Initializes the plugin
      *
      * @param description The plugin description
-     * @param name The plugin name
      * @param answers_csv The list of answers as a CSV string
      */
-    MultipleChoiceQuestionPlugin(String description, String name, String answers_csv) {
-        super(description, name);
+    MultipleChoiceQuestionPlugin(String description, String answers_csv) {
+        super(description, "Epreuve code Caesar");
+
+        // ARGS
+        super.getArgs().add("answers_csv");
+        // SCHEMA
+        this.schema.put("attempt_answers_csv", "The user answers as a CSV string");
+        // FORM
         this.answers = answers_csv.split(",");
     }
 
