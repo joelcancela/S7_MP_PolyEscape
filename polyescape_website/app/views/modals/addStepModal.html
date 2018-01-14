@@ -7,12 +7,18 @@
   <label>
     Sélectionnez un type d'épreuve<br>
     <select name="stepTypeSelect" ng-model="stepTypeSelect">
-      <option ng-repeat="stepType in stepTypes" value="{{stepType.type}}">{{stepType.name}}</option>
+      <option ng-repeat="stepType in stepTypes" value="{{stepType}}">{{stepType.name}}</option>
     </select>
   </label>
+  <div ng-repeat="(arg, name) in parseJson(stepTypeSelect).args track by $index">
+    Value: {{name}}
+    <label>
+      <input ng-model="stepArgsValue[stepCreated][name]">
+    </label>
+  </div>
 </div>
 <div class="modal-footer">
-  <button class="btn btn-success" type="button" ng-click="addStepModalInstance.close(createNewStep(stepType))">
+  <button class="btn btn-success" type="button" ng-click="addStepModalInstance.close(createNewStep(stepTypeSelect))">
     Ajouter une étape
   </button>
 </div>
