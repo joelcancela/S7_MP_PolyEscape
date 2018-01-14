@@ -36,7 +36,7 @@ public class CaesarCipherPlugin extends Plugin {
      * @param plain_text The plain text to discover
      * @param cipher_padding The cipher padding used by the algorithm to shift letters
      */
-    CaesarCipherPlugin(String description, String plain_text, int cipher_padding) {
+    public CaesarCipherPlugin(String description, String plain_text, int cipher_padding) {
 
         super(description, "Epreuve code Caesar");
 

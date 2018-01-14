@@ -1,21 +1,28 @@
 package polytech.teamf.plugins;
 
 import org.json.JSONObject;
+import polytech.teamf.services.Service;
+
 import java.util.Arrays;
 
 public class MultipleChoiceQuestionPlugin extends Plugin {
 
     /**
-     * Correct answers of the question
+     * ALl possible answers of the question
      */
     private String[] answers;
+
+    /**
+     * Correct correct_answers of the question
+     */
+    private String[] correct_answers;
 
     /**
      * Default constructor
      * Used by the API Reflection Engine
      */
     public MultipleChoiceQuestionPlugin() {
-        this("", "");
+        this("", "", "");
     }
 
     /**
@@ -23,16 +30,20 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
      *
      * @param description The plugin description
      * @param answers_csv The list of answers as a CSV string
+     * @param correct_answers_csv The list of correct answers in answers as a CSV string
      */
-    MultipleChoiceQuestionPlugin(String description, String answers_csv) {
+    public MultipleChoiceQuestionPlugin(String description, String answers_csv, String correct_answers_csv) {
         super(description, "Epreuve QCM");
 
         // ARGS
         super.getArgs().add("answers_csv");
+        super.getArgs().add("correct_answers_csv");
         // SCHEMA
         this.schema.put("attempt_answers_csv", "The user answers as a CSV string");
+
         // FORM
         this.answers = answers_csv.split(",");
+        this.correct_answers = correct_answers_csv.split(",");
     }
 
     @Override
@@ -43,7 +54,7 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
         try {
             String[] attempt_answers = args.getString("attempt_answers_csv").split(",");
 
-            if (Arrays.equals(this.answers, attempt_answers)) {
+            if (Arrays.equals(this.correct_answers, attempt_answers)) {
                 this.isValidatedState = true;
                 ret.put(SUCCESS, "true");
             } else {
