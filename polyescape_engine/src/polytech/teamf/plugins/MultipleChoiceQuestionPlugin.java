@@ -25,7 +25,7 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
      * @param answers_csv The list of answers as a CSV string
      */
     MultipleChoiceQuestionPlugin(String description, String answers_csv) {
-        super(description, "Epreuve code Caesar");
+        super(description, "Epreuve QCM");
 
         // ARGS
         super.getArgs().add("answers_csv");
