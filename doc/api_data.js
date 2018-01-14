@@ -1,33 +1,5 @@
 define({ "api": [
   {
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "optional": false,
-            "field": "varname1",
-            "description": "<p>No type.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "varname2",
-            "description": "<p>With type.</p>"
-          }
-        ]
-      }
-    },
-    "type": "",
-    "url": "",
-    "version": "0.0.0",
-    "filename": "./doc/main.js",
-    "group": "C__Users_Kovox_IdeaProjects_escapegame_private_doc_main_js",
-    "groupTitle": "C__Users_Kovox_IdeaProjects_escapegame_private_doc_main_js",
-    "name": ""
-  },
-  {
     "type": "get",
     "url": "/plugins/description",
     "title": "The current played plugin description",
@@ -54,7 +26,7 @@ define({ "api": [
         }
       ]
     },
-    "filename": "./polyescape_engine/src/polytech/teamf/api/PluginsServices.java",
+    "filename": "polyescape_engine/src/polytech/teamf/api/PluginsServices.java",
     "groupTitle": "Plugins"
   },
   {
@@ -84,7 +56,7 @@ define({ "api": [
         }
       ]
     },
-    "filename": "./polyescape_engine/src/polytech/teamf/api/PluginsServices.java",
+    "filename": "polyescape_engine/src/polytech/teamf/api/PluginsServices.java",
     "groupTitle": "Plugins"
   },
   {
@@ -126,7 +98,7 @@ define({ "api": [
         ]
       }
     },
-    "filename": "./polyescape_engine/src/polytech/teamf/api/RunnerServices.java",
+    "filename": "polyescape_engine/src/polytech/teamf/api/RunnerServices.java",
     "groupTitle": "Runners"
   },
   {
@@ -168,7 +140,7 @@ define({ "api": [
         ]
       }
     },
-    "filename": "./polyescape_engine/src/polytech/teamf/api/RunnerServices.java",
+    "filename": "polyescape_engine/src/polytech/teamf/api/RunnerServices.java",
     "groupTitle": "Runners"
   },
   {
@@ -197,7 +169,7 @@ define({ "api": [
         }
       ]
     },
-    "filename": "./polyescape_engine/src/polytech/teamf/api/RunnerServices.java",
+    "filename": "polyescape_engine/src/polytech/teamf/api/RunnerServices.java",
     "groupTitle": "Runners"
   }
 ] });
