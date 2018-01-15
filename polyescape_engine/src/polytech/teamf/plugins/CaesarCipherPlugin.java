@@ -12,7 +12,7 @@ public class CaesarCipherPlugin extends Plugin {
     private String ciphered_text = "";
 
     /**
-     * The original plain text. Is used by the validation process.
+     * The original plain text. Is used by the validation process. MUST BE IN CAPITAL LETTER
      */
     private String plain_text = "";
 
@@ -122,7 +122,6 @@ public class CaesarCipherPlugin extends Plugin {
             index = index % 26;
             builder.append(this.alpha_beta_array.get(index));
         }
-
         return builder.toString();
     }
 }
