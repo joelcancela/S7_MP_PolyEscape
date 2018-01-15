@@ -12,7 +12,7 @@ public class CaesarCipherPlugin extends Plugin {
     private String ciphered_text = "";
 
     /**
-     * The original plain text. Is used by the validation process. MUST BE IN CAPITAL LETTER
+     * The original plain text. Is used by the validation process.
      */
     private String plain_text = "";
 
@@ -76,7 +76,7 @@ public class CaesarCipherPlugin extends Plugin {
         this.alpha_beta_array.add('Y');
         this.alpha_beta_array.add('Z');
 
-        this.ciphered_text = toCaesar(plain_text, cipher_padding);
+        this.ciphered_text = toCaesar(plain_text.toUpperCase(), cipher_padding);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class CaesarCipherPlugin extends Plugin {
         JSONObject ret = new JSONObject();
 
         try {
-            if (this.plain_text.equals(args.getString("attempt_text"))) {
+            if (this.plain_text.equals(args.getString("attempt_text").toUpperCase())) {
                 this.isValidatedState = true;
                 ret.put(SUCCESS, "true");
             }
@@ -109,7 +109,7 @@ public class CaesarCipherPlugin extends Plugin {
     }
 
     private String toCaesar(String plain_text, int cipher_padding) {
-
+        System.out.println(plain_text);
         cipher_padding = Math.abs(cipher_padding) % 26;
         StringBuilder builder = new StringBuilder();
 

@@ -39,7 +39,7 @@ public class CaesarCipherPluginTest {
     public void playTest(){
 
         assertEquals("test false" , plugin.play(new JSONObject("{attempt_text : 72 }")).getString("success"),"false" );
-        assertEquals("test true" , plugin.play(new JSONObject("{attempt_text : ANSWER }")).getString("success"),"true" );
+        assertEquals("test true" , plugin.play(new JSONObject("{attempt_text : answer }")).getString("success"),"true" );
 
     }
 }
