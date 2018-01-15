@@ -48,6 +48,8 @@ public class CaesarCipherPlugin extends Plugin {
 
         // FORM
         this.plain_text = plain_text;
+        this.ans_format = "text";
+
 
         this.alpha_beta_array.add('A');
         this.alpha_beta_array.add('B');
@@ -85,7 +87,7 @@ public class CaesarCipherPlugin extends Plugin {
         JSONObject ret = new JSONObject();
 
         try {
-            if (this.plain_text.equals(args.getString("attempt_text").toUpperCase())) {
+            if (this.plain_text.equals(args.getString("attempt").toUpperCase())) {
                 this.isValidatedState = true;
                 ret.put(SUCCESS, "true");
             }
@@ -103,13 +105,13 @@ public class CaesarCipherPlugin extends Plugin {
     public String toString() {
         return new JSONObject()
                 .put("name", this.getName())
-                .put("description", this.getDescription() + " " + this.ciphered_text)
+                .put("description", this.getDescription())
                 .put("plain_text", this.plain_text)
-                .put("ciphered_text", this.ciphered_text).toString();
+                .put("ciphered_text", this.ciphered_text)
+                .put("answer_format",this.getAns_format() ).toString();
     }
 
     private String toCaesar(String plain_text, int cipher_padding) {
-        System.out.println(plain_text);
         cipher_padding = Math.abs(cipher_padding) % 26;
         StringBuilder builder = new StringBuilder();
 
@@ -123,5 +125,10 @@ public class CaesarCipherPlugin extends Plugin {
             builder.append(this.alpha_beta_array.get(index));
         }
         return builder.toString();
+    }
+
+    @Override
+    public String getDescription(){
+        return  super.getDescription() + " " + this.ciphered_text;
     }
 }

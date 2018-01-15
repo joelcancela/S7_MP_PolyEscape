@@ -31,6 +31,7 @@ public class CaesarCipherPluginTest {
         assertEquals("name",obj.getString("name") , "Epreuve code Caesar" );
         assertEquals("plain_text" , obj.getString("plain_text") , "ANSWER");
         assertEquals("ciphered_text", obj.getString("ciphered_text") , "BOTXFS");
+        assertEquals("answer_format", obj.getString("answer_format") , "text");
 
     }
 
@@ -38,8 +39,8 @@ public class CaesarCipherPluginTest {
     @Test
     public void playTest(){
 
-        assertEquals("test false" , plugin.play(new JSONObject("{attempt_text : 72 }")).getString("success"),"false" );
-        assertEquals("test true" , plugin.play(new JSONObject("{attempt_text : answer }")).getString("success"),"true" );
+        assertEquals("test false" , plugin.play(new JSONObject("{attempt : 72 }")).getString("success"),"false" );
+        assertEquals("test true" , plugin.play(new JSONObject("{attempt : answer }")).getString("success"),"true" );
 
     }
 }

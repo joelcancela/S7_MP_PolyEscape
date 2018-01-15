@@ -1,33 +1,5 @@
 [
   {
-    "success": {
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "optional": false,
-            "field": "varname1",
-            "description": "<p>No type.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "varname2",
-            "description": "<p>With type.</p>"
-          }
-        ]
-      }
-    },
-    "type": "",
-    "url": "",
-    "version": "0.0.0",
-    "filename": "polyescape_engine/doc/main.js",
-    "group": "C__Users_Kovox_IdeaProjects_escapegame_private_polyescape_engine_doc_main_js",
-    "groupTitle": "C__Users_Kovox_IdeaProjects_escapegame_private_polyescape_engine_doc_main_js",
-    "name": ""
-  },
-  {
     "type": "get",
     "url": "/plugins/description",
     "title": "The current played plugin description",
@@ -54,7 +26,7 @@
         }
       ]
     },
-    "filename": "polyescape_engine/src/polytech/teamf/api/PluginsServices.java",
+    "filename": "polyescape_engine/src/polytech/teamf/api/PluginServices.java",
     "groupTitle": "Plugins"
   },
   {
@@ -84,7 +56,7 @@
         }
       ]
     },
-    "filename": "polyescape_engine/src/polytech/teamf/api/PluginsServices.java",
+    "filename": "polyescape_engine/src/polytech/teamf/api/PluginServices.java",
     "groupTitle": "Plugins"
   },
   {
@@ -168,6 +140,15 @@
         ]
       }
     },
+    "success": {
+      "examples": [
+        {
+          "title": "Example data on success",
+          "content": "{\n    \"success\": \"true\"\n}",
+          "type": "json"
+        }
+      ]
+    },
     "filename": "polyescape_engine/src/polytech/teamf/api/RunnerServices.java",
     "groupTitle": "Runners"
   },
@@ -199,5 +180,35 @@
     },
     "filename": "polyescape_engine/src/polytech/teamf/api/RunnerServices.java",
     "groupTitle": "Runners"
+  },
+  {
+    "type": "get",
+    "url": "/services/{service}",
+    "title": "Doc here",
+    "name": "Service",
+    "group": "Services",
+    "version": "0.1.0",
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "service",
+            "description": "<p>Doc here</p> <p>http://localhost:8080/services/GoogleSheetsService?gsheet=%22https://docs.google.com/spreadsheets/d/17d4SfrjbdyPq9x8HEjumkfYN8b_aBPwaIHVFJnNqbG0/gviz/tq?tqx=out:csv%22</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Example data on success",
+          "content": "{\n    \"example\": \"example\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "polyescape_engine/src/polytech/teamf/api/ServiceServices.java",
+    "groupTitle": "Services"
   }
 ]

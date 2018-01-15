@@ -33,6 +33,13 @@ public abstract class Plugin implements IPlugin {
      */
     private String name = "";
 
+
+
+    /**
+     * the format of the answer
+     */
+    protected String ans_format = "";
+
     /**
      * Description Getter
      * @return description
@@ -47,6 +54,14 @@ public abstract class Plugin implements IPlugin {
      */
     public String getName() {
         return name;
+    }
+
+    /**
+     * answer format getter
+     * @return answer format
+     */
+    public String getAns_format() {
+        return ans_format;
     }
 
     /**

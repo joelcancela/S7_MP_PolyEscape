@@ -38,6 +38,7 @@ public class RunnerServices {
     @Path("/instantiate")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response instantiateRunner(String config) {
+        ServiceManager.resetRunner();
         String result = "Runner initialized";
         if (config.isEmpty()) {
             result = "EmptyConfiguration: Configuration is empty!";
@@ -61,6 +62,11 @@ public class RunnerServices {
      * }
      *
      * @apiError EmptyAnswer The answer was empty. <code>1</code> answer has to be given.
+     *
+     * @apiSuccessExample Example data on success
+     * {
+     *     "success": "true"
+     * }
      */
 
     /**
