@@ -2,33 +2,26 @@ package apitests;
 
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
-import org.junit.Ignore;
+import org.json.JSONArray;
+import org.junit.Test;
+import polytech.teamf.api.PluginServices;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class PluginServicesTest extends JerseyTest {
 
-    @Path("hello")
-    public static class HelloResource {
-        @GET
-        public String getHello() {
-            return "Hello World!";
-        }
-    }
-
     @Override
     protected Application configure() {
-        return new ResourceConfig(HelloResource.class);
+        return new ResourceConfig(PluginServices.class);
     }
 
-    @Ignore
-    public void test() {
-        final String hello = target("hello").request().get(String.class);
-        assertEquals("Hello World!", hello);
+    @Test
+    public void testPluginList() {
+        final String pluginList = target("plugins/list").request().get(String.class);
+        JSONArray pluginListInJA = new JSONArray(pluginList);
+        assertTrue("Should be different from 0", pluginListInJA.length() >= 1);
     }
 
 }
