@@ -38,6 +38,7 @@ public class RunnerServices {
     @Path("/instantiate")
     @Consumes(MediaType.TEXT_PLAIN)
     public Response instantiateRunner(String config) {
+        ServiceManager.resetRunner();
         String result = "Runner initialized";
         if (config.isEmpty()) {
             result = "EmptyConfiguration: Configuration is empty!";
