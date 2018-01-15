@@ -103,7 +103,7 @@ public class CaesarCipherPlugin extends Plugin {
     public String toString() {
         return new JSONObject()
                 .put("name", this.getName())
-                .put("description", this.getDescription())
+                .put("description", this.getDescription() + " " + this.ciphered_text)
                 .put("plain_text", this.plain_text)
                 .put("ciphered_text", this.ciphered_text).toString();
     }
