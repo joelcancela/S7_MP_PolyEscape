@@ -2,6 +2,7 @@ package polytech.teamf.api;
 
 import org.json.JSONObject;
 import polytech.teamf.services.GoogleSheetsService;
+import polytech.teamf.services.TwitterDMService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -25,6 +26,29 @@ public class ServiceServices {
      *     "example": "example"
      * }
      */
+
+
+    /**
+     *
+     */
+    @GET
+    @Path("/TwitterDMService")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getTwitterDMService(@QueryParam("crc_token") String crc_token) {
+        return new TwitterDMService(new String[0]).crc_check(crc_token).toString();
+    }
+
+    /**
+     *
+     */
+    @POST
+    @Path("/TwitterDMService")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public String postTwitterDMService(String json) {
+        System.err.print("DBG  ::  " + json);
+        return "WIP";
+    }
 
     /**
      *
