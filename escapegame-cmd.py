@@ -237,7 +237,7 @@ def start():
 
     if os.path.exists(_wd):
         os.system("mvn install -f " + _wd + "/polyescape_engine/pom.xml")
-        os.system("mvn tomcat7:run-war -f " + _wd + "/polyescape_engine/pom.xml")
+        os.system("screen mvn tomcat7:run-war -f " + _wd + "/polyescape_engine/pom.xml")
 
 
 def bye(exit_code=0):
