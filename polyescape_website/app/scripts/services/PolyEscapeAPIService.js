@@ -41,7 +41,7 @@ angular.module('polyEscapeApp')
       return deferred.promise;
     };
 
-    this.getNextPlugin = function () {
+    this.getPluginDescription = function () {
       var deferred = $q.defer();
       $http({
         method: 'GET',
@@ -50,6 +50,37 @@ angular.module('polyEscapeApp')
         deferred.resolve(data);
       }, function errorCallback(data) {
         deferred.reject("Failed to retrieve available plugins");
+      });
+      return deferred.promise;
+    };
+
+    this.hasNextPlugin = function () {
+      var deferred = $q.defer();
+      $http({
+        method: 'GET',
+        url: this.serverHost + '/runners/status'
+      }).then(function successCallback(data) {
+        deferred.resolve(data);
+      }, function errorCallback(data) {
+        deferred.reject("Failed to retrieve available plugins");
+      });
+      return deferred.promise;
+    };
+
+
+    this.answerResponse = function (json) {
+      var deferred = $q.defer();
+      $http({
+        method: 'POST',
+        url: this.serverHost + '/runners/answer',
+        data:json,
+        headers: {
+          "Content-Type": "text/plain"
+        }
+      }).then(function successCallback(data) {
+        deferred.resolve(data);
+      }, function errorCallback(data) {
+        deferred.reject("Failed to answer to step");
       });
       return deferred.promise;
     };
