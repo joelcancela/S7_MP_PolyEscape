@@ -126,4 +126,9 @@ public class CaesarCipherPlugin extends Plugin {
         }
         return builder.toString();
     }
+
+    @Override
+    public String getDescription(){
+        return  super.getDescription() + " " + this.ciphered_text;
+    }
 }

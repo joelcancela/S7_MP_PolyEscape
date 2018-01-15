@@ -21,7 +21,7 @@ public class RunnerTest{
 
         @Test
         public void getDescriptionTests(){
-            assertEquals("test  description : ",runner.getDescription().getString("description") , "dit 42");
+            assertEquals("test  description : ",runner.getDescription().getString("description") , "dit 42 DPVDPV");
             assertEquals("test  format : ",runner.getDescription().getString("answer_format") , "text");
 
 

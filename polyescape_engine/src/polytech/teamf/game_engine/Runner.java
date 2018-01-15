@@ -49,7 +49,7 @@ public class Runner {
     /**
      * Get the description / context of the plugin.
      *
-     * @return A JSONObject containing the current plugin description.
+     * @return A JSONObject containing the current plugin description & the format of the waited answer.
      */
     public JSONObject getDescription() {
         return new JSONObject().put("description", currentPlugin.getDescription()).put("answer_format" , currentPlugin.getAns_format());
