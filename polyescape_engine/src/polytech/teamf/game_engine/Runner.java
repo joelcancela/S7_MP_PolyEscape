@@ -76,7 +76,7 @@ public class Runner {
 
         it++;
 
-        if (plugins.size() == it)
+        if (plugins.size() >= it)
             return new JSONObject().put("status", "finish");
 
         currentPlugin = plugins.get(it);
