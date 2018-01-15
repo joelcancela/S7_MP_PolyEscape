@@ -22,6 +22,9 @@ public class RunnerTest{
         @Test
         public void getDescriptionTests(){
             assertEquals("test  description : ",runner.getDescription().getString("description") , "dit 42");
+            assertEquals("test  format : ",runner.getDescription().getString("answer_format") , "text");
+
+
         }
 
 
@@ -30,8 +33,8 @@ public class RunnerTest{
 
             try {
 
-            assertEquals("test wrong answer" , runner.sendGuess_GetResponse("{attempt_text : 72 }").getString("success"), "false");
-            assertEquals("test right answer" , runner.sendGuess_GetResponse("{attempt_text :COUCOU}").getString("success"), "true");
+            assertEquals("test wrong answer" , runner.sendGuess_GetResponse("{attempt : 72 }").getString("success"), "false");
+            assertEquals("test right answer" , runner.sendGuess_GetResponse("{attempt :COUCOU}").getString("success"), "true");
             } catch (Exception e) {
                 e.printStackTrace();
             }

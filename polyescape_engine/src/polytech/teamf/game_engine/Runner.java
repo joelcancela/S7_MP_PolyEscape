@@ -52,7 +52,7 @@ public class Runner {
      * @return A JSONObject containing the current plugin description.
      */
     public JSONObject getDescription() {
-        return new JSONObject().put("description", currentPlugin.getDescription());
+        return new JSONObject().put("description", currentPlugin.getDescription()).put("answer_format" , currentPlugin.getAns_format());
     }
 
     /**

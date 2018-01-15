@@ -45,6 +45,7 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
         // FORM
         this.answers = answers_csv.split(",");
         this.correct_answers = correct_answers_csv.split(",");
+        this.ans_format = "QCM";
     }
 
     @Override
@@ -53,7 +54,7 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
         JSONObject ret = new JSONObject();
 
         try {
-            String[] attempt_answers = args.getString("attempt_answers_csv").split(",");
+            String[] attempt_answers = args.getString("attempt").split(",");
 
             if (Arrays.equals(this.correct_answers, attempt_answers)) {
                 this.isValidatedState = true;
@@ -81,6 +82,7 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
                 .put("name", this.getName())
                 .put("description", this.getDescription())
                 .put("answers", ans)
-                .put("correct_answers", corr).toString();
+                .put("correct_answers", corr)
+                .put("answer_format",this.getAns_format() ).toString();
     }
 }
