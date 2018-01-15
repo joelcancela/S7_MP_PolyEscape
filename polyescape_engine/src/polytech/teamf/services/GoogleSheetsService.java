@@ -1,8 +1,8 @@
 package polytech.teamf.services;
 
 import org.apache.commons.io.FileUtils;
+import org.json.JSONObject;
 import polytech.teamf.plugins.MultipleChoiceQuestionPlugin;
-import polytech.teamf.plugins.Plugin;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,10 +12,21 @@ import java.net.URL;
 
 public class GoogleSheetsService extends Service {
 
-    // TODO : this is a prototype
+    /**
+     * Google Sheet URL
+     */
+    private final String gsheets_url;
 
-    // https://docs.google.com/spreadsheets/d/17d4SfrjbdyPq9x8HEjumkfYN8b_aBPwaIHVFJnNqbG0/gviz/tq?tqx=out:csv
-    public Plugin buildMultipleChoiceQuestionPlugin(String gsheets_url) {
+    public GoogleSheetsService(String[] args) {
+        super(args);
+
+        if (args.length != 1) {
+            throw new IllegalArgumentException();
+        }
+        this.gsheets_url = args[0];
+    }
+
+    public JSONObject execute() {
 
         String description = "";
         String answers_csv = "";
@@ -70,6 +81,6 @@ public class GoogleSheetsService extends Service {
             e.printStackTrace();
         }
 
-        return new MultipleChoiceQuestionPlugin(description, answers_csv, correct_answers_csv);
+        return super.execute(new MultipleChoiceQuestionPlugin(description, answers_csv, correct_answers_csv));
     }
 }

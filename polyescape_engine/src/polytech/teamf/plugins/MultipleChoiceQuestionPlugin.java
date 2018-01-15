@@ -1,5 +1,6 @@
 package polytech.teamf.plugins;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import polytech.teamf.services.Service;
 
@@ -68,8 +69,18 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
     }
 
     public String toString() {
+        JSONArray ans = new JSONArray();
+        for (String s : this.answers) {
+            ans.put(s);
+        }
+        JSONArray corr = new JSONArray();
+        for (String s : this.correct_answers) {
+            corr.put(s);
+        }
         return new JSONObject()
                 .put("name", this.getName())
-                .put("description", this.getDescription()).toString();
+                .put("description", this.getDescription())
+                .put("answers", ans)
+                .put("correct_answers", corr).toString();
     }
 }
