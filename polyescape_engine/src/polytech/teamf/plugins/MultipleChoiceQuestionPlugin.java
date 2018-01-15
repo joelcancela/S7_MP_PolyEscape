@@ -73,9 +73,14 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
         for (String s : this.answers) {
             ans.put(s);
         }
+        JSONArray corr = new JSONArray();
+        for (String s : this.correct_answers) {
+            corr.put(s);
+        }
         return new JSONObject()
                 .put("name", this.getName())
                 .put("description", this.getDescription())
-                .put("answers", ans).toString();
+                .put("answers", ans)
+                .put("correct_answers", corr).toString();
     }
 }

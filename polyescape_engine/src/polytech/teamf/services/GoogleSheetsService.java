@@ -17,9 +17,12 @@ public class GoogleSheetsService extends Service {
      */
     private final String gsheets_url;
 
-    GoogleSheetsService(String[] args) {
+    public GoogleSheetsService(String[] args) {
         super(args);
 
+        if (args.length != 1) {
+            throw new IllegalArgumentException();
+        }
         this.gsheets_url = args[0];
     }
 
