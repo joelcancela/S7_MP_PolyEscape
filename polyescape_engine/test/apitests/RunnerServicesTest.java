@@ -3,7 +3,6 @@ package apitests;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Ignore;
-import org.junit.jupiter.api.Test;
 import polytech.teamf.api.RunnerServices;
 
 import javax.ws.rs.core.Application;

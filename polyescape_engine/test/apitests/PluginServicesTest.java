@@ -2,24 +2,15 @@ package apitests;
 
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Ignore;
-import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Application;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class PluginsServicesTest extends JerseyTest {
-
-    @Before
-    public void setUpChild() { }
-
-    @After
-    public void tearDownChild() { }
+public class PluginServicesTest extends JerseyTest {
 
     @Path("hello")
     public static class HelloResource {

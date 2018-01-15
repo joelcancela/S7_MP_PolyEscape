@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Path("/plugins")
-public class PluginsServices {
+public class PluginServices {
 
     /**
      * @api {get} /plugins/list The list of available plugins
