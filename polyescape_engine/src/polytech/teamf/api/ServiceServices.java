@@ -52,21 +52,17 @@ public class ServiceServices {
 
     /**
      *
-     * @param service
+     * @param gsheet
      * @return
      */
     @GET
-    @Path("{service}")
+    @Path("/GoogleSheetsService")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getService(@PathParam("service") String service, @QueryParam("gsheet") String gsheet) {
+    public String getService(@QueryParam("gsheet") String gsheet) {
 
-        if (service.equals("GoogleSheetsService")) {
-            String[] args = new String[1];
-            args[0] = gsheet.replace("\"", "");
-            return new GoogleSheetsService(args).execute().toString();
-        }
-
-        return "404";
+        String[] args = new String[1];
+        args[0] = gsheet.replace("\"", "");
+        return new GoogleSheetsService(args).execute().toString();
     }
 
 }
