@@ -61,6 +61,11 @@ public class RunnerServices {
      * }
      *
      * @apiError EmptyAnswer The answer was empty. <code>1</code> answer has to be given.
+     *
+     * @apiSuccessExample Example data on success
+     * {
+     *     "success": "true"
+     * }
      */
 
     /**

@@ -12,9 +12,6 @@ public class ServiceManager {
 
     private static JSONObject lastResult = new JSONObject();
 
-    private ServiceManager() {
-    }
-
     /**
      * Get the unique runner instance.
      *
@@ -26,6 +23,13 @@ public class ServiceManager {
             runner = new Runner(config);
         }
         return runner;
+    }
+
+    /**
+     * Reset the runner to null
+     */
+    public static void resetRunner() {
+        runner = null;
     }
 
     /**
