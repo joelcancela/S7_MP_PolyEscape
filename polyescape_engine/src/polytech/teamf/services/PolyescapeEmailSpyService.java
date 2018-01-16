@@ -7,7 +7,7 @@ import polytech.teamf.game_engine.Runner;
 
 public class PolyescapeEmailSpyService extends Service {
 
-    private JSONArray message;
+    private String message;
 
     public PolyescapeEmailSpyService(String[] args) {
 
@@ -17,14 +17,13 @@ public class PolyescapeEmailSpyService extends Service {
             throw new IllegalArgumentException();
         }
 
-        this.message = new JSONArray(args[0]);
-        System.err.println(this.message.getJSONObject(0).getString("body_plain"));
+        this.message = new JSONArray(args[0]).getJSONObject(0).getString("body_plain").split("\n")[0].trim();
     }
 
     @Override
     public JSONObject execute() {
-        //Runner r = ServiceManager.getRunnerInstance(null);
-        //r.sendMessage(this.message);
+        Runner r = ServiceManager.getRunnerInstance(null);
+        r.sendMessage(new JSONObject(this.message));
         return new JSONObject(); // Useless return value
     }
 }
