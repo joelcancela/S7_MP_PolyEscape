@@ -59,10 +59,8 @@ public class ServiceServices {
     @Path("/GoogleSheetsService")
     @Produces(MediaType.APPLICATION_JSON)
     public String getService(@QueryParam("gsheet") String gsheet) {
-
         String[] args = new String[1];
         args[0] = gsheet.replace("\"", "");
         return new GoogleSheetsService(args).execute().toString();
     }
-
 }
