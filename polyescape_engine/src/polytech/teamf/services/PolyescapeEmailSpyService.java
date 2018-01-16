@@ -1,12 +1,13 @@
 package polytech.teamf.services;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import polytech.teamf.api.ServiceManager;
 import polytech.teamf.game_engine.Runner;
 
 public class PolyescapeEmailSpyService extends Service {
 
-    private JSONObject message = new JSONObject();
+    private JSONArray message;
 
     public PolyescapeEmailSpyService(String[] args) {
 
@@ -16,13 +17,13 @@ public class PolyescapeEmailSpyService extends Service {
             throw new IllegalArgumentException();
         }
 
-        this.message = new JSONObject(args[0]);
-        System.err.println(this.message.toString());
+        this.message = new JSONArray(args[0]);
+        System.err.println(this.message.getJSONObject(0).getString("body_plain"));
     }
 
     @Override
     public JSONObject execute() {
-        Runner r = ServiceManager.getRunnerInstance(null);
+        //Runner r = ServiceManager.getRunnerInstance(null);
         //r.sendMessage(this.message);
         return new JSONObject(); // Useless return value
     }

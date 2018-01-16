@@ -31,14 +31,11 @@ public class ServiceServices {
      */
     @POST
     @Path("/PolyescapeEmailSpy")
-    @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public String postTwitterDMService(String json) {
+    public void postTwitterDMService(String json) {
         String[] args = new String[1];
         args[0] = json;
-        System.err.println(json);
-        return "=============";
-        //return new PolyescapeEmailSpyService(args).execute().toString();
+        new PolyescapeEmailSpyService(args).execute();
     }
 
     /**
