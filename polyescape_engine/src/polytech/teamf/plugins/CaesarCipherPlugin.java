@@ -47,7 +47,7 @@ public class CaesarCipherPlugin extends Plugin {
         this.schema.put("attempt_text", "The user attempt");
 
         // FORM
-        this.plain_text = plain_text;
+        this.plain_text = plain_text.toUpperCase();
         this.ans_format = "text";
 
 

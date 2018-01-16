@@ -56,6 +56,19 @@ public class Runner {
     }
 
     /**
+     * Notify the plugin of an incoming message (sent by a service)
+     *
+     * @param jsonObject Plugin arguments
+     */
+    public void sendMessage(JSONObject jsonObject) {
+        try {
+            this.currentPlugin.play(jsonObject);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Given an answer, tells if you are right or wrong
      *
      * @param guess The player's answer to the current step.
