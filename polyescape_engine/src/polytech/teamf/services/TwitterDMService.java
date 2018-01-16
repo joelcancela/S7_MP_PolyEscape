@@ -12,8 +12,8 @@ import java.util.Base64;
 public class TwitterDMService extends Service {
 
     /**
-     * Consumer Key (API Key)	AcbrOmPhO6D0dOsMjOzR5GM5g
-     * Consumer Secret (API Secret)	5t6dKBMOt1V5hPHgnfiW77AtWiB43MmUDiTTmQyjKTusNALBIL
+     Consumer Key (API Key)    STTqvfOl5v35eyGSurUKt0OMr
+     Consumer Secret (API Secret)    NaI05oXl5HzZtpX2InACmbgMkM3TVV0LofpxGq3ALJygGjKcRW
      *
      * @param args
      */
@@ -22,7 +22,7 @@ public class TwitterDMService extends Service {
     }
 
     public JSONObject crc_check(String crc_token) {
-        String hash_digest = TwitterDMService.hmacDigest("AcbrOmPhO6D0dOsMjOzR5GM5g", crc_token, "HmacSHA256");
+        String hash_digest = TwitterDMService.hmacDigest("STTqvfOl5v35eyGSurUKt0OMr", crc_token, "HmacSHA256");
         return new JSONObject().put("response_token", "sha256=" + new String(Base64.getEncoder().encode(hash_digest.getBytes())));
     }
 

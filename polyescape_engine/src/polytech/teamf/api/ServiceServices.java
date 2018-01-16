@@ -35,6 +35,7 @@ public class ServiceServices {
     @Path("/TwitterDMService")
     @Produces(MediaType.APPLICATION_JSON)
     public String getTwitterDMService(@QueryParam("crc_token") String crc_token) {
+        System.err.print("DBG: CRC_TOKEN REQ");
         return new TwitterDMService(new String[0]).crc_check(crc_token).toString();
     }
 
