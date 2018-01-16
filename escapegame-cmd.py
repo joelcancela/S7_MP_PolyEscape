@@ -187,6 +187,10 @@ def update():
     print(" * Downloading remote repository (" + _git_branch + ")...")
     os.system("git clone -b " + _git_branch + " " + _git_url + " " + _wd)
 
+    print(" * Fix pom.xml (polyescape_engine module)...")
+    os.system("mv " + _wd + "/polyescape_engine/pom.xml " + _wd + "/polyescape_engine/pom.xml.bak")
+    os.system("cp ~/catalina/pom.xml " + _wd + "/polyescape_engine")
+
     free_lock()
 
     print("[INFO] Update OK.")
