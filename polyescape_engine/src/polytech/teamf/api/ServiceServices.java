@@ -1,8 +1,7 @@
 package polytech.teamf.api;
 
-import org.json.JSONObject;
 import polytech.teamf.services.GoogleSheetsService;
-import polytech.teamf.services.TwitterDMService;
+import polytech.teamf.services.PolyescapeEmailSpyService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -27,27 +26,16 @@ public class ServiceServices {
      * }
      */
 
-
     /**
-     *
-     */
-    @GET
-    @Path("/TwitterDMService")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String getTwitterDMService(@QueryParam("crc_token") String crc_token) {
-        return new TwitterDMService(new String[0]).crc_check(crc_token).toString();
-    }
-
-    /**
-     *
+     * polyescape.olw5ew@zapiermail.com
      */
     @POST
-    @Path("/TwitterDMService")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/PolyescapeEmailSpy")
     @Consumes(MediaType.APPLICATION_JSON)
-    public String postTwitterDMService(String json) {
-        System.err.print("DBG  ::  " + json);
-        return "WIP";
+    public void postTwitterDMService(String json) {
+        String[] args = new String[1];
+        args[0] = json;
+        new PolyescapeEmailSpyService(args).execute();
     }
 
     /**
@@ -59,10 +47,8 @@ public class ServiceServices {
     @Path("/GoogleSheetsService")
     @Produces(MediaType.APPLICATION_JSON)
     public String getService(@QueryParam("gsheet") String gsheet) {
-
         String[] args = new String[1];
         args[0] = gsheet.replace("\"", "");
         return new GoogleSheetsService(args).execute().toString();
     }
-
 }
