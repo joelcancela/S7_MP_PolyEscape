@@ -2,6 +2,7 @@
   Escape Game - Alpha version
 </div>
 <div ng-if="configIsReady">
+  <timer countdown="3600" max-time-unit="'minute'" interval="1000">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer>
   <div class="jumbotron">
     <h3>{{currentPluginDescription}}</h3>
     <div ng-if="!currentPluginIsInput">
