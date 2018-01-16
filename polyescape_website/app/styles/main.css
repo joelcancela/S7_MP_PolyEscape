@@ -32,6 +32,27 @@ body {
   border-top: 1px solid #e5e5e5;
 }
 
+.start-modal-popup .modal-lg {
+  width: 95% !important;
+}
+
+.start-modal-popup .modal-body {
+  min-height: 50vh !important;
+}
+
+.true, .green {
+  color: #23a900;
+}
+
+.false, .red {
+  color: #ff0000;
+}
+
+.timer {
+  font-family: 'Orbitron', sans-serif;
+  color: #ff0000;
+}
+
 .container-narrow > hr {
   margin: 30px 0;
 }
@@ -55,11 +76,11 @@ body {
   margin-top: 28px;
 }
 
-.sidebutton{
-  padding-bottom:  15px;
+.sidebutton {
+  padding-bottom: 15px;
 }
 
-.config_table{
+.config_table {
   min-height: 300px;
 }
 
@@ -90,8 +111,9 @@ body {
   .row {
     padding-bottom: 15px;
   }
-  .btn{
-    white-space:normal !important;
+
+  .btn {
+    white-space: normal !important;
     word-wrap: break-word;
   }
 
