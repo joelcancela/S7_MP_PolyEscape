@@ -36,7 +36,8 @@ public class ServiceServices {
     public String postTwitterDMService(String json) {
         String[] args = new String[1];
         args[0] = json;
-        return new PolyescapeEmailSpyService(args).execute().toString();
+        return "";
+        // return new PolyescapeEmailSpyService(args).execute().toString();
     }
 
     /**
