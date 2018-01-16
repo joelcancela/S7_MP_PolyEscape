@@ -18,12 +18,13 @@ public class PolyescapeEmailSpyService extends Service {
         }
 
         this.message = new JSONArray(args[0]).getJSONObject(0).getString("body_plain").split("\n")[0].trim();
+        System.err.print(this.message);
     }
 
     @Override
     public JSONObject execute() {
-        Runner r = ServiceManager.getRunnerInstance(null);
-        r.sendMessage(new JSONObject(this.message));
+        //Runner r = ServiceManager.getRunnerInstance(null);
+        //r.sendMessage(new JSONObject(this.message));
         return new JSONObject(); // Useless return value
     }
 }
