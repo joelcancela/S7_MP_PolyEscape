@@ -65,6 +65,7 @@
     <build>
         <finalName>polyescape</finalName>
         <sourceDirectory>src</sourceDirectory>
+        <testSourceDirectory>test</testSourceDirectory>
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
