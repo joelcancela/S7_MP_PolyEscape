@@ -17,14 +17,17 @@ public class PolyescapeEmailSpyService extends Service {
             throw new IllegalArgumentException();
         }
 
-        this.message = new JSONArray(args[0]).getJSONObject(0).getString("body_plain").split("\n")[0].trim();
-        System.err.print(this.message);
+        this.message = new JSONArray(args[0])
+                .getJSONObject(0)
+                .getString("body_plain")
+                .split("\n")[0]
+                .trim();
     }
 
     @Override
     public JSONObject execute() {
-        //Runner r = ServiceManager.getRunnerInstance(null);
-        //r.sendMessage(new JSONObject(this.message));
+        Runner r = ServiceManager.getRunnerInstance(null);
+        r.sendMessage(new JSONObject().put("attempt", this.message));
         return new JSONObject(); // Useless return value
     }
 }
