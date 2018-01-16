@@ -51,13 +51,19 @@ public class SimplePasswordPlugin extends Plugin{
                 if (this.plain_text.equals(args.getString("attempt"))) {
                     this.isValidatedState = true;
                     ret.put(SUCCESS, "true");
+                    isSuccess="true";
+
                 }
                 else {
                     ret.put(SUCCESS, "false");
+                    isSuccess="false";
+
                 }
             }
             catch (Exception e) {
                 ret.put(SUCCESS, "false");
+                isSuccess="false";
+
             }
 
             return ret;
@@ -71,10 +77,7 @@ public class SimplePasswordPlugin extends Plugin{
                     .put("answer_format",this.getAns_format() ).toString();
         }
 
-        @Override
-        public String getDescription(){
-            return  super.getDescription();
-        }
+
     }
 
 

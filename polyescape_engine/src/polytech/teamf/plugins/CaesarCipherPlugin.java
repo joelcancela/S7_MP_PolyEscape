@@ -90,13 +90,18 @@ public class CaesarCipherPlugin extends Plugin {
             if (this.plain_text.equals(args.getString("attempt").toUpperCase())) {
                 this.isValidatedState = true;
                 ret.put(SUCCESS, "true");
+                isSuccess = "true";
+
             }
             else {
                 ret.put(SUCCESS, "false");
+                isSuccess="false";
             }
         }
         catch (Exception e) {
             ret.put(SUCCESS, "false");
+            isSuccess="false";
+
         }
 
         return ret;

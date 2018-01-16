@@ -27,4 +27,10 @@ public interface IPlugin {
      * @throws Exception Error if anything wrong happens
      */
     JSONObject play(JSONObject args) throws Exception;
+
+
+    /**
+     * return the status of the plugin : is the answer was right : true or false
+     */
+    String getStatus();
 }

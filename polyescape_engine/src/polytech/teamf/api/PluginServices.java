@@ -167,4 +167,9 @@ public class PluginServices {
         return classes;
     }
 
+    @GET
+    @Path("/status")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getStatus(){
+        return ServiceManager.getRunnerInstance(null).getStatus();    }
 }
