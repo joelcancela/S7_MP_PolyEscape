@@ -96,4 +96,8 @@ public class Runner {
         return new JSONObject().put("status", "ok");
     }
 
+    public String getStatus(){
+        return currentPlugin.getStatus();
+    }
+
 }

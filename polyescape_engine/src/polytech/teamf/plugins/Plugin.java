@@ -1,5 +1,7 @@
 package polytech.teamf.plugins;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +24,8 @@ public abstract class Plugin implements IPlugin {
      */
     protected boolean isValidatedState = false;
     protected static final String SUCCESS = "success";
+
+    protected String isSuccess="";
 
     /**
      * Plugin Description Field
@@ -90,5 +94,12 @@ public abstract class Plugin implements IPlugin {
     @Override
     public Map<String, String> getSchema() {
         return schema;
+    }
+
+
+
+    @Override
+    public String getStatus(){
+        return isSuccess;
     }
 }
