@@ -34,11 +34,12 @@ angular.module('polyEscapeApp')
           var promise = PolyEscapeAPIService.hasNextPlugin();
           promise.then(function (result) {
             if (result.data.status === 'ok') {
-              //next item
+              //next item TODO
               console.log("next step ");
               $rootScope.correctAnswerGiven = undefined;
               getNextPlugin();
             } else if (result.data.status === 'finish') {
+              //TODO
               //ITS OVER
               //Stop countdown
               //Display time elapsed
