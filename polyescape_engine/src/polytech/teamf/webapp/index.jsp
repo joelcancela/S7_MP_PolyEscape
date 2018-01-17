@@ -5,8 +5,8 @@
 <%@ page import="polytech.teamf.services.Service" %>
 <%@ page import="java.lang.reflect.InvocationTargetException" %>
 <%@ page import="java.lang.reflect.Method" %>
-<%@ page import="java.time.format.DateTimeFormatter" %>
 <%@ page import="java.time.LocalDateTime" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <%
@@ -46,8 +46,11 @@
                     JSONObject pluginData = (JSONObject) supportedPlugins.get(i);
             %>
             <li class="w3-hover-opacity">
-                <jsp:text>Plugin:</jsp:text> <%= pluginData.get("type")%>
-                <jsp:text> (</jsp:text><%= pluginData.get("name")%><jsp:text>)</jsp:text>
+                <jsp:text>Plugin:</jsp:text>
+                <%= pluginData.get("type")%>
+                <jsp:text> (</jsp:text>
+                <%= pluginData.get("name")%>
+                <jsp:text>)</jsp:text>
             </li>
             <%
                 }
@@ -68,8 +71,11 @@
                         supportedServices.put(c.getSimpleName());
                     }
                 }
-            } catch
-                    (NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         %>
@@ -80,7 +86,8 @@
                     String service = supportedServices.getString(i);
             %>
             <li class="w3-hover-opacity">
-                <jsp:text>Service:</jsp:text> <%= service%>
+                <jsp:text>Service:</jsp:text>
+                <%= service%>
             </li>
             <%
                 }
@@ -92,7 +99,9 @@
         <footer class="w3-left"><strong>Team F -</strong> Dorian Bonifassi | Joël Cancela Vaz | Jérémy Lara |
             Nikita Rousseau
         </footer>
-        <div class="w3-right"><strong>Current server session launch date:</strong> <%= request.getSession().getAttribute("sessionTime") %></div>
+        <div class="w3-right"><strong>Current server session launch
+            date:</strong> <%= request.getSession().getAttribute("sessionTime") %>
+        </div>
     </div>
 </div>
 </body>
