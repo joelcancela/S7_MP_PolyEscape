@@ -2,10 +2,9 @@ package polytech.teamf.plugins;
 
 import org.json.JSONObject;
 
+public class SimplePasswordPlugin extends Plugin {
 
-public class SimplePasswordPlugin extends Plugin{
-
-     /**
+    /**
      * The original plain text. Is used by the validation process.
      */
     private String plain_text = "";
@@ -22,7 +21,7 @@ public class SimplePasswordPlugin extends Plugin{
      * Initializes the plugin
      *
      * @param description The plugin description
-     * @param plain_text The plain text to discover
+     * @param plain_text  The plain text to discover
      */
     public SimplePasswordPlugin(String description, String plain_text) {
 
@@ -73,5 +72,6 @@ public class SimplePasswordPlugin extends Plugin{
                 .put("answer_format",this.getAns_format() ).toString();
     }
 }
+
 
 

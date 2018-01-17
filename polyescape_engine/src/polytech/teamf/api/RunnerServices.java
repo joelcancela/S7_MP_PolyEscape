@@ -82,11 +82,10 @@ public class RunnerServices {
     @Produces(MediaType.APPLICATION_JSON)
     public Response answerStep(String answer) throws Exception {
         if (answer.isEmpty()) {
-            ServiceManager.setLastResult(new JSONObject());
             return Response.status(400).entity("EmptyAnswer: Answer is empty!").build();
         }
-        ServiceManager.setLastResult(ServiceManager.getRunnerInstance(null).sendGuess_GetResponse(answer));
-        return Response.ok(ServiceManager.getLastResult().toString(), MediaType.APPLICATION_JSON).build();
+        return Response.ok(ServiceManager.getRunnerInstance(null).sendGuess_GetResponse(answer).toString(),
+                MediaType.APPLICATION_JSON).build();
     }
 
     /**

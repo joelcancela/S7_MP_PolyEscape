@@ -2,7 +2,6 @@ package polytech.teamf.plugins;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import polytech.teamf.services.Service;
 
 import java.util.Arrays;
 
@@ -29,8 +28,8 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
     /**
      * Initializes the plugin
      *
-     * @param description The plugin description
-     * @param answers_csv The list of answers as a CSV string
+     * @param description         The plugin description
+     * @param answers_csv         The list of answers as a CSV string
      * @param correct_answers_csv The list of correct answers in answers as a CSV string
      */
     public MultipleChoiceQuestionPlugin(String description, String answers_csv, String correct_answers_csv) {
@@ -59,16 +58,16 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
             if (Arrays.equals(this.correct_answers, attempt_answers)) {
                 this.isValidatedState = true;
                 ret.put(SUCCESS, "true");
-                isSuccess="true";
+                isSuccess = "true";
 
             } else {
                 ret.put(SUCCESS, "false");
-                isSuccess="false";
+                isSuccess = "false";
 
             }
         } catch (Exception e) {
             ret.put(SUCCESS, "false");
-            isSuccess="false";
+            isSuccess = "false";
 
         }
 
@@ -89,6 +88,6 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
                 .put("description", this.getDescription())
                 .put("answers", ans)
                 .put("correct_answers", corr)
-                .put("answer_format",this.getAns_format() ).toString();
+                .put("answer_format", this.getAns_format()).toString();
     }
 }

@@ -16,6 +16,7 @@ public class PluginFactory {
                     args.getInt("cipher_padding")
             );
         }
+<<<<<<< HEAD
         if (className.equals("EmailSpyPlugin")) {
 
             plugin = new EmailSpyPlugin(
@@ -23,12 +24,16 @@ public class PluginFactory {
                     args.getString("plain_text")
             );
         }
+=======
+
+>>>>>>> 72bea348f12283d05e434aefaf545ddbac678be5
         if (className.equals("SimplePasswordPlugin")) {
 
             plugin = new SimplePasswordPlugin(
                     args.getString("description"),
                     args.getString("plain_text"));
         }
+
         if (className.equals("MultipleChoiceQuestionPlugin")) {
 
             plugin = new MultipleChoiceQuestionPlugin(
@@ -40,4 +45,5 @@ public class PluginFactory {
 
         return plugin;
     }
+
 }
