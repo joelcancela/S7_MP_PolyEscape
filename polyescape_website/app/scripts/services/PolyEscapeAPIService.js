@@ -9,7 +9,8 @@
 angular.module('polyEscapeApp')
   .service('PolyEscapeAPIService', ['$http', '$q', function ($http, $q) {
 
-    this.serverHost = "http://localhost:8080";
+    //this.serverHost = "http://localhost:8080";
+    this.serverHost = "https://ns3265327.ip-5-39-78.eu:8443";
 
     this.getAvailablePlugins = function () {
       var deferred = $q.defer();

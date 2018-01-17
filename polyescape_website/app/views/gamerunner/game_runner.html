@@ -10,9 +10,9 @@
       </h2>
     </div>
     <h3 ng-bind-html="currentPluginDescription"></h3>
-    <div class="row" ng-if="!currentPluginIsInput">
+    <div class="row">
       <div class="col-md-10">
-        <form ng-submit="submitAnswer()">
+        <form ng-submit="submitAnswer()" ng-if="!currentPluginIsInput">
           Entrez votre réponse :
           <label>
             <input ng-class="{'text-success':correctAnswerGiven === 'true'}" ng-model="currentAnswer.answer"

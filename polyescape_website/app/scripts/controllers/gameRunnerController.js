@@ -107,7 +107,7 @@ angular.module('polyEscapeApp')
           console.log(result.data.status);
           if(result.data.status === 'true'){
             $interval.cancel(intervalPromise);
-            $rootScope.correctAnswerGiven = true;
+            $rootScope.correctAnswerGiven = "true";
           }
         }, function (reason) {
           alert('Failed to get next plugin ' + reason);
