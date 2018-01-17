@@ -1,6 +1,7 @@
 package polytech.teamf.plugins;
 
 import org.json.JSONObject;
+import polytech.teamf.api.ServiceManager;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -51,7 +52,7 @@ public class CaesarCipherPlugin extends Plugin {
         this.plain_text = plain_text.toUpperCase();
         this.ans_format = "text";
 
-        this.ciphered_text = toCaesarFromService(plain_text, cipher_padding);
+        this.ciphered_text = toCaesar(plain_text, cipher_padding);
     }
 
     @Override
@@ -89,13 +90,8 @@ public class CaesarCipherPlugin extends Plugin {
                 .put("answer_format",this.getAns_format() ).toString();
     }
 
-    private String toCaesarFromService(String plain_text, int cipher_padding) {
-        Client client = ClientBuilder.newBuilder().newClient();
-        WebTarget target = client.target("https://www.joelcancela.fr/services/fun/caesar_cipher.php");
-        target = target.queryParam("message", plain_text).queryParam("padding", cipher_padding);
-        Invocation.Builder builder = target.request();
-        builder.accept(MediaType.APPLICATION_JSON_TYPE);
-        JSONObject response = new JSONObject(builder.get(String.class));
+    private String toCaesar(String plain_text, int cipher_padding) {
+        JSONObject response = new JSONObject(ServiceManager.callCaesarCipherPlugin(plain_text, cipher_padding));
         return response.get("result").toString();
     }
 
