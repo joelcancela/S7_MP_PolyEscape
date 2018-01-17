@@ -40,6 +40,35 @@ body {
   min-height: 50vh !important;
 }
 
+.poly1 {
+  color: #009cdd !important;
+}
+
+.poly2 {
+  color: #004a75 !important;
+}
+
+.btn-poly1 {
+  color: #fff;
+  background-color: #009cdd;
+  border-color: #009cff;
+}
+
+.btn-poly2 {
+  color: #fff;
+  background-color: #004a75;
+  border-color: #004a75;
+}
+
+.logo {
+  height: 20px;
+  padding-right: 2px;
+}
+
+.navbar-brand > img {
+  display: inline-block;
+}
+
 .true, .green {
   color: #23a900;
 }
@@ -51,6 +80,10 @@ body {
 .timer {
   font-family: 'Orbitron', sans-serif;
   color: #ff0000;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
 }
 
 .container-narrow > hr {
