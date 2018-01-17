@@ -1,6 +1,5 @@
 package polytech.teamf.api;
 
-import org.json.JSONObject;
 import polytech.teamf.game_engine.Runner;
 
 /**
@@ -9,8 +8,6 @@ import polytech.teamf.game_engine.Runner;
 public class ServiceManager {
 
     private static Runner runner = null;
-
-    private static JSONObject lastResult = new JSONObject();
 
     /**
      * Get the unique runner instance.
@@ -30,17 +27,6 @@ public class ServiceManager {
      */
     public static void resetRunner() {
         runner = null;
-    }
-
-    /**
-     * Get the last player's answer result.
-     */
-    public static JSONObject getLastResult() {
-        return lastResult;
-    }
-
-    public static void setLastResult(JSONObject newLastResult) {
-        lastResult = newLastResult;
     }
 
 }

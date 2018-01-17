@@ -39,7 +39,6 @@ public class ServiceServices {
     }
 
     /**
-     *
      * @param gsheet
      * @return
      */
@@ -51,4 +50,5 @@ public class ServiceServices {
         args[0] = gsheet.replace("\"", "");
         return new GoogleSheetsService(args).execute().toString();
     }
+
 }

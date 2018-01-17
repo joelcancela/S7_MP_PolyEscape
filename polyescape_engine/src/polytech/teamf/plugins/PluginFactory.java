@@ -16,12 +16,14 @@ public class PluginFactory {
                     args.getInt("cipher_padding")
             );
         }
+
         if (className.equals("SimplePasswordPlugin")) {
 
             plugin = new SimplePasswordPlugin(
                     args.getString("description"),
                     args.getString("plain_text"));
         }
+
         if (className.equals("MultipleChoiceQuestionPlugin")) {
 
             plugin = new MultipleChoiceQuestionPlugin(
@@ -33,4 +35,5 @@ public class PluginFactory {
 
         return plugin;
     }
+
 }

@@ -60,6 +60,36 @@ define({ "api": [
     "groupTitle": "Plugins"
   },
   {
+    "type": "get",
+    "url": "/plugins/status",
+    "title": "The current played plugin status",
+    "name": "PluginsStatus",
+    "group": "Plugins",
+    "version": "0.1.0",
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "status",
+            "description": "<p>The plugin status</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Example data on success",
+          "content": "{\n    \"status\": \"true\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "polyescape_engine/src/polytech/teamf/api/PluginServices.java",
+    "groupTitle": "Plugins"
+  },
+  {
     "type": "put",
     "url": "/runners/instantiate",
     "title": "Instantiate the runner",
