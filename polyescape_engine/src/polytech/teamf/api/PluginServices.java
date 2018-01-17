@@ -115,7 +115,7 @@ public class PluginServices {
     @Path("/description")
     @Produces(MediaType.APPLICATION_JSON)
     public String getPluginDescription() {
-        return ServiceManager.getRunnerInstance(null).getDescription().toString();
+        return ServiceManager.getRunnerInstance(null).getPlugin().toString();
     }
 
     /**

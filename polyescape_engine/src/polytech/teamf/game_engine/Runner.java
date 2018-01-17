@@ -55,6 +55,10 @@ public class Runner {
         return new JSONObject().put("description", currentPlugin.getDescription()).put("answer_format" , currentPlugin.getAns_format());
     }
 
+    public Plugin getPlugin() {
+        return this.currentPlugin;
+    }
+
     /**
      * Notify the plugin of an incoming message (sent by a service)
      *

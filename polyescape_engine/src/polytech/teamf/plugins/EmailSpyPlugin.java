@@ -2,10 +2,9 @@ package polytech.teamf.plugins;
 
 import org.json.JSONObject;
 
+public class EmailSpyPlugin extends Plugin {
 
-public class SimplePasswordPlugin extends Plugin{
-
-     /**
+    /**
      * The original plain text. Is used by the validation process.
      */
     private String plain_text = "";
@@ -14,7 +13,7 @@ public class SimplePasswordPlugin extends Plugin{
      * Default constructor
      * Used by the API Reflection Engine
      */
-    public SimplePasswordPlugin() {
+    public EmailSpyPlugin() {
         this("", "");
     }
 
@@ -24,9 +23,10 @@ public class SimplePasswordPlugin extends Plugin{
      * @param description The plugin description
      * @param plain_text The plain text to discover
      */
-    public SimplePasswordPlugin(String description, String plain_text) {
+    public EmailSpyPlugin(String description, String plain_text) {
 
-        super(description, "Epreuve mot de passe simple");
+        super(description + "<br>Envoyez votre réponse à cet email : <a href=\"mailto:polyescape.olw5ew@zapiermail.com\">polyescape.olw5ew@zapiermail.com</a>",
+                "Epreuve mot de passe envoyé sur un email distant");
 
         // ARGS
         super.getArgs().add("plain_text");
@@ -70,8 +70,7 @@ public class SimplePasswordPlugin extends Plugin{
                 .put("name", this.getName())
                 .put("description", this.getDescription())
                 .put("plain_text", this.plain_text)
-                .put("answer_format",this.getAns_format() ).toString();
+                .put("answer_format",this.getAns_format())
+                .put("use_remote_service", true).toString();
     }
 }
-
-
