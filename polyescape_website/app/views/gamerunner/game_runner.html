@@ -9,7 +9,7 @@
         </timer>
       </h2>
     </div>
-    <h3>{{currentPluginDescription}}</h3>
+    <h3 ng-bind-html="currentPluginDescription"></h3>
     <div class="row" ng-if="!currentPluginIsInput">
       <div class="col-md-10">
         <form ng-submit="submitAnswer()">
