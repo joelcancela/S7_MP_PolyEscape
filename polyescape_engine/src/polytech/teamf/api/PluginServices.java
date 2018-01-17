@@ -143,7 +143,7 @@ public class PluginServices {
     @Path("/status")
     @Produces(MediaType.APPLICATION_JSON)
     public String getStatus() {
-        return ServiceManager.getRunnerInstance(null).getStatus();
+        return new JSONObject().put("status",ServiceManager.getRunnerInstance(null).getStatus()).toString();
     }
 
     /**

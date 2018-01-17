@@ -23,7 +23,7 @@ public abstract class Plugin implements IPlugin {
     protected boolean isValidatedState = false;
     protected static final String SUCCESS = "success";
 
-    protected String isSuccess = "";
+    protected String isSuccess = "false";
 
     /**
      * Plugin Description Field
