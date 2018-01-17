@@ -17,6 +17,14 @@ public class PluginFactory {
             );
         }
 
+        if (className.equals("EmailSpyPlugin")) {
+
+            plugin = new EmailSpyPlugin(
+                    args.getString("description"),
+                    args.getString("plain_text")
+            );
+        }
+
         if (className.equals("SimplePasswordPlugin")) {
 
             plugin = new SimplePasswordPlugin(

@@ -8,8 +8,8 @@
  * Controller of the polyEscapeApp
  */
 angular.module('polyEscapeApp')
-  .controller('GameRunnerCtrl', ['$rootScope', '$scope', '$window', '$uibModal', 'PolyEscapeAPIService',
-    function ($rootScope, $scope, $window, $uibModal, PolyEscapeAPIService) {
+  .controller('GameRunnerCtrl', ['$rootScope', '$scope', '$window', '$uibModal', 'PolyEscapeAPIService','$interval',
+    function ($rootScope, $scope, $window, $uibModal, PolyEscapeAPIService, $interval) {
 
       $rootScope.stepTimer = $rootScope.escapeGameTimeLimit * 60;
       $rootScope.currentPluginDescription = "";
@@ -17,6 +17,7 @@ angular.module('polyEscapeApp')
       $rootScope.currentPluginNumerOfInput = 1;
       $rootScope.correctAnswerGiven = undefined;
       $scope.currentAnswer = {"answer": ""};
+      var intervalPromise;
       $rootScope.startModal = {
         templateUrl: 'views/modals/escapeGameStartModal.html',
         backdrop: 'static',
@@ -90,7 +91,24 @@ angular.module('polyEscapeApp')
         promise.then(function (result) {
           console.log(result.data);
           console.log(result.data.description);
+          $rootScope.currentPluginIsInput = result.data.use_remote_service;
           $rootScope.currentPluginDescription = result.data.description;
+          if($rootScope.currentPluginIsInput){
+            intervalPromise =  $interval(triggerIntervalInputService, 3000);
+          }
+        }, function (reason) {
+          alert('Failed to get next plugin ' + reason);
+        });
+      }
+
+      function triggerIntervalInputService(){
+        var promise = PolyEscapeAPIService.getPluginStatus();
+        promise.then(function (result) {
+          console.log(result.data.status);
+          if(result.data.status === 'true'){
+            $interval.cancel(intervalPromise);
+            $rootScope.correctAnswerGiven = true;
+          }
         }, function (reason) {
           alert('Failed to get next plugin ' + reason);
         });

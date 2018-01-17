@@ -88,6 +88,7 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
                 .put("description", this.getDescription())
                 .put("answers", ans)
                 .put("correct_answers", corr)
-                .put("answer_format", this.getAns_format()).toString();
+                .put("answer_format", this.getAns_format())
+                .put("use_remote_service", false).toString();
     }
 }

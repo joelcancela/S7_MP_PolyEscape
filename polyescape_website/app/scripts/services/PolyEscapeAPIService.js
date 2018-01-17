@@ -24,6 +24,19 @@ angular.module('polyEscapeApp')
       return deferred.promise;
     };
 
+    this.getPluginStatus = function () {
+      var deferred = $q.defer();
+      $http({
+        method: 'GET',
+        url: this.serverHost + '/plugins/status'
+      }).then(function successCallback(data) {
+        deferred.resolve(data);
+      }, function errorCallback(data) {
+        deferred.reject("Failed to retrieve plugin status");
+      });
+      return deferred.promise;
+    };
+
     this.instantiateRunner = function (jsonSteps) {
       var deferred = $q.defer();
       $http({
