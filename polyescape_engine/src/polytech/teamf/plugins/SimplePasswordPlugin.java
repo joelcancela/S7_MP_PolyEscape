@@ -69,7 +69,8 @@ public class SimplePasswordPlugin extends Plugin {
                 .put("name", this.getName())
                 .put("description", this.getDescription())
                 .put("plain_text", this.plain_text)
-                .put("answer_format",this.getAns_format() ).toString();
+                .put("answer_format",this.getAns_format())
+                .put("use_remote_service", false).toString();
     }
 }
 

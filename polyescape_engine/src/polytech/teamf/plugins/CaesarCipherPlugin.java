@@ -86,7 +86,8 @@ public class CaesarCipherPlugin extends Plugin {
                 .put("description", this.getDescription())
                 .put("plain_text", this.plain_text)
                 .put("ciphered_text", this.ciphered_text)
-                .put("answer_format",this.getAns_format() ).toString();
+                .put("answer_format",this.getAns_format())
+                .put("use_remote_service", false).toString();
     }
 
     private String toCaesarFromService(String plain_text, int cipher_padding) {
