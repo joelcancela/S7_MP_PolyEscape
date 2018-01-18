@@ -1,6 +1,7 @@
 package polytech.teamf.plugins;
 
-import org.json.JSONObject;
+import polytech.teamf.events.Event;
+import polytech.teamf.services.IService;
 
 import java.util.List;
 import java.util.Map;
@@ -9,32 +10,28 @@ public interface IPlugin {
 
     /**
      * Plugin constructor arguments
-     *
-     * @return List
      */
-    List<String> getArgs();
+    Map<String, Object> getArgs();
 
     /**
      * Plugin input schema
-     *
-     * @return Map
      */
-    Map<String, String> getSchema();
+    Map<String, Object> getSchema();
 
     /**
      * Reads the input data submitted from an external entity to this plugin
      * Outputs the response, given the plugin initialization and the user input
      *
-     * @param args The inputs a JSObject
-     * @return JSObject
-     * @throws Exception Error if anything wrong happens
      */
-    JSONObject play(JSONObject args) throws Exception;
-
+    Event execute(Map<String, Object> args) throws Exception;
 
     /**
-     * return the status of the plugin : is the answer was right : true or false
+     * Returns the list of required plugins
      */
-    String getStatus();
+    List<IPlugin> getPluginDependencies();
 
+    /**
+     * Returns the list of required services
+     */
+    List<IService> getServiceDependencies();
 }
