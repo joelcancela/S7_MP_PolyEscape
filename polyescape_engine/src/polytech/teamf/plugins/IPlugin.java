@@ -25,6 +25,8 @@ public interface IPlugin {
      */
     Event execute(Map<String, Object> args) throws Exception;
 
+    void notifyEvent(Event);
+    
     /**
      * Returns the list of required plugins
      */
