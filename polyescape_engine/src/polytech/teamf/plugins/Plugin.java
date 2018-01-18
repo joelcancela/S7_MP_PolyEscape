@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Plugin implements IPlugin {
+public abstract class Plugin implements IPlugin, IPluginEventListener {
 
     /**
      * Constructor Arguments

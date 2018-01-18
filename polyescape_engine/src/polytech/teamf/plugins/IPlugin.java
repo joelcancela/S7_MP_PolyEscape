@@ -26,11 +26,6 @@ public interface IPlugin {
     Event execute(Map<String, Object> args) throws Exception;
 
     /**
-     * Notify this plugin, as well as the nested plugins.
-     */
-    void notifyEvent(Event e);
-
-    /**
      * Add a new nested plugin
      */
     void addPlugin(IPlugin p);
