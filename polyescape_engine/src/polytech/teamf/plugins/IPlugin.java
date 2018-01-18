@@ -31,6 +31,11 @@ public interface IPlugin {
     void addPlugin(IPlugin p);
 
     /**
+     * Notify this plugin, as well as the nested plugins.
+     */
+    void notifyEvent(Event e);
+    
+    /**
      * Returns the list of required plugins
      */
     List<IPlugin> getPluginDependencies();
