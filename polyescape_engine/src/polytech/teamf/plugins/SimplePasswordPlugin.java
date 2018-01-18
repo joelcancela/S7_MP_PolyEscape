@@ -1,7 +1,9 @@
 package polytech.teamf.plugins;
 
 import polytech.teamf.events.*;
+import polytech.teamf.services.IService;
 
+import java.util.List;
 import java.util.Map;
 
 public class SimplePasswordPlugin extends Plugin {
@@ -41,7 +43,7 @@ public class SimplePasswordPlugin extends Plugin {
     }
 
     @Override
-    public Event execute(Map<String, Object> args) throws Exception {
+    public IEvent execute(Map<String, Object> args) throws Exception {
 
         if (args.containsKey("attempt")) {
             throw new IllegalArgumentException("Bad response format");
@@ -50,28 +52,38 @@ public class SimplePasswordPlugin extends Plugin {
         String response = (String) args.get("attempt");
 
         if (this.plain_text.equals(response)) {
-            return new GoodResponseEvent();
+            return new GoodResponseEvent(this);
         }
-        return new BadResponseEvent();
+        return new BadResponseEvent(this);
     }
 
     @Override
-    public void on(BadResponseEvent e) {
+    public List<IPlugin> getPluginDependencies() {
+        return null;
+    }
+
+    @Override
+    public List<IService> getServiceDependencies() {
+        return null;
+    }
+
+    @Override
+    public void onBadResponseEvent() {
 
     }
 
     @Override
-    public void on(GoodResponseEvent e) {
+    public void onGoodResponseEvent() {
 
     }
 
     @Override
-    public void on(StartEvent e) {
+    public void onStartEvent() {
 
     }
 
     @Override
-    public void on(EndEvent e) {
+    public void onEndEvent() {
 
     }
 }

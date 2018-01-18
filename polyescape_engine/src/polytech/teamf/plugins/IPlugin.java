@@ -1,6 +1,6 @@
 package polytech.teamf.plugins;
 
-import polytech.teamf.events.Event;
+import polytech.teamf.events.IEvent;
 import polytech.teamf.services.IService;
 
 import java.util.List;
@@ -9,31 +9,35 @@ import java.util.Map;
 public interface IPlugin {
 
     /**
-     * Plugin constructor arguments
+     * Plugin Constructor Arguments
      */
     Map<String, Object> getArgs();
 
     /**
-     * Plugin input schema
+     * Plugin Input Schema
      */
     Map<String, Object> getSchema();
 
     /**
+     * Plugin Description Field
+     */
+    String getDescription();
+
+    /**
+     * Plugin Complete Name
+     */
+    String getName();
+
+    /**
      * Reads the input data submitted from an external entity to this plugin
      * Outputs the response, given the plugin initialization and the user input
-     *
      */
-    Event execute(Map<String, Object> args) throws Exception;
+    IEvent execute(Map<String, Object> args) throws Exception;
 
     /**
-     * Add a new nested plugin
+     * Notify the nested plugins
      */
-    void addPlugin(IPlugin p);
-
-    /**
-     * Notify this plugin, as well as the nested plugins.
-     */
-    void notifyEvent(Event e);
+    void sendEvent(IEvent e);
 
     /**
      * Returns the list of required plugins

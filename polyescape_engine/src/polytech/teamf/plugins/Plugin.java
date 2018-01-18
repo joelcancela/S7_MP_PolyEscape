@@ -1,6 +1,7 @@
 package polytech.teamf.plugins;
 
-import polytech.teamf.events.Event;
+import polytech.teamf.events.IEvent;
+import polytech.teamf.events.IEventListener;
 import polytech.teamf.services.IService;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Plugin implements IPlugin, IPluginEventListener {
+public abstract class Plugin implements IPlugin, IEventListener {
 
     /**
      * Nested Plugin List
@@ -35,20 +36,12 @@ public abstract class Plugin implements IPlugin, IPluginEventListener {
      */
     private String description = "";
 
-    /**
-     * Description Getter
-     *
-     * @return description
-     */
+    @Override
     public String getDescription() {
         return this.description;
     }
 
-    /**
-     * Name Getter
-     *
-     * @return name
-     */
+    @Override
     public String getName() {
         return this.name;
     }
@@ -69,6 +62,13 @@ public abstract class Plugin implements IPlugin, IPluginEventListener {
         args.put("description", String.class.getSimpleName());
     }
 
+    /**
+     *
+     */
+    public void addPlugin(Plugin p) {
+        this.plugins.add(p);
+    }
+
     @Override
     public Map<String, Object> getArgs() {
         return this.args;
@@ -80,27 +80,14 @@ public abstract class Plugin implements IPlugin, IPluginEventListener {
     }
 
     @Override
-    public void addPlugin(IPlugin p) {
-        this.plugins.add(p);
-    }
+    public void sendEvent(IEvent e) {
 
-    @Override
-    public void notifyEvent(Event e) {
+        // Fire event
+        e.fire();
+
         // Notify nested plugins
         for (IPlugin p : this.plugins) {
-            p.notifyEvent(e);
+            p.sendEvent(e);
         }
-    }
-
-    @Override
-    public List<IPlugin> getPluginDependencies() {
-        // TODO : must be implemented
-        return null;
-    }
-
-    @Override
-    public List<IService> getServiceDependencies() {
-        // TODO : must be implemented
-        return null;
     }
 }

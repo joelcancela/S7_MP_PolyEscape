@@ -1,4 +1,12 @@
 package polytech.teamf.events;
 
-public abstract class Event {
+import polytech.teamf.plugins.Plugin;
+
+public abstract class Event implements IEvent {
+
+    protected Plugin source;
+
+    Event(Plugin p) {
+        this.source = p;
+    }
 }

@@ -65,6 +65,9 @@ public class Runner {
      */
     public void sendMessage(JSONObject jsonObject) {
         try {
+            this.currentPlugin.sendEvent(this.currentPlugin.execute(jsonObject));
+
+
             this.currentPlugin.play(jsonObject);
         } catch (Exception e) {
             e.printStackTrace();

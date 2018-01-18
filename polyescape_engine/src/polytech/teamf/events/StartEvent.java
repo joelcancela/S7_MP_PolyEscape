@@ -1,4 +1,15 @@
 package polytech.teamf.events;
 
-public class StartEvent implements Event {
+import polytech.teamf.plugins.Plugin;
+
+public class StartEvent extends Event {
+
+    public StartEvent(Plugin p) {
+        super(p);
+    }
+
+    @Override
+    public void fire() {
+        this.source.onStartEvent();
+    }
 }
