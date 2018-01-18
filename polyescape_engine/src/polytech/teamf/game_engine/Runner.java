@@ -3,7 +3,6 @@ package polytech.teamf.game_engine;
 import org.json.JSONObject;
 import polytech.teamf.plugins.IPlugin;
 import polytech.teamf.plugins.Plugin;
-import polytech.teamf.plugins.PluginFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,8 +38,8 @@ public class Runner {
             for (String str : map.keySet()) {
                 toBuild.put(str, map.get(str));
             }
-            plugins.add(PluginFactory.create(map.get("type"), toBuild));
-
+            //plugins.add(PluginFactory.create(map.get("type"), toBuild));
+            // TODO : implement correct behavior here without a Plugin Factory
         }
 
         currentPlugin = plugins.get(it);
