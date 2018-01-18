@@ -1,6 +1,13 @@
 package polytech.teamf.plugins;
 
 import org.json.JSONObject;
+import polytech.teamf.api.ServiceManager;
+
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,11 +22,6 @@ public class CaesarCipherPlugin extends Plugin {
      * The original plain text. Is used by the validation process.
      */
     private String plain_text = "";
-
-    /**
-     * Caesar cipher table
-     */
-    private List<Character> alpha_beta_array = new ArrayList<>();
 
     /**
      * Default constructor
@@ -47,38 +49,10 @@ public class CaesarCipherPlugin extends Plugin {
         this.schema.put("attempt_text", "The user attempt");
 
         // FORM
-        this.plain_text = plain_text;
+        this.plain_text = plain_text.toUpperCase();
         this.ans_format = "text";
 
-
-        this.alpha_beta_array.add('A');
-        this.alpha_beta_array.add('B');
-        this.alpha_beta_array.add('C');
-        this.alpha_beta_array.add('D');
-        this.alpha_beta_array.add('E');
-        this.alpha_beta_array.add('F');
-        this.alpha_beta_array.add('G');
-        this.alpha_beta_array.add('H');
-        this.alpha_beta_array.add('I');
-        this.alpha_beta_array.add('J');
-        this.alpha_beta_array.add('K');
-        this.alpha_beta_array.add('L');
-        this.alpha_beta_array.add('M');
-        this.alpha_beta_array.add('N');
-        this.alpha_beta_array.add('O');
-        this.alpha_beta_array.add('P');
-        this.alpha_beta_array.add('Q');
-        this.alpha_beta_array.add('R');
-        this.alpha_beta_array.add('S');
-        this.alpha_beta_array.add('T');
-        this.alpha_beta_array.add('U');
-        this.alpha_beta_array.add('V');
-        this.alpha_beta_array.add('W');
-        this.alpha_beta_array.add('X');
-        this.alpha_beta_array.add('Y');
-        this.alpha_beta_array.add('Z');
-
-        this.ciphered_text = toCaesar(plain_text.toUpperCase(), cipher_padding);
+        this.ciphered_text = toCaesar(plain_text, cipher_padding);
     }
 
     @Override
@@ -90,13 +64,18 @@ public class CaesarCipherPlugin extends Plugin {
             if (this.plain_text.equals(args.getString("attempt").toUpperCase())) {
                 this.isValidatedState = true;
                 ret.put(SUCCESS, "true");
+                isSuccess = "true";
+
             }
             else {
                 ret.put(SUCCESS, "false");
+                isSuccess="false";
             }
         }
         catch (Exception e) {
             ret.put(SUCCESS, "false");
+            isSuccess="false";
+
         }
 
         return ret;
@@ -108,23 +87,13 @@ public class CaesarCipherPlugin extends Plugin {
                 .put("description", this.getDescription())
                 .put("plain_text", this.plain_text)
                 .put("ciphered_text", this.ciphered_text)
-                .put("answer_format",this.getAns_format() ).toString();
+                .put("answer_format",this.getAns_format())
+                .put("use_remote_service", false).toString();
     }
 
     private String toCaesar(String plain_text, int cipher_padding) {
-        cipher_padding = Math.abs(cipher_padding) % 26;
-        StringBuilder builder = new StringBuilder();
-
-        for (int i = 0; i < plain_text.length(); i++) {
-            char c = plain_text.charAt(i);
-            if (this.alpha_beta_array.indexOf(c) == -1) {
-                continue;
-            }
-            int index = this.alpha_beta_array.indexOf(c) + cipher_padding;
-            index = index % 26;
-            builder.append(this.alpha_beta_array.get(index));
-        }
-        return builder.toString();
+        JSONObject response = new JSONObject(ServiceManager.callCaesarCipherPlugin(plain_text, cipher_padding));
+        return response.get("result").toString();
     }
 
     @Override

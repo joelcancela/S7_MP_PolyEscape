@@ -2,21 +2,32 @@
   Escape Game - Alpha version
 </div>
 <div ng-if="configIsReady">
-  <timer countdown="3600" max-time-unit="'minute'" interval="1000">{{mminutes}} minute{{minutesS}}, {{sseconds}} second{{secondsS}}</timer>
   <div class="jumbotron">
-    <h3>{{currentPluginDescription}}</h3>
-    <div ng-if="!currentPluginIsInput">
-      <form ng-submit="submitAnswer()">
-        Entrez votre réponse :
-        <label>
-          <input ng-class="{'text-success':correctAnswerGiven === 'true'}" ng-model="currentAnswer.answer" ng-disabled="correctAnswerGiven === 'true'"/>
-        </label>
-        <input ng-disabled="correctAnswerGiven === 'true'" type="submit" id="submit" value="Valider réponse"/>
-        <div ng-show="correctAnswerGiven === 'true'">Bonne réponse</div>
-        <div ng-show="correctAnswerGiven === 'false'">Mauvaise réponse</div>
-      </form>
+    <div>
+      <h2 class="timer text-center">
+        <timer countdown="stepTimer" max-time-unit="'hour'" interval="1000" autostart="false" finish-callback="timeElapsedCallback()">{{hhours}}h:{{mminutes}}m:{{sseconds}}s
+        </timer>
+      </h2>
     </div>
-    <a class="btn glyphicon glyphicon glyphicon-play"
-       ng-class="{'btn-success': correctAnswerGiven === 'true', 'disabled': !correctAnswerGiven === 'false'}" ng-click="getToNextStep()"></a>
+    <h3 ng-bind-html="currentPluginDescription"></h3>
+    <div class="row">
+      <div class="col-md-10">
+        <form ng-submit="submitAnswer()" ng-if="!currentPluginIsInput">
+          Entrez votre réponse :
+          <label>
+            <input ng-class="{'text-success':correctAnswerGiven === 'true'}" ng-model="currentAnswer.answer"
+                   ng-disabled="correctAnswerGiven === 'true'" placeholder="Entrez votre réponse"/>
+          </label>
+          <input ng-disabled="correctAnswerGiven === 'true'" type="submit" id="submit" value="Valider réponse"/>
+          <div ng-show="correctAnswerGiven === 'true'" class="true">Bonne réponse</div>
+          <div ng-show="correctAnswerGiven === 'false'" class="false">Mauvaise réponse</div>
+        </form>
+      </div>
+      <div class="col-md-2">
+        <a class="btn btn-default"
+           ng-class="{'btn-success': correctAnswerGiven === 'true', 'disabled': !correctAnswerGiven === 'false'}"
+           ng-click="getToNextStep()"><span class="glyphicon glyphicon-play"></span> Etape suivante</a>
+      </div>
+    </div>
   </div>
 </div>

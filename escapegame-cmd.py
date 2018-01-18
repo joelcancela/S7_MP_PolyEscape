@@ -212,36 +212,14 @@ def clean():
     print("[INFO] Clean OK.")
 
 
-def build():
-    """Build maven project."""
-
-    if not confirm(
-            "This operation will rebuild EscapeGame, continue ?"):
-        return
-
-    if create_lock() == 1:
-        return
-
-    # verify that talend config is working
-    if not os.path.exists(_wd):
-        print("[ERROR] Bad EscapeGame configuration !")
-        print("[ERROR] Build KO.")
-        free_lock()
-        return 1
-
-    free_lock()
-
-    print("[INFO] Build OK.")
-
-
 def start():
     """Start the EscapeGame service"""
 
     print("[INFO] Start server...")
 
     if os.path.exists(_wd):
-        os.system("mvn install -f " + _wd + "/polyescape_engine/pom.xml")
-        os.system("screen mvn tomcat7:run-war -f " + _wd + "/polyescape_engine/pom.xml")
+        os.system("mvn install -f " + _wd + "/polyescape_engine/pom.xml -Dmaven.test.skip=true")
+        os.system("screen mvn tomcat7:run-war -f " + _wd + "/polyescape_engine/pom.xml -Dmaven.test.skip=true")
 
 
 def bye(exit_code=0):
@@ -265,7 +243,6 @@ Public CLI commands
 commands = {
     'help': help_cmd,
     'update': update,
-    'build': build,
     'clean': clean,
     'start': start,
     'exit': bye

@@ -23,6 +23,8 @@ public abstract class Plugin implements IPlugin {
     protected boolean isValidatedState = false;
     protected static final String SUCCESS = "success";
 
+    protected String isSuccess = "false";
+
     /**
      * Plugin Description Field
      */
@@ -34,7 +36,6 @@ public abstract class Plugin implements IPlugin {
     private String name = "";
 
 
-
     /**
      * the format of the answer
      */
@@ -42,6 +43,7 @@ public abstract class Plugin implements IPlugin {
 
     /**
      * Description Getter
+     *
      * @return description
      */
     public String getDescription() {
@@ -50,6 +52,7 @@ public abstract class Plugin implements IPlugin {
 
     /**
      * Name Getter
+     *
      * @return name
      */
     public String getName() {
@@ -58,6 +61,7 @@ public abstract class Plugin implements IPlugin {
 
     /**
      * answer format getter
+     *
      * @return answer format
      */
     public String getAns_format() {
@@ -68,7 +72,7 @@ public abstract class Plugin implements IPlugin {
      * Shared constructor with inherited plugins
      *
      * @param description The plugin description as a short text
-     * @param name The plugin name
+     * @param name        The plugin name
      */
     Plugin(String description, String name) {
         this.description = description;
@@ -91,4 +95,10 @@ public abstract class Plugin implements IPlugin {
     public Map<String, String> getSchema() {
         return schema;
     }
+
+    @Override
+    public String getStatus() {
+        return isSuccess;
+    }
+
 }

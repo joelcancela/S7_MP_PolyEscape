@@ -9,7 +9,8 @@
 angular.module('polyEscapeApp')
   .service('PolyEscapeAPIService', ['$http', '$q', function ($http, $q) {
 
-    this.serverHost = "http://localhost:8080";
+    //this.serverHost = "http://localhost:8080";
+    this.serverHost = "https://ns3265327.ip-5-39-78.eu:8443";
 
     this.getAvailablePlugins = function () {
       var deferred = $q.defer();
@@ -20,6 +21,19 @@ angular.module('polyEscapeApp')
         deferred.resolve(data);
       }, function errorCallback(data) {
         deferred.reject("Failed to retrieve available plugins");
+      });
+      return deferred.promise;
+    };
+
+    this.getPluginStatus = function () {
+      var deferred = $q.defer();
+      $http({
+        method: 'GET',
+        url: this.serverHost + '/plugins/status'
+      }).then(function successCallback(data) {
+        deferred.resolve(data);
+      }, function errorCallback(data) {
+        deferred.reject("Failed to retrieve plugin status");
       });
       return deferred.promise;
     };

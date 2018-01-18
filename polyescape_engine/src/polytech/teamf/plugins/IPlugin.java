@@ -1,6 +1,7 @@
 package polytech.teamf.plugins;
 
 import org.json.JSONObject;
+
 import java.util.List;
 import java.util.Map;
 
@@ -8,12 +9,14 @@ public interface IPlugin {
 
     /**
      * Plugin constructor arguments
+     *
      * @return List
      */
     List<String> getArgs();
 
     /**
      * Plugin input schema
+     *
      * @return Map
      */
     Map<String, String> getSchema();
@@ -27,4 +30,11 @@ public interface IPlugin {
      * @throws Exception Error if anything wrong happens
      */
     JSONObject play(JSONObject args) throws Exception;
+
+
+    /**
+     * return the status of the plugin : is the answer was right : true or false
+     */
+    String getStatus();
+
 }

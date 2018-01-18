@@ -8,8 +8,8 @@
  * Controller of the polyEscapeApp
  */
 angular.module('polyEscapeApp')
-  .controller('ConfigCtrl', ['$rootScope', '$scope', '$window', '$uibModal', 'PolyEscapeAPIService',
-    function ($rootScope, $scope, $window, $uibModal, PolyEscapeAPIService) {
+  .controller('ConfigCtrl', ['$rootScope', '$scope', '$window', '$uibModal', 'PolyEscapeAPIService', 'TranslatorService',
+    function ($rootScope, $scope, $window, $uibModal, PolyEscapeAPIService, TranslatorService) {
 
       $rootScope.timelimitModal = {
         templateUrl: 'views/modals/timeLimitModal.html',
@@ -109,6 +109,10 @@ angular.module('polyEscapeApp')
 
       $scope.removeStep = function (index) {
         $rootScope.escapeGameSteps.splice(index, 1);
+      };
+
+      $rootScope.translate = function (str) {
+        return TranslatorService.translate(str);
       };
 
       init();

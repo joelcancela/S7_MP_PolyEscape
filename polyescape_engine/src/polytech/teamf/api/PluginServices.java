@@ -58,7 +58,6 @@ public class PluginServices {
         for (Class c : classArray) {
 
             JSONObject jsonPlugin = new JSONObject();
-
             JSONArray jsonPluginArgs = new JSONArray();
             JSONObject jsonPluginSchema = new JSONObject();
 
@@ -69,21 +68,23 @@ public class PluginServices {
 
                     jsonPlugin.put("name", p.getName());
 
-                    List<String> argz = p.getArgs();
-                    for (String arg : argz) {
+                    List<String> args = p.getArgs();
+                    for (String arg : args) {
                         jsonPluginArgs.put(arg);
                     }
 
-                    Map<String, String> schem = p.getSchema();
-                    for (Map.Entry<String, String> entry : schem.entrySet()) {
+                    Map<String, String> schema = p.getSchema();
+                    for (Map.Entry<String, String> entry : schema.entrySet()) {
                         jsonPluginSchema.put(entry.getKey(), entry.getValue());
                     }
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
                 jsonPlugin.put("type", c.getSimpleName());
                 jsonPlugin.put("args", jsonPluginArgs);
                 jsonPlugin.put("schema", jsonPluginSchema);
+                //TODO Handle Service args?
 
                 jsonPlugins.put(jsonPlugin);
             }
@@ -115,7 +116,34 @@ public class PluginServices {
     @Path("/description")
     @Produces(MediaType.APPLICATION_JSON)
     public String getPluginDescription() {
-        return ServiceManager.getRunnerInstance(null).getDescription().toString();
+        return ServiceManager.getRunnerInstance(null).getPlugin().toString();
+    }
+
+    /**
+     * @api {get} /plugins/status The current played plugin status
+     * @apiName PluginsStatus
+     * @apiGroup Plugins
+     * @apiVersion 0.1.0
+     *
+     * @apiSuccess (200) {String} status The plugin status
+     *
+     * @apiSuccessExample Example data on success
+     * {
+     *     "status": "true"
+     * }
+     */
+
+    /**
+     * Get the current played plugin status
+     *
+     * @return The current played plugin status. The status is about the plugin's resolution.
+     * It can be true or false.
+     */
+    @GET
+    @Path("/status")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getStatus() {
+        return new JSONObject().put("status",ServiceManager.getRunnerInstance(null).getStatus()).toString();
     }
 
     /**

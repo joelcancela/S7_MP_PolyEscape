@@ -55,6 +55,23 @@ public class Runner {
         return new JSONObject().put("description", currentPlugin.getDescription()).put("answer_format" , currentPlugin.getAns_format());
     }
 
+    public Plugin getPlugin() {
+        return this.currentPlugin;
+    }
+
+    /**
+     * Notify the plugin of an incoming message (sent by a service)
+     *
+     * @param jsonObject Plugin arguments
+     */
+    public void sendMessage(JSONObject jsonObject) {
+        try {
+            this.currentPlugin.play(jsonObject);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Given an answer, tells if you are right or wrong
      *
@@ -81,6 +98,10 @@ public class Runner {
 
         currentPlugin = plugins.get(it);
         return new JSONObject().put("status", "ok");
+    }
+
+    public String getStatus(){
+        return currentPlugin.getStatus();
     }
 
 }

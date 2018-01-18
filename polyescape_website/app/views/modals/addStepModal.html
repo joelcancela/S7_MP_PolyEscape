@@ -1,17 +1,17 @@
 <div class="modal-header">
   <h3 class="modal-title">
-    <span class="red">Ajouter une épreuve à l'escape game</span>
+    <span><b>Ajouter une épreuve à l'escape game</b></span>
   </h3>
 </div>
 <div class="modal-body">
   <label>
-    Sélectionnez un type d'épreuve<br>
     <select name="stepTypeSelect" ng-model="stepTypeSelect">
+      <option disabled selected value> -- Sélectionnez un type d'épreuve -- </option>
       <option ng-repeat="stepType in stepTypes" value="{{stepType}}">{{stepType.name}}</option>
     </select>
   </label>
   <div ng-repeat="(arg, name) in parseJson(stepTypeSelect).args track by $index">
-    Value: {{name}}
+    {{translate(name)}}:
     <label>
       <input ng-model="stepArgsValue[stepCreated][name]" required>
     </label>
