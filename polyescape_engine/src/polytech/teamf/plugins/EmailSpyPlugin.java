@@ -24,7 +24,9 @@ public class EmailSpyPlugin extends Plugin {
      */
     public EmailSpyPlugin(String description, String plain_text) {
 
-        super("Epreuve mot de passe simple", description);
+        super("Epreuve mot de passe envoyé sur un email distant",
+                description + "<br>Envoyez votre réponse à cet email : <a href=\"mailto:polyescape.olw5ew@zapiermail.com\">polyescape.olw5ew@zapiermail.com</a>"
+        );
 
         // MODEL
         this.plain_text = plain_text;

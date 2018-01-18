@@ -2,12 +2,9 @@ package polytech.teamf.plugins;
 
 import polytech.teamf.events.IEvent;
 import polytech.teamf.events.IEventListener;
-import polytech.teamf.services.IService;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public abstract class Plugin implements IPlugin, IEventListener {
 

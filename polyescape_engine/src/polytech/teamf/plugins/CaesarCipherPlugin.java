@@ -3,14 +3,6 @@ package polytech.teamf.plugins;
 import org.json.JSONObject;
 import polytech.teamf.api.ServiceManager;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
-import java.util.List;
-
 public class CaesarCipherPlugin extends Plugin {
 
     /**
