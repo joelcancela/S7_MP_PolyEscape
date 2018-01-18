@@ -2,11 +2,8 @@ package polytech.teamf.api;
 
 import polytech.teamf.game_engine.Runner;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +12,7 @@ import java.util.Map;
  */
 public class ServiceManager {
 
-    private static final String CAESAR_CIPHER_SERVICE_URI = "https://www.joelcancela.fr/services/fun/caesar_cipher.php";
+    private static ServiceServices services = new ServiceServices();
 
     public static Map<String, Runner> runnersInstances = new HashMap<>();
 
@@ -30,19 +27,20 @@ public class ServiceManager {
     }
 
     /**
-     * Call the Caesar Cihper service which allow to
+     * Send a message to a specific service and retrieve the service's answer.
      *
-     * @param plain_text     The text to cipher
-     * @param cipher_padding The cipher
-     * @return
+     * @param method The method name which correspond to the service to call.
+     *               The method should be find in {@link ServiceServices} class.
+     * @param args   The args.
+     * @return The service call response.
+     * @throws NoSuchMethodException     Triggers if the method doesn't exists.
+     * @throws InvocationTargetException Triggers if the object service isn't valid.
+     * @throws IllegalAccessException    Triggers if the method to invoke is unreachable.
      */
-    public static String callCaesarCipherPlugin(String plain_text, int cipher_padding) {
-        Client client = ClientBuilder.newBuilder().newClient();
-        WebTarget target = client.target(CAESAR_CIPHER_SERVICE_URI);
-        target = target.queryParam("message", plain_text).queryParam("padding", cipher_padding);
-        Invocation.Builder builder = target.request();
-        builder.accept(MediaType.APPLICATION_JSON_TYPE);
-        return builder.get(String.class);
+    public static String sendMessage(String method, Object... args) throws NoSuchMethodException,
+            InvocationTargetException, IllegalAccessException {
+        Method methodToCall = ServiceServices.class.getMethod(method, Object[].class);
+        return (String) methodToCall.invoke(services, new Object[]{args});
     }
 
 }

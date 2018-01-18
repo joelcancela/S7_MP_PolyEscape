@@ -3,6 +3,8 @@ package polytech.teamf.plugins;
 import org.json.JSONObject;
 import polytech.teamf.api.ServiceManager;
 
+import java.lang.reflect.InvocationTargetException;
+
 public class CaesarCipherPlugin extends Plugin {
 
     /**
@@ -82,7 +84,12 @@ public class CaesarCipherPlugin extends Plugin {
     }
 
     private String toCaesar(String plain_text, int cipher_padding) {
-        JSONObject response = new JSONObject(ServiceManager.callCaesarCipherPlugin(plain_text, cipher_padding));
+        JSONObject response = new JSONObject().put("result", "");
+        try {
+            response = new JSONObject(ServiceManager.sendMessage("CaesarCipher", plain_text, cipher_padding));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return response.get("result").toString();
     }
 

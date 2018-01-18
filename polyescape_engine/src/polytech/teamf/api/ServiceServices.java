@@ -4,10 +4,18 @@ import polytech.teamf.services.GoogleSheetsService;
 import polytech.teamf.services.PolyescapeEmailSpyService;
 
 import javax.ws.rs.*;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
 @Path("/services")
 public class ServiceServices {
+
+    private static final String CAESAR_CIPHER_SERVICE_URI = "https://www.joelcancela.fr/services/fun/caesar_cipher.php";
+
+    private Client client = ClientBuilder.newBuilder().newClient();
 
     /**
      * @api {get} /services/{service} Doc here
@@ -50,6 +58,20 @@ public class ServiceServices {
         String[] args = new String[1];
         args[0] = gsheet.replace("\"", "");
         return new GoogleSheetsService(args).execute().toString();
+    }
+
+    /**
+     * Cipher a text given a padding.
+     *
+     * @param args The text to cipher and the padding.
+     * @return The service response.
+     */
+    public String CaesarCipher(Object[] args) {
+        WebTarget target = client.target(CAESAR_CIPHER_SERVICE_URI);
+        target = target.queryParam("message", (String) args[0]).queryParam("padding", (int) args[1]);
+        Invocation.Builder builder = target.request();
+        builder.accept(MediaType.APPLICATION_JSON_TYPE);
+        return builder.get(String.class);
     }
 
 }
