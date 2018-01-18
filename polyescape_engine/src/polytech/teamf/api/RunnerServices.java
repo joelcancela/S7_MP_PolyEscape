@@ -6,12 +6,13 @@ import polytech.teamf.plugins.IPlugin;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.UUID;
 
 @Path("/runners")
 public class RunnerServices {
 
     /**
-     * @api {put} /runners/instantiate Instantiate the runner
+     * @api {put} /runners/instantiate Instantiate a new runner instance
      * @apiName InstantiateRunner
      * @apiGroup Runners
      * @apiVersion 0.1.0
@@ -29,7 +30,7 @@ public class RunnerServices {
      */
 
     /**
-     * Instantiate the runner
+     * Instantiate a new runner instance
      *
      * @param config The plugins configuration
      * @return HTTP response. 404 if no plugins configuration is given, 201 otherwise.
@@ -37,19 +38,18 @@ public class RunnerServices {
     @PUT
     @Path("/instantiate")
     @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response instantiateRunner(String config) {
-        ServiceManager.resetRunner();
-        String result = "Runner initialized";
+        String uuid = UUID.randomUUID().toString();
         if (config.isEmpty()) {
-            result = "EmptyConfiguration: Configuration is empty!";
-            return Response.status(400).entity(result).build();
+            return Response.status(400).entity("EmptyConfiguration: Configuration is empty!").build();
         }
-        ServiceManager.getRunnerInstance(config);
-        return Response.status(201).entity(result).build();
+        ServiceManager.createNewInstance(uuid, config);
+        return Response.ok(new JSONObject().put("id", uuid).toString(), MediaType.APPLICATION_JSON).build();
     }
 
     /**
-     * @api {post} /runners/answer Give an answer to solve the current step and retrieve the result
+     * @api {post} /runners/{id}/answer Give an answer to solve the current step and retrieve the result on the runner with id {id}
      * @apiName RunnerAnswer
      * @apiGroup Runners
      * @apiVersion 0.1.0
@@ -73,23 +73,24 @@ public class RunnerServices {
      * Gives the step answer of a player to the runner and retrieve the result to send to the user.
      *
      * @param answer The player's answer.
+     * @param id     The runner unique id.
      * @return The answer's result.
      * @throws Exception See {@link IPlugin#play(org.json.JSONObject)}
      */
     @POST
-    @Path("/answer")
+    @Path("/{id}/answer")
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response answerStep(String answer) throws Exception {
+    public Response answerStep(@PathParam("id") String id, String answer) throws Exception {
         if (answer.isEmpty()) {
             return Response.status(400).entity("EmptyAnswer: Answer is empty!").build();
         }
-        return Response.ok(ServiceManager.getRunnerInstance(null).sendGuess_GetResponse(answer).toString(),
+        return Response.ok(ServiceManager.runnersInstances.get(id).sendGuess_GetResponse(answer).toString(),
                 MediaType.APPLICATION_JSON).build();
     }
 
     /**
-     * @api {get} /runners/status Retrieve the status for the next step of the game.
+     * @api {get} /runners/{id}/status Retrieve the status for the next step of the game on the runner with id {id}
      * @apiName RunnerHasNext
      * @apiGroup Runners
      * @apiVersion 0.1.0
@@ -105,14 +106,15 @@ public class RunnerServices {
     /**
      * Get the last result produced by the last player's answer.
      *
+     * @param id The runner unique id.
      * @return A JSONObject containing the result of the last answer. "success" is "true" if the correct
      * answer was given, "success" is "false" otherwise.
      */
     @GET
-    @Path("/status")
+    @Path("/{id}/status")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getLastResult() {
-        return ServiceManager.getRunnerInstance(null).nextPlugin().toString();
+    public String getLastResult(@PathParam("id") String id) {
+        return ServiceManager.runnersInstances.get(id).nextPlugin().toString();
     }
 
 }

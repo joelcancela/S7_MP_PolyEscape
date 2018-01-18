@@ -7,6 +7,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
+import java.util.Map;
 
 /**
  * Service handles everything that every others services might need.
@@ -15,32 +16,22 @@ public class ServiceManager {
 
     private static final String CAESAR_CIPHER_SERVICE_URI = "https://www.joelcancela.fr/services/fun/caesar_cipher.php";
 
-    private static Runner runner = null;
+    public static Map<String, Runner> runnersInstances = new HashMap<>();
 
     /**
-     * Get the unique runner instance.
+     * Create a new unique runner instance.
      *
      * @param config The plugins configurations.
-     * @return The unique runner instance.
      */
-    public static Runner getRunnerInstance(String config) {
-        if (runner == null) {
-            runner = new Runner(config);
-        }
-        return runner;
-    }
-
-    /**
-     * Reset the runner to null
-     */
-    public static void resetRunner() {
-        runner = null;
+    public static void createNewInstance(String uuid, String config) {
+        Runner runner = new Runner(config);
+        runnersInstances.put(uuid, runner);
     }
 
     /**
      * Call the Caesar Cihper service which allow to
      *
-     * @param plain_text The text to cipher
+     * @param plain_text     The text to cipher
      * @param cipher_padding The cipher
      * @return
      */

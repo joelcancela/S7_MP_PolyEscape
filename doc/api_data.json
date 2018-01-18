@@ -1,8 +1,8 @@
 [
   {
     "type": "get",
-    "url": "/plugins/description",
-    "title": "The current played plugin description",
+    "url": "/plugins/{id}/description",
+    "title": "The current played plugin description on the runner with id {id}",
     "name": "PluginsDescription",
     "group": "Plugins",
     "version": "0.1.0",
@@ -61,7 +61,7 @@
   },
   {
     "type": "get",
-    "url": "/plugins/status",
+    "url": "/plugins/{id}/status",
     "title": "The current played plugin status",
     "name": "PluginsStatus",
     "group": "Plugins",
@@ -92,7 +92,7 @@
   {
     "type": "put",
     "url": "/runners/instantiate",
-    "title": "Instantiate the runner",
+    "title": "Instantiate a new runner instance",
     "name": "InstantiateRunner",
     "group": "Runners",
     "version": "0.1.0",
@@ -133,8 +133,8 @@
   },
   {
     "type": "post",
-    "url": "/runners/answer",
-    "title": "Give an answer to solve the current step and retrieve the result",
+    "url": "/runners/{id}/answer",
+    "title": "Give an answer to solve the current step and retrieve the result on the runner with id {id}",
     "name": "RunnerAnswer",
     "group": "Runners",
     "version": "0.1.0",
@@ -184,8 +184,8 @@
   },
   {
     "type": "get",
-    "url": "/runners/status",
-    "title": "Retrieve the status for the next step of the game.",
+    "url": "/runners/{id}/status",
+    "title": "Retrieve the status for the next step of the game on the runner with id {id}",
     "name": "RunnerHasNext",
     "group": "Runners",
     "version": "0.1.0",

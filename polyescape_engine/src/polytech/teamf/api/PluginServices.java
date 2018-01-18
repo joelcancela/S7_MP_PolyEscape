@@ -6,6 +6,7 @@ import polytech.teamf.plugins.Plugin;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.io.File;
@@ -94,7 +95,7 @@ public class PluginServices {
     }
 
     /**
-     * @api {get} /plugins/description The current played plugin description
+     * @api {get} /plugins/{id}/description The current played plugin description on the runner with id {id}
      * @apiName PluginsDescription
      * @apiGroup Plugins
      * @apiVersion 0.1.0
@@ -113,10 +114,10 @@ public class PluginServices {
      * @return A string obtained from a JSONObject filled with the current played plugin description.
      */
     @GET
-    @Path("/description")
+    @Path("/{id}/description")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getPluginDescription() {
-        return ServiceManager.getRunnerInstance(null).getPlugin().toString();
+    public String getPluginDescription(@PathParam("id") String id) {
+        return ServiceManager.runnersInstances.get(id).getDescription().toString();
     }
 
     /**
