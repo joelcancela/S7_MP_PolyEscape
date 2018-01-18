@@ -14,7 +14,7 @@ public abstract class Plugin implements IPlugin, IEventListener {
     /**
      * Nested Plugin List
      */
-    private List<IPlugin> plugins = new ArrayList<>();
+    private List<Plugin> plugins = new ArrayList<>();
 
     /**
      * Plugin Name
@@ -47,21 +47,19 @@ public abstract class Plugin implements IPlugin, IEventListener {
         this.description = description;
     }
 
-    /**
-     * Add new nested plugin
-     */
-    public void addPlugin(Plugin p) {
+    @Override
+    public final void addPlugin(Plugin p) {
         this.plugins.add(p);
     }
 
     @Override
-    public void sendEvent(IEvent e) {
+    public final void sendEvent(IEvent e) {
 
         // Fire event
         e.fire();
 
         // Notify nested plugins
-        for (IPlugin p : this.plugins) {
+        for (Plugin p : this.plugins) {
             p.sendEvent(e);
         }
     }

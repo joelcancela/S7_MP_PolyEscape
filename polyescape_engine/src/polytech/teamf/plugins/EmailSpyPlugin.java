@@ -1,5 +1,7 @@
 package polytech.teamf.plugins;
 
+import polytech.teamf.events.BadResponseEvent;
+import polytech.teamf.events.GoodResponseEvent;
 import polytech.teamf.events.IEvent;
 import polytech.teamf.services.IService;
 
@@ -30,7 +32,17 @@ public class EmailSpyPlugin extends Plugin {
 
     @Override
     public IEvent execute(Map<String, Object> args) throws Exception {
-        return null;
+
+        if (args.containsKey("attempt")) {
+            throw new IllegalArgumentException("Bad response format");
+        }
+
+        String response = (String) args.get("attempt");
+
+        if (this.plain_text.equals(response)) {
+            return new GoodResponseEvent(this);
+        }
+        return new BadResponseEvent(this);
     }
 
     @Override

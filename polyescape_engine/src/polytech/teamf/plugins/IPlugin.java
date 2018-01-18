@@ -25,7 +25,12 @@ public interface IPlugin {
     IEvent execute(Map<String, Object> args) throws Exception;
 
     /**
-     * Notify the nested plugins
+     * Add a new nested plugin
+     */
+    void addPlugin(Plugin p);
+
+    /**
+     * Notify the plugin plus the nested plugins of the event
      */
     void sendEvent(IEvent e);
 
