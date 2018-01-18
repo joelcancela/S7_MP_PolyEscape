@@ -34,7 +34,7 @@ public interface IPlugin {
      * Notify this plugin, as well as the nested plugins.
      */
     void notifyEvent(Event e);
-    
+
     /**
      * Returns the list of required plugins
      */
