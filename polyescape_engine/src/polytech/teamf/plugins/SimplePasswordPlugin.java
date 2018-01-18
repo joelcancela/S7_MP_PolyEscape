@@ -1,11 +1,14 @@
 package polytech.teamf.plugins;
 
-import org.json.JSONObject;
+import polytech.teamf.events.*;
+
+import java.util.Map;
 
 public class SimplePasswordPlugin extends Plugin {
 
     /**
-     * The original plain text. Is used by the validation process.
+     * The original plain text
+     * Is used by the validation process
      */
     private String plain_text = "";
 
@@ -25,52 +28,47 @@ public class SimplePasswordPlugin extends Plugin {
      */
     public SimplePasswordPlugin(String description, String plain_text) {
 
-        super(description, "Epreuve mot de passe simple");
+        super("Epreuve mot de passe simple", description);
 
         // ARGS
-        super.getArgs().add("plain_text");
-        // SCHEMA
-        this.schema.put("attempt", "The user attempt");
+        super.getArgs().put("plain_text", String.class.getSimpleName());
 
-        // FORM
+        // SCHEMA
+        super.getSchema().put("attempt", String.class.getSimpleName());
+
+        // MODEL
         this.plain_text = plain_text;
-        this.ans_format = "text";
     }
 
     @Override
-    public JSONObject play(JSONObject args) {
+    public Event execute(Map<String, Object> args) throws Exception {
 
-        JSONObject ret = new JSONObject();
+        String response = (String) args.get("attempt");
 
-        try {
-            if (this.plain_text.equals(args.getString("attempt"))) {
-                this.isValidatedState = true;
-                ret.put(SUCCESS, "true");
-                isSuccess="true";
-
-            }
-            else {
-                ret.put(SUCCESS, "false");
-                isSuccess="false";
-
-            }
+        if (this.plain_text.equals(response)) {
+            return new GoodResponseEvent();
         }
-        catch (Exception e) {
-            ret.put(SUCCESS, "false");
-            isSuccess="false";
-
-        }
-
-        return ret;
+        return new BadResponseEvent();
     }
 
-    public String toString() {
-        return new JSONObject()
-                .put("name", this.getName())
-                .put("description", this.getDescription())
-                .put("plain_text", this.plain_text)
-                .put("answer_format",this.getAns_format())
-                .put("use_remote_service", false).toString();
+    @Override
+    public void on(BadResponseEvent e) {
+
+    }
+
+    @Override
+    public void on(GoodResponseEvent e) {
+
+    }
+
+    @Override
+    public void on(StartEvent e) {
+
+    }
+
+    @Override
+    public void on(EndEvent e) {
+
     }
 }
 
