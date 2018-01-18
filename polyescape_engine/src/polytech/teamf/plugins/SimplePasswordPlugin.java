@@ -43,6 +43,10 @@ public class SimplePasswordPlugin extends Plugin {
     @Override
     public Event execute(Map<String, Object> args) throws Exception {
 
+        if (args.containsKey("attempt")) {
+            throw new IllegalArgumentException("Bad response format");
+        }
+
         String response = (String) args.get("attempt");
 
         if (this.plain_text.equals(response)) {
