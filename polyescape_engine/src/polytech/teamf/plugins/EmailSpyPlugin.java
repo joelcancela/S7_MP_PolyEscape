@@ -1,76 +1,65 @@
 package polytech.teamf.plugins;
 
-import org.json.JSONObject;
+import polytech.teamf.events.IEvent;
+import polytech.teamf.services.IService;
+
+import java.util.List;
+import java.util.Map;
 
 public class EmailSpyPlugin extends Plugin {
 
     /**
-     * The original plain text. Is used by the validation process.
+     * The original plain text
+     * Is used by the validation process
      */
     private String plain_text = "";
-
-    /**
-     * Default constructor
-     * Used by the API Reflection Engine
-     */
-    public EmailSpyPlugin() {
-        this("", "");
-    }
 
     /**
      * Initializes the plugin
      *
      * @param description The plugin description
-     * @param plain_text The plain text to discover
+     * @param plain_text  The plain text to discover
      */
     public EmailSpyPlugin(String description, String plain_text) {
 
-        super(description + "<br>Envoyez votre réponse à cet email : <a href=\"mailto:polyescape.olw5ew@zapiermail.com\">polyescape.olw5ew@zapiermail.com</a>",
-                "Epreuve mot de passe envoyé sur un email distant");
+        super("Epreuve mot de passe simple", description);
 
-        // ARGS
-        super.getArgs().add("plain_text");
-        // SCHEMA
-        this.schema.put("attempt", "The user attempt");
-
-        // FORM
+        // MODEL
         this.plain_text = plain_text;
-        this.ans_format = "text";
     }
 
     @Override
-    public JSONObject play(JSONObject args) {
-
-        JSONObject ret = new JSONObject();
-
-        try {
-            if (this.plain_text.equals(args.getString("attempt"))) {
-                this.isValidatedState = true;
-                ret.put(SUCCESS, "true");
-                isSuccess="true";
-
-            }
-            else {
-                ret.put(SUCCESS, "false");
-                isSuccess="false";
-
-            }
-        }
-        catch (Exception e) {
-            ret.put(SUCCESS, "false");
-            isSuccess="false";
-
-        }
-
-        return ret;
+    public IEvent execute(Map<String, Object> args) throws Exception {
+        return null;
     }
 
-    public String toString() {
-        return new JSONObject()
-                .put("name", this.getName())
-                .put("description", this.getDescription())
-                .put("plain_text", this.plain_text)
-                .put("answer_format",this.getAns_format())
-                .put("use_remote_service", true).toString();
+    @Override
+    public List<IPlugin> getPluginDependencies() {
+        return null;
+    }
+
+    @Override
+    public List<IService> getServiceDependencies() {
+        return null;
+    }
+
+    @Override
+    public void onBadResponseEvent() {
+
+    }
+
+    @Override
+    public void onGoodResponseEvent() {
+
+    }
+
+    @Override
+    public void onStartEvent() {
+
+    }
+
+    @Override
+    public void onEndEvent() {
+
     }
 }

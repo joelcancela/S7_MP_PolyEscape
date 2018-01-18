@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class MultipleChoiceQuestionPlugin extends Plugin {
 
     /**
-     * ALl possible answers of the question
+     * All answers of the question
      */
     private String[] answers;
 
@@ -16,14 +16,6 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
      * Correct correct_answers of the question
      */
     private String[] correct_answers;
-
-    /**
-     * Default constructor
-     * Used by the API Reflection Engine
-     */
-    public MultipleChoiceQuestionPlugin() {
-        this("", "", "");
-    }
 
     /**
      * Initializes the plugin

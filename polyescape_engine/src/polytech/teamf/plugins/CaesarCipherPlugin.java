@@ -24,14 +24,6 @@ public class CaesarCipherPlugin extends Plugin {
     private String plain_text = "";
 
     /**
-     * Default constructor
-     * Used by the API Reflection Engine
-     */
-    public CaesarCipherPlugin() {
-        this("", "", 0);
-    }
-
-    /**
      * Initializes the plugin
      *
      * @param description The plugin description

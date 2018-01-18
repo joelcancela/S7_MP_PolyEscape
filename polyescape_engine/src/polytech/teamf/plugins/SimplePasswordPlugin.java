@@ -15,14 +15,6 @@ public class SimplePasswordPlugin extends Plugin {
     private String plain_text = "";
 
     /**
-     * Default constructor
-     * Used by the API Reflection Engine
-     */
-    public SimplePasswordPlugin() {
-        this("", "");
-    }
-
-    /**
      * Initializes the plugin
      *
      * @param description The plugin description
@@ -31,12 +23,6 @@ public class SimplePasswordPlugin extends Plugin {
     public SimplePasswordPlugin(String description, String plain_text) {
 
         super("Epreuve mot de passe simple", description);
-
-        // ARGS
-        super.getArgs().put("plain_text", String.class.getSimpleName());
-
-        // SCHEMA
-        super.getSchema().put("attempt", String.class.getSimpleName());
 
         // MODEL
         this.plain_text = plain_text;

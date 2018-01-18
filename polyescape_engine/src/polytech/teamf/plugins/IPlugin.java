@@ -9,24 +9,14 @@ import java.util.Map;
 public interface IPlugin {
 
     /**
-     * Plugin Constructor Arguments
+     * Plugin Complete Name
      */
-    Map<String, Object> getArgs();
-
-    /**
-     * Plugin Input Schema
-     */
-    Map<String, Object> getSchema();
+    String getName();
 
     /**
      * Plugin Description Field
      */
     String getDescription();
-
-    /**
-     * Plugin Complete Name
-     */
-    String getName();
 
     /**
      * Reads the input data submitted from an external entity to this plugin

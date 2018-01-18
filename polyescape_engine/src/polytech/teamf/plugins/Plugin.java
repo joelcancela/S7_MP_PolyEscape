@@ -17,16 +17,6 @@ public abstract class Plugin implements IPlugin, IEventListener {
     private List<IPlugin> plugins = new ArrayList<>();
 
     /**
-     * Constructor Arguments
-     */
-    private Map<String, Object> args = new HashMap<>();
-
-    /**
-     * Form Schema
-     */
-    private Map<String, Object> schema = new HashMap<>();
-
-    /**
      * Plugin Name
      */
     private String name = "";
@@ -53,30 +43,15 @@ public abstract class Plugin implements IPlugin, IEventListener {
      * @param description The plugin description as a short text
      */
     Plugin(String name, String description) {
-
-        // Shared Attributes
         this.name = name;
         this.description = description;
-
-        // ARGS
-        args.put("description", String.class.getSimpleName());
     }
 
     /**
-     *
+     * Add new nested plugin
      */
     public void addPlugin(Plugin p) {
         this.plugins.add(p);
-    }
-
-    @Override
-    public Map<String, Object> getArgs() {
-        return this.args;
-    }
-
-    @Override
-    public Map<String, Object> getSchema() {
-        return this.schema;
     }
 
     @Override
