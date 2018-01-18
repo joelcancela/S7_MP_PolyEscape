@@ -30,11 +30,12 @@ public class ServiceServices {
      * polyescape.olw5ew@zapiermail.com
      */
     @POST
-    @Path("/PolyescapeEmailSpy")
+    @Path("/{id}/PolyescapeEmailSpy")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void postTwitterDMService(String json) {
-        String[] args = new String[1];
+    public void postTwitterDMService(String json, @PathParam("id") String id) {
+        String[] args = new String[2];
         args[0] = json;
+        args[1] = id;
         new PolyescapeEmailSpyService(args).execute();
     }
 

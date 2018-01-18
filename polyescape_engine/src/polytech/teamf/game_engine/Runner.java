@@ -36,9 +36,7 @@ public class Runner {
 
         for (HashMap<String, String> map : list) { // fill the list of plugins thx to the parser data
             JSONObject toBuild = new JSONObject();
-            for (String str : map.keySet()) {
-                toBuild.put(str, map.get(str));
-            }
+            map.keySet().forEach(str -> toBuild.put(str, map.get(str)));
             plugins.add(PluginFactory.create(map.get("type"), toBuild));
 
         }
@@ -52,7 +50,7 @@ public class Runner {
      * @return A JSONObject containing the current plugin description & the format of the waited answer.
      */
     public JSONObject getDescription() {
-        return new JSONObject().put("description", currentPlugin.getDescription()).put("answer_format" , currentPlugin.getAns_format());
+        return new JSONObject().put("description", currentPlugin.getDescription()).put("answer_format", currentPlugin.getAns_format());
     }
 
     public Plugin getPlugin() {
@@ -100,7 +98,7 @@ public class Runner {
         return new JSONObject().put("status", "ok");
     }
 
-    public String getStatus(){
+    public String getStatus() {
         return currentPlugin.getStatus();
     }
 

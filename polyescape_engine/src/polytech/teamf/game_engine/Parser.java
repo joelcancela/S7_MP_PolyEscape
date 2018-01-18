@@ -10,7 +10,6 @@ import java.util.List;
 public class Parser {
 
     private List<HashMap<String, String>> plugins;
-    private String path;
 
     /**
      * parse a json file into plugins

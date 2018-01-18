@@ -46,18 +46,16 @@ public class SimplePasswordPlugin extends Plugin {
             if (this.plain_text.equals(args.getString("attempt"))) {
                 this.isValidatedState = true;
                 ret.put(SUCCESS, "true");
-                isSuccess="true";
+                isSuccess = "true";
 
-            }
-            else {
+            } else {
                 ret.put(SUCCESS, "false");
-                isSuccess="false";
+                isSuccess = "false";
 
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             ret.put(SUCCESS, "false");
-            isSuccess="false";
+            isSuccess = "false";
 
         }
 
@@ -69,7 +67,7 @@ public class SimplePasswordPlugin extends Plugin {
                 .put("name", this.getName())
                 .put("description", this.getDescription())
                 .put("plain_text", this.plain_text)
-                .put("answer_format",this.getAns_format())
+                .put("answer_format", this.getAns_format())
                 .put("use_remote_service", false).toString();
     }
 }

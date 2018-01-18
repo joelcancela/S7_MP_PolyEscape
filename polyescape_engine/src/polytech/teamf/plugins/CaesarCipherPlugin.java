@@ -3,14 +3,6 @@ package polytech.teamf.plugins;
 import org.json.JSONObject;
 import polytech.teamf.api.ServiceManager;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Invocation;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
-import java.util.List;
-
 public class CaesarCipherPlugin extends Plugin {
 
     /**
@@ -34,8 +26,8 @@ public class CaesarCipherPlugin extends Plugin {
     /**
      * Initializes the plugin
      *
-     * @param description The plugin description
-     * @param plain_text The plain text to discover
+     * @param description    The plugin description
+     * @param plain_text     The plain text to discover
      * @param cipher_padding The cipher padding used by the algorithm to shift letters
      */
     public CaesarCipherPlugin(String description, String plain_text, int cipher_padding) {
@@ -66,15 +58,13 @@ public class CaesarCipherPlugin extends Plugin {
                 ret.put(SUCCESS, "true");
                 isSuccess = "true";
 
-            }
-            else {
+            } else {
                 ret.put(SUCCESS, "false");
-                isSuccess="false";
+                isSuccess = "false";
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             ret.put(SUCCESS, "false");
-            isSuccess="false";
+            isSuccess = "false";
 
         }
 
@@ -87,7 +77,7 @@ public class CaesarCipherPlugin extends Plugin {
                 .put("description", this.getDescription())
                 .put("plain_text", this.plain_text)
                 .put("ciphered_text", this.ciphered_text)
-                .put("answer_format",this.getAns_format())
+                .put("answer_format", this.getAns_format())
                 .put("use_remote_service", false).toString();
     }
 
@@ -97,7 +87,7 @@ public class CaesarCipherPlugin extends Plugin {
     }
 
     @Override
-    public String getDescription(){
-        return  super.getDescription() + " " + this.ciphered_text;
+    public String getDescription() {
+        return super.getDescription() + " " + this.ciphered_text;
     }
 }

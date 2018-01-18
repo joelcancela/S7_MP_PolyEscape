@@ -121,7 +121,7 @@ public class PluginServices {
     }
 
     /**
-     * @api {get} /plugins/status The current played plugin status
+     * @api {get} /plugins/{id}/status The current played plugin status
      * @apiName PluginsStatus
      * @apiGroup Plugins
      * @apiVersion 0.1.0
@@ -141,10 +141,10 @@ public class PluginServices {
      * It can be true or false.
      */
     @GET
-    @Path("/status")
+    @Path("/{id}/status")
     @Produces(MediaType.APPLICATION_JSON)
-    public String getStatus() {
-        return new JSONObject().put("status",ServiceManager.getRunnerInstance(null).getStatus()).toString();
+    public String getStatus(@PathParam("id") String id) {
+        return new JSONObject().put("status", ServiceManager.runnersInstances.get(id).getStatus()).toString();
     }
 
     /**

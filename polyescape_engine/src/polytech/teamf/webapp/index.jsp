@@ -96,7 +96,7 @@
     </div>
 
     <div class="w3-container w3-gray w3-hover-opacity">
-        <footer class="w3-left"><strong>Team F -</strong> Dorian Bonifassi | Joël Cancela Vaz | Jérémy Lara |
+        <footer class="w3-left"><strong>Team F -</strong> Doryan Bonifassi | Joël Cancela Vaz | Jérémy Lara |
             Nikita Rousseau
         </footer>
         <div class="w3-right"><strong>Current server session launch
