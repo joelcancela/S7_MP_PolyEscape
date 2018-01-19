@@ -2,6 +2,7 @@ package polytech.teamf.plugins;
 
 import org.ini4j.Profile;
 import org.ini4j.Wini;
+import polytech.teamf.services.Service;
 
 import java.io.File;
 import java.io.IOException;
@@ -129,6 +130,20 @@ public class MetaPlugin {
      */
     public Map<String, Object> getSchema() {
         return this.schema;
+    }
+
+    /**
+     * Returns the list of required plugins
+     */
+    List<IPlugin> getPluginDependencies() {
+        return null;
+    }
+
+    /**
+     * Returns the list of required services
+     */
+    List<Service> getServiceDependencies() {
+        return null;
     }
 
     @Override

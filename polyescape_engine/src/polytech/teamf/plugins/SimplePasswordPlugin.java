@@ -44,16 +44,6 @@ public class SimplePasswordPlugin extends Plugin {
     }
 
     @Override
-    public List<IPlugin> getPluginDependencies() {
-        return null;
-    }
-
-    @Override
-    public List<Service> getServiceDependencies() {
-        return null;
-    }
-
-    @Override
     public void onBadResponseEvent() {
 
     }
