@@ -7,8 +7,8 @@ import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import polytech.teamf.api.InstanceHolder;
 import polytech.teamf.api.RunnerServices;
-import polytech.teamf.api.ServiceManager;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
@@ -47,7 +47,7 @@ public class RunnerServicesTest extends JerseyTest {
 
     @After
     public void tearsdown() {
-        ServiceManager.runnersInstances.clear();
+        InstanceHolder.runnersInstances.clear();
     }
 
     private void instantiateRunner(JSONArray pluginConfig) {
@@ -73,7 +73,7 @@ public class RunnerServicesTest extends JerseyTest {
         Entity<String> config = Entity.entity(successConfig.toString(), MediaType.TEXT_PLAIN);
         Response response = target("runners/instantiate").request().put(config); //Here we send PUT request
         assertEquals("Status should be 200", 200, response.getStatus());
-        assertEquals("runnerInstances in ServiceManager should have 1 instances", 1, ServiceManager.runnersInstances.size());
+        assertEquals("runnerInstances in InstanceHolder should have 1 instances", 1, InstanceHolder.runnersInstances.size());
 
         runnerID = response.readEntity(String.class);
         JSONObject runnerIDInJo = new JSONObject(runnerID);
@@ -85,7 +85,7 @@ public class RunnerServicesTest extends JerseyTest {
         Entity<String> config = Entity.entity("", MediaType.TEXT_PLAIN);
         Response response = target("runners/instantiate").request().put(config);
         assertEquals("Status should be 400", 400, response.getStatus());
-        assertEquals("runnerInstances in ServiceManager should have 0 instances", 0, ServiceManager.runnersInstances.size());
+        assertEquals("runnerInstances in InstanceHolder should have 0 instances", 0, InstanceHolder.runnersInstances.size());
     }
 
     @Test
@@ -134,7 +134,7 @@ public class RunnerServicesTest extends JerseyTest {
     public void testMultipleInstances() {
         instantiateRunner(successConfig);
         instantiateRunner(successConfig);
-        assertEquals("Should have 2 runner instances", 2, ServiceManager.runnersInstances.size());
+        assertEquals("Should have 2 runner instances", 2, InstanceHolder.runnersInstances.size());
     }
 
 }

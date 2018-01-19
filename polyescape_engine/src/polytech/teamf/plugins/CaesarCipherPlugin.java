@@ -5,7 +5,6 @@ import polytech.teamf.events.GoodResponseEvent;
 import polytech.teamf.events.IEvent;
 import polytech.teamf.services.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

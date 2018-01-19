@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import polytech.teamf.api.PluginServices;
 import polytech.teamf.api.RunnerServices;
-import polytech.teamf.api.ServiceManager;
+import polytech.teamf.api.InstanceHolder;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
@@ -36,7 +36,7 @@ public class PluginServicesTest extends JerseyTest {
 
     @After
     public void tearsdown() {
-        ServiceManager.runnersInstances.clear();
+        InstanceHolder.runnersInstances.clear();
     }
 
     private void instantiateRunner(JSONArray pluginConfig) {

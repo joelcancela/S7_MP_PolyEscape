@@ -44,7 +44,7 @@ public class RunnerServices {
         if (config.isEmpty()) {
             return Response.status(400).entity("EmptyConfiguration: Configuration is empty!").build();
         }
-        ServiceManager.createNewInstance(uuid, config);
+        InstanceHolder.createNewInstance(uuid, config);
         return Response.ok(new JSONObject().put("id", uuid).toString(), MediaType.APPLICATION_JSON).build();
     }
 
@@ -85,7 +85,7 @@ public class RunnerServices {
         if (answer.isEmpty()) {
             return Response.status(400).entity("EmptyAnswer: Answer is empty!").build();
         }
-        return Response.ok(ServiceManager.runnersInstances.get(id).sendGuess_GetResponse(answer).toString(),
+        return Response.ok(InstanceHolder.runnersInstances.get(id).sendGuess_GetResponse(answer).toString(),
                 MediaType.APPLICATION_JSON).build();
     }
 
@@ -114,7 +114,7 @@ public class RunnerServices {
     @Path("/{id}/status")
     @Produces(MediaType.APPLICATION_JSON)
     public String getLastResult(@PathParam("id") String id) {
-        return ServiceManager.runnersInstances.get(id).nextPlugin().toString();
+        return InstanceHolder.runnersInstances.get(id).nextPlugin().toString();
     }
 
 }

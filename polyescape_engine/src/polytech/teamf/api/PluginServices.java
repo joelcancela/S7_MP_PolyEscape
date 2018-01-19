@@ -15,7 +15,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 
 @Path("/plugins")
 public class PluginServices {
@@ -99,7 +98,7 @@ public class PluginServices {
     @Path("/{id}/description")
     @Produces(MediaType.APPLICATION_JSON)
     public String getPluginDescription(@PathParam("id") String id) {
-        return ServiceManager.runnersInstances.get(id).getDescription().toString();
+        return InstanceHolder.runnersInstances.get(id).getDescription().toString();
     }
 
     /**
@@ -126,56 +125,7 @@ public class PluginServices {
     @Path("/{id}/status")
     @Produces(MediaType.APPLICATION_JSON)
     public String getStatus(@PathParam("id") String id) {
-        return new JSONObject().put("status", ServiceManager.runnersInstances.get(id).getStatus()).toString();
-    }
-
-    /**
-     * Scans all classes accessible from the context class loader which belong to the given package and subpackages.
-     *
-     * @param packageName The base package.
-     * @return The classes found in the package.
-     * @throws ClassNotFoundException See {@link #findClasses(File, String)}.
-     * @throws IOException            Triggered if the classLoader cant get the resource given the package name.
-     */
-    private static Class[] getClasses(String packageName) throws ClassNotFoundException, IOException {
-        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        String path = packageName.replace('.', '/');
-        Enumeration resources = classLoader.getResources(path);
-        List<File> dirs = new ArrayList<>();
-        while (resources.hasMoreElements()) {
-            URL resource = (URL) resources.nextElement();
-            dirs.add(new File(resource.getFile()));
-        }
-        List<Class> classes = new ArrayList<>();
-        for (File directory : dirs) {
-            classes.addAll(findClasses(directory, packageName));
-        }
-        return classes.toArray(new Class[classes.size()]);
-    }
-
-    /**
-     * Recursive method used to find all classes in a given directory and subdirs.
-     *
-     * @param directory   The base directory.
-     * @param packageName The package name for classes found inside the base directory.
-     * @return The classes found in the package contained in the directory.
-     * @throws ClassNotFoundException Triggered if no class has been found in a package.
-     */
-    private static List findClasses(File directory, String packageName) throws ClassNotFoundException {
-        List classes = new ArrayList();
-        if (!directory.exists()) {
-            return classes;
-        }
-        File[] files = directory.listFiles();
-        for (File file : files) {
-            if (file.isDirectory()) {
-                assert !file.getName().contains(".");
-                classes.addAll(findClasses(file, packageName + "." + file.getName()));
-            } else if (file.getName().endsWith(".class")) {
-                classes.add(Class.forName(packageName + '.' + file.getName().substring(0, file.getName().length() - 6)));
-            }
-        }
-        return classes;
+        return new JSONObject().put("status", InstanceHolder.runnersInstances.get(id).getStatus()).toString();
     }
 
 }

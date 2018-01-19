@@ -2,18 +2,29 @@ package polytech.teamf.jarloader;
 
 import polytech.teamf.gameengine.MetaPlugin;
 
+import javax.inject.Singleton;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
 
 public class JarLoader {
+
+
+    /** Constructeur privé */
+    private JarLoader()
+    {}
+
+    /** Instance unique pré-initialisée */
+    private static JarLoader INSTANCE = new JarLoader();
+
+    /** Point d'accès pour l'instance unique du singleton */
+    public static JarLoader getInstance()
+    {   return INSTANCE;
+    }
 
     /**
      * the list of services classes load from jar files
