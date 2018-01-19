@@ -177,36 +177,4 @@ public class MetaPlugin {
                 "}";
     }
 
-    // TODO : drop the main method below
-
-    /*
-    public static void main(String[] args) {
-        try {
-            ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-            String path = "plugins".replace('.', '/');
-            Enumeration resources = classLoader.getResources(path);
-
-            List<File> directories = new ArrayList<>();
-            while (resources.hasMoreElements()) {
-                URL resource = (URL) resources.nextElement();
-                directories.add(new File(resource.getFile()));
-            }
-
-            // Read all INI files in resources directory
-            for (File directory : directories) {
-                if (directory.listFiles() == null) {
-                    continue;
-                }
-                for (File ini : directory.listFiles()) {
-                    if (ini.isFile() && ini.getName().endsWith(".ini")) {
-                        System.err.println(MetaPlugin.parseIniFile(ini));
-                    }
-                }
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    */
 }
