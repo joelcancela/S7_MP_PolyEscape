@@ -5,6 +5,7 @@ import polytech.teamf.events.GoodResponseEvent;
 import polytech.teamf.events.IEvent;
 import polytech.teamf.services.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,11 @@ public class CaesarCipherPlugin extends Plugin {
     private String plain_text = "";
 
     /**
+     * Caesar Service Handle
+     */
+    private Service caesar;
+
+    /**
      * Initializes the plugin
      *
      * @param description    The plugin description
@@ -25,6 +31,9 @@ public class CaesarCipherPlugin extends Plugin {
     public CaesarCipherPlugin(String description, String plain_text, int cipher_padding) {
 
         super(description, "Epreuve code Caesar");
+
+        // SERVICES
+        this.caesar = this.invokeService("CaesarCipherService");
 
         // INNER MODEL
         this.plain_text = plain_text.toUpperCase();
@@ -50,6 +59,7 @@ public class CaesarCipherPlugin extends Plugin {
     }
 
     private String toCaesar(String plain_text, int cipher_padding) {
+
         // TODO : implement this method stub
         return "";
         // JSONObject response = new JSONObject(ServiceManager.callCaesarCipherPlugin(plain_text, cipher_padding));

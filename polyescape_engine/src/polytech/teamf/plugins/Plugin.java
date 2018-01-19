@@ -2,6 +2,8 @@ package polytech.teamf.plugins;
 
 import polytech.teamf.events.IEvent;
 import polytech.teamf.events.IEventListener;
+import polytech.teamf.gameengine.MetaPlugin;
+import polytech.teamf.services.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -76,5 +78,28 @@ public abstract class Plugin implements IPlugin, IEventListener {
      */
     void putAttribute(String key, Object value) {
         this.attributes.put(key, value);
+    }
+
+    /**
+     * Service Invoker
+     *
+     * @param className
+     * @return
+     */
+    protected Service invokeService(String className) {
+
+        try {
+            Class t = Class.forName(className);
+            return (Service)t.newInstance();
+
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 }
