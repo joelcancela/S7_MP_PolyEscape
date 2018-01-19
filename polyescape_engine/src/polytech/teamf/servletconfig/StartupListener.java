@@ -16,10 +16,10 @@ public class StartupListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
+		System.out.println("Chargement des services");
+		JarLoader.getInstance().loadServices("./resources/services/");
 		System.out.println("Chargement des plugins");
-		JarLoader.getInstance().loadPluginFromJar("/ressources/plugins/Caesar.jar");//TODO Should parse the entire folder
-		JarLoader.getInstance().loadServicesFromJar("/ressources/services/Cipher.jar");//TODO same
-
+		JarLoader.getInstance().loadPlugins("./resources/plugins/");
 	}
 
 	@Override

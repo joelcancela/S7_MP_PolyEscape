@@ -37,6 +37,32 @@ public class JarLoader {
     private List<Class> pluginClasses;
 
 
+    public void loadServices(String path){
+	    File[] files = new File(path).listFiles();
+	    for (File file : files) {
+		    if (file.isFile() && isAJarFile(file)) {
+			    loadServicesFromJar(file.getPath());
+		    }
+	    }
+    }
+
+    public void loadPlugins(String path){
+	    File[] files = new File(path).listFiles();
+	    for (File file : files) {
+		    if (file.isFile() && isAJarFile(file)) {
+			    loadPluginFromJar(file.getPath());
+		    }
+	    }
+    }
+
+	private boolean isAJarFile(File file) {
+		String fileName = file.getName();
+		if(fileName.lastIndexOf(".") != -1 && fileName.lastIndexOf(".") != 0)
+			return fileName.substring(fileName.lastIndexOf(".")+1).equals("jar");
+		else return false;
+	}
+
+
     /**
      * load the classes in the jar file at jarPth
      *
