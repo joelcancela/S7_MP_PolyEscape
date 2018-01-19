@@ -9,5 +9,5 @@ public interface IService {
      *
      * @return
      */
-    public JSONObject execute();
+    JSONObject execute();
 }

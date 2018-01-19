@@ -1,10 +1,12 @@
 package polytech.teamf.api;
 
 import polytech.teamf.game_engine.Runner;
+import polytech.teamf.resources.PluginResource;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,7 +23,7 @@ public class ServiceManager {
      *
      * @param config The plugins configurations.
      */
-    public static void createNewInstance(String uuid, String config) {
+    public static void createNewInstance(String uuid, List<PluginResource> config) {
         Runner runner = new Runner(config);
         runnersInstances.put(uuid, runner);
     }

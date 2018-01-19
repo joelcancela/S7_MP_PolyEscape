@@ -2,8 +2,7 @@ package polytech.teamf.plugins;
 
 import org.json.JSONObject;
 import polytech.teamf.api.ServiceManager;
-
-import java.lang.reflect.InvocationTargetException;
+import polytech.teamf.resources.AnswerResource;
 
 public class CaesarCipherPlugin extends Plugin {
 
@@ -50,27 +49,22 @@ public class CaesarCipherPlugin extends Plugin {
     }
 
     @Override
-    public JSONObject play(JSONObject args) {
-
-        JSONObject ret = new JSONObject();
+    public AnswerResource play(AnswerResource guess) {
+        guess.setSuccess(false);
+        isSuccess = false;
 
         try {
-            if (this.plain_text.equals(args.getString("attempt").toUpperCase())) {
+            if (this.plain_text.equalsIgnoreCase(guess.getAttempt())) {
                 this.isValidatedState = true;
-                ret.put(SUCCESS, "true");
-                isSuccess = "true";
-
-            } else {
-                ret.put(SUCCESS, "false");
-                isSuccess = "false";
+                isSuccess = true;
+                guess.setSuccess(true);
+                return guess;
             }
-        } catch (Exception e) {
-            ret.put(SUCCESS, "false");
-            isSuccess = "false";
+        } catch (Exception ignored) {
 
         }
 
-        return ret;
+        return guess;
     }
 
     public String toString() {
@@ -97,4 +91,5 @@ public class CaesarCipherPlugin extends Plugin {
     public String getDescription() {
         return super.getDescription() + " " + this.ciphered_text;
     }
+
 }

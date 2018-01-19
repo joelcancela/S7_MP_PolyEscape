@@ -1,43 +1,46 @@
 package polytech.teamf.plugins;
 
-import org.json.JSONObject;
+import java.util.Map;
 
 public class PluginFactory {
 
-    public static Plugin create(String className, JSONObject args) {
+    private static final String DESCRIPTION = "description";
+    private static final String PLAIN_TEXT = "plain_text";
+
+    public static Plugin create(String className, Map<String, Object> args) {
 
         Plugin plugin = null;
 
         if (className.equals("CaesarCipherPlugin")) {
 
             plugin = new CaesarCipherPlugin(
-                    args.getString("description"),
-                    args.getString("plain_text"),
-                    args.getInt("cipher_padding")
+                    (String) args.get(DESCRIPTION),
+                    (String) args.get(PLAIN_TEXT),
+                    (int) args.get("cipher_padding")
             );
         }
 
         if (className.equals("EmailSpyPlugin")) {
 
             plugin = new EmailSpyPlugin(
-                    args.getString("description"),
-                    args.getString("plain_text")
+                    (String) args.get(DESCRIPTION),
+                    (String) args.get(PLAIN_TEXT)
             );
         }
 
         if (className.equals("SimplePasswordPlugin")) {
 
             plugin = new SimplePasswordPlugin(
-                    args.getString("description"),
-                    args.getString("plain_text"));
+                    (String) args.get(DESCRIPTION),
+                    (String) args.get(PLAIN_TEXT));
         }
 
         if (className.equals("MultipleChoiceQuestionPlugin")) {
 
             plugin = new MultipleChoiceQuestionPlugin(
-                    args.getString("description"),
-                    args.getString("answers_csv"),
-                    args.getString("correct_answers_csv")
+                    (String) args.get(DESCRIPTION),
+                    (String) args.get("answers_csv"),
+                    (String) args.get("correct_answers_csv")
             );
         }
 

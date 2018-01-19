@@ -2,6 +2,7 @@ package polytech.teamf.plugins;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import polytech.teamf.resources.AnswerResource;
 
 import java.util.Arrays;
 
@@ -48,30 +49,23 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
     }
 
     @Override
-    public JSONObject play(JSONObject args) {
-
-        JSONObject ret = new JSONObject();
+    public AnswerResource play(AnswerResource guess) {
+        guess.setSuccess(false);
+        isSuccess = false;
 
         try {
-            String[] attempt_answers = args.getString("attempt").split(",");
-
+            String[] attempt_answers = guess.getAttempt().split(",");
             if (Arrays.equals(this.correct_answers, attempt_answers)) {
                 this.isValidatedState = true;
-                ret.put(SUCCESS, "true");
-                isSuccess = "true";
-
-            } else {
-                ret.put(SUCCESS, "false");
-                isSuccess = "false";
-
+                isSuccess = true;
+                guess.setSuccess(true);
+                return guess;
             }
-        } catch (Exception e) {
-            ret.put(SUCCESS, "false");
-            isSuccess = "false";
+        } catch (Exception ignored) {
 
         }
 
-        return ret;
+        return guess;
     }
 
     public String toString() {
@@ -91,4 +85,5 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
                 .put("answer_format", this.getAns_format())
                 .put("use_remote_service", false).toString();
     }
+
 }

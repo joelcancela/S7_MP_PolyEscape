@@ -1,21 +1,19 @@
 package polytech.teamf.api;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import polytech.teamf.plugins.Plugin;
+import polytech.teamf.resources.PluginInterfaceResource;
+import polytech.teamf.resources.PluginResource;
+import polytech.teamf.resources.PluginStatusResource;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map;
 
 @Path("/plugins")
 public class PluginServices {
@@ -49,49 +47,34 @@ public class PluginServices {
      */
     @GET
     @Path("/list")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String getAllStepsType() throws IOException, ClassNotFoundException {
+    public List<PluginInterfaceResource> getAllStepsType() throws IOException, ClassNotFoundException {
 
         Class[] classArray = getClasses("polytech.teamf.plugins");
 
-        JSONArray jsonPlugins = new JSONArray();
+        List<PluginInterfaceResource> plugins = new ArrayList<>();
 
         for (Class c : classArray) {
 
-            JSONObject jsonPlugin = new JSONObject();
-            JSONArray jsonPluginArgs = new JSONArray();
-            JSONObject jsonPluginSchema = new JSONObject();
-
             if (Plugin.class.isAssignableFrom(c) && c != Plugin.class) {
+
+                PluginInterfaceResource pluginInterfaceResource = new PluginInterfaceResource();
 
                 try {
                     Plugin p = (Plugin) c.newInstance(); // Call default constructor
 
-                    jsonPlugin.put("name", p.getName());
+                    pluginInterfaceResource.setType(c.getSimpleName());
+                    pluginInterfaceResource.setName(p.getName());
+                    pluginInterfaceResource.setArgs(p.getArgs());
+                    pluginInterfaceResource.setSchema(p.getSchema());
 
-                    List<String> args = p.getArgs();
-                    for (String arg : args) {
-                        jsonPluginArgs.put(arg);
-                    }
-
-                    Map<String, String> schema = p.getSchema();
-                    for (Map.Entry<String, String> entry : schema.entrySet()) {
-                        jsonPluginSchema.put(entry.getKey(), entry.getValue());
-                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
-                jsonPlugin.put("type", c.getSimpleName());
-                jsonPlugin.put("args", jsonPluginArgs);
-                jsonPlugin.put("schema", jsonPluginSchema);
+                plugins.add(pluginInterfaceResource);
                 //TODO Handle Service args?
-
-                jsonPlugins.put(jsonPlugin);
             }
         }
-
-        return jsonPlugins.toString();
+        return plugins;
     }
 
     /**
@@ -115,9 +98,8 @@ public class PluginServices {
      */
     @GET
     @Path("/{id}/description")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String getPluginDescription(@PathParam("id") String id) {
-        return ServiceManager.runnersInstances.get(id).getDescription().toString();
+    public PluginResource getPluginDescription(@PathParam("id") String id) {
+        return ServiceManager.runnersInstances.get(id).getDescription();
     }
 
     /**
@@ -142,9 +124,8 @@ public class PluginServices {
      */
     @GET
     @Path("/{id}/status")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String getStatus(@PathParam("id") String id) {
-        return new JSONObject().put("status", ServiceManager.runnersInstances.get(id).getStatus()).toString();
+    public PluginStatusResource getStatus(@PathParam("id") String id) {
+        return new PluginStatusResource(ServiceManager.runnersInstances.get(id).getStatus());
     }
 
     /**

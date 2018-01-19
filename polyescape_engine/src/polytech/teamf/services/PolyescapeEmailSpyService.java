@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import polytech.teamf.api.ServiceManager;
 import polytech.teamf.game_engine.Runner;
+import polytech.teamf.resources.AnswerResource;
 
 public class PolyescapeEmailSpyService extends Service {
 
@@ -31,7 +32,7 @@ public class PolyescapeEmailSpyService extends Service {
     @Override
     public JSONObject execute() {
         Runner r = ServiceManager.runnersInstances.get(runnerInstance);
-        r.sendMessage(new JSONObject().put("attempt", this.message));
+        r.sendMessage(new AnswerResource(this.message));
         return new JSONObject(); // Useless return value
     }
 }

@@ -1,6 +1,7 @@
 package polytech.teamf.plugins;
 
 import org.json.JSONObject;
+import polytech.teamf.resources.AnswerResource;
 
 public class EmailSpyPlugin extends Plugin {
 
@@ -10,18 +11,18 @@ public class EmailSpyPlugin extends Plugin {
     private String plain_text = "";
 
     /**
-     * Default constructor
-     * Used by the API Reflection Engine
+     * Default constructor.
+     * Used by the API Reflection Engine.
      */
     public EmailSpyPlugin() {
         this("", "");
     }
 
     /**
-     * Initializes the plugin
+     * Initializes the plugin.
      *
-     * @param description The plugin description
-     * @param plain_text  The plain text to discover
+     * @param description the plugin description
+     * @param plain_text  the plain text to discover
      */
     public EmailSpyPlugin(String description, String plain_text) {
 
@@ -39,28 +40,22 @@ public class EmailSpyPlugin extends Plugin {
     }
 
     @Override
-    public JSONObject play(JSONObject args) {
-
-        JSONObject ret = new JSONObject();
+    public AnswerResource play(AnswerResource guess) {
+        guess.setSuccess(false);
+        isSuccess = false;
 
         try {
-            if (this.plain_text.equals(args.getString("attempt"))) {
+            if (this.plain_text.equals(guess.getAttempt())) {
                 this.isValidatedState = true;
-                ret.put(SUCCESS, "true");
-                isSuccess = "true";
-
-            } else {
-                ret.put(SUCCESS, "false");
-                isSuccess = "false";
-
+                isSuccess = true;
+                guess.setSuccess(true);
+                return guess;
             }
-        } catch (Exception e) {
-            ret.put(SUCCESS, "false");
-            isSuccess = "false";
+        } catch (Exception ignored) {
 
         }
 
-        return ret;
+        return guess;
     }
 
     public String toString() {
@@ -71,4 +66,5 @@ public class EmailSpyPlugin extends Plugin {
                 .put("answer_format", this.getAns_format())
                 .put("use_remote_service", true).toString();
     }
+
 }

@@ -10,28 +10,32 @@ import org.junit.Test;
 import polytech.teamf.api.PluginServices;
 import polytech.teamf.api.RunnerServices;
 import polytech.teamf.api.ServiceManager;
+import polytech.teamf.resources.PluginResource;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class PluginServicesTest extends JerseyTest {
 
-    private JSONArray successConfig = new JSONArray();
+    private List<PluginResource> successConfig = new ArrayList<>();
     private String runnerID;
 
     @Before
     public void setup() {
-        JSONObject successPluginConfig = new JSONObject();
-        successPluginConfig.put("type", "CaesarCipherPlugin");
-        successPluginConfig.put("description", "Put a description here");
-        successPluginConfig.put("plain_text", "CAESAR");
-        successPluginConfig.put("cipher_padding", "5");
-        successConfig.put(successPluginConfig);
+        PluginResource pluginResource = new PluginResource();
+        pluginResource.setType("CaesarCipherPlugin");
+        pluginResource.addToArgs("description", "Put a description here")
+                .addToArgs("plain_text", "CAESAR")
+                .addToArgs("cipher_padding", "5");
+        successConfig.add(pluginResource);
     }
 
     @After
@@ -39,8 +43,8 @@ public class PluginServicesTest extends JerseyTest {
         ServiceManager.runnersInstances.clear();
     }
 
-    private void instantiateRunner(JSONArray pluginConfig) {
-        Entity<String> config = Entity.entity(pluginConfig.toString(), MediaType.TEXT_PLAIN);
+    private void instantiateRunner(List<PluginResource> pluginConfig) {
+        Entity<List<PluginResource>> config = Entity.entity(pluginConfig, MediaType.APPLICATION_JSON_TYPE);
         Response response = target("runners/instantiate").request().put(config);
         runnerID = response.readEntity(String.class);
         JSONObject runnerIDInJo = new JSONObject(runnerID);
@@ -54,7 +58,7 @@ public class PluginServicesTest extends JerseyTest {
 
     @Test
     public void testPluginListRequestProperties() {
-        final String pluginList = target("plugins/list").request().get(String.class);
+        final String pluginList = target("plugins/list").request().accept(MediaType.APPLICATION_JSON_TYPE).get(String.class);
         JSONArray pluginListInJA = new JSONArray(pluginList);
         assertTrue("Should be different from 0", pluginListInJA.length() >= 1);
         assertTrue("Should have a key type", ((JSONObject) pluginListInJA.get(0)).getString("type") != null);

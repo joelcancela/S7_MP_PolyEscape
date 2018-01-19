@@ -1,18 +1,19 @@
 package polytech.teamf.game_engine;
 
-import org.json.JSONObject;
 import polytech.teamf.plugins.IPlugin;
 import polytech.teamf.plugins.Plugin;
 import polytech.teamf.plugins.PluginFactory;
+import polytech.teamf.resources.AnswerResource;
+import polytech.teamf.resources.PluginResource;
+import polytech.teamf.resources.RunnerResource;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Runner {
 
     /**
-     * The list of plugins ordered
+     * The list of plugins ordered.
      */
     private List<Plugin> plugins = new ArrayList<>();
 
@@ -26,19 +27,12 @@ public class Runner {
     /**
      * Runner that parse the json & instantiate plugins.
      *
-     * @param json The plugins configuration.
+     * @param config the plugins configuration
      */
-    public Runner(String json) {
+    public Runner(List<PluginResource> config) {
 
-        Parser parser = new Parser(json); // parse the json
-
-        List<HashMap<String, String>> list = parser.getPlugins(); // get the plugins list
-
-        for (HashMap<String, String> map : list) { // fill the list of plugins thx to the parser data
-            JSONObject toBuild = new JSONObject();
-            map.keySet().forEach(str -> toBuild.put(str, map.get(str)));
-            plugins.add(PluginFactory.create(map.get("type"), toBuild));
-
+        for (PluginResource plugin : config) {
+            plugins.add(PluginFactory.create(plugin.getType(), plugin.getArgs()));
         }
 
         currentPlugin = plugins.get(it);
@@ -47,10 +41,10 @@ public class Runner {
     /**
      * Get the description / context of the plugin.
      *
-     * @return A JSONObject containing the current plugin description & the format of the waited answer.
+     * @return an object containing the current plugin description & the format of the waited answer.
      */
-    public JSONObject getDescription() {
-        return new JSONObject().put("description", currentPlugin.getDescription()).put("answer_format", currentPlugin.getAns_format());
+    public PluginResource getDescription() {
+        return new PluginResource(currentPlugin.getDescription(), currentPlugin.getAns_format());
     }
 
     public Plugin getPlugin() {
@@ -58,47 +52,47 @@ public class Runner {
     }
 
     /**
-     * Notify the plugin of an incoming message (sent by a service)
+     * Notify the plugin of an incoming message (sent by a service).
      *
-     * @param jsonObject Plugin arguments
+     * @param message plugin arguments
      */
-    public void sendMessage(JSONObject jsonObject) {
+    public void sendMessage(AnswerResource message) {
         try {
-            this.currentPlugin.play(jsonObject);
+            this.currentPlugin.play(message);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Given an answer, tells if you are right or wrong
+     * Given an answer, tells if you are right or wrong.
      *
-     * @param guess The player's answer to the current step.
-     * @return The answer's result.
-     * @throws Exception See {@link IPlugin#play(org.json.JSONObject)}
+     * @param guess the player's answer to the current step
+     * @return the answer's result
+     * @throws Exception see {@link IPlugin#play(AnswerResource)}
      */
-    public JSONObject sendGuess_GetResponse(String guess) throws Exception {
-        return currentPlugin.play(new JSONObject(guess));
+    public AnswerResource sendGuess_GetResponse(AnswerResource guess) throws Exception {
+        return currentPlugin.play(guess);
     }
 
     /**
      * The current plugin becomes the next in the list if there is another plugin to play (next step in the game).
      *
-     * @return A JSONObject containing the status of the game. The status will be "finish" in case there are no more
+     * @return a JSONObject containing the status of the game. The status will be "finish" in case there are no more
      * plugins to play or "ok" otherwise.
      */
-    public JSONObject nextPlugin() {
-
+    public RunnerResource nextPlugin() {
         it++;
 
-        if (it >= plugins.size())
-            return new JSONObject().put("status", "finish");
+        if (it >= plugins.size()) {
+            return new RunnerResource("finish");
+        }
 
         currentPlugin = plugins.get(it);
-        return new JSONObject().put("status", "ok");
+        return new RunnerResource("ok");
     }
 
-    public String getStatus() {
+    public boolean getStatus() {
         return currentPlugin.getStatus();
     }
 

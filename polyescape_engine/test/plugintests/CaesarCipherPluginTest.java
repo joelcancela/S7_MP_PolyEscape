@@ -4,8 +4,11 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import polytech.teamf.plugins.CaesarCipherPlugin;
+import polytech.teamf.resources.AnswerResource;
 
 import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class CaesarCipherPluginTest {
 
@@ -27,11 +30,10 @@ public class CaesarCipherPluginTest {
         assertEquals("answer_format", obj.getString("answer_format"), "text");
     }
 
-
     @Test
     public void playTest() {
-        assertEquals("test false", plugin.play(new JSONObject("{attempt : 72 }")).getString("success"), "false");
-        assertEquals("test true", plugin.play(new JSONObject("{attempt : answer }")).getString("success"), "true");
+        assertFalse("test false", plugin.play(new AnswerResource("72")).getSuccess());
+        assertTrue("test true", plugin.play(new AnswerResource("answer")).getSuccess());
     }
 
 }

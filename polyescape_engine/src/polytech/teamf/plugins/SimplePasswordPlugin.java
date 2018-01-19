@@ -1,6 +1,7 @@
 package polytech.teamf.plugins;
 
 import org.json.JSONObject;
+import polytech.teamf.resources.AnswerResource;
 
 public class SimplePasswordPlugin extends Plugin {
 
@@ -38,28 +39,22 @@ public class SimplePasswordPlugin extends Plugin {
     }
 
     @Override
-    public JSONObject play(JSONObject args) {
-
-        JSONObject ret = new JSONObject();
+    public AnswerResource play(AnswerResource guess) {
+        guess.setSuccess(false);
+        isSuccess = false;
 
         try {
-            if (this.plain_text.equals(args.getString("attempt"))) {
+            if (this.plain_text.equals(guess.getAttempt())) {
                 this.isValidatedState = true;
-                ret.put(SUCCESS, "true");
-                isSuccess = "true";
-
-            } else {
-                ret.put(SUCCESS, "false");
-                isSuccess = "false";
-
+                isSuccess = true;
+                guess.setSuccess(true);
+                return guess;
             }
-        } catch (Exception e) {
-            ret.put(SUCCESS, "false");
-            isSuccess = "false";
+        } catch (Exception ignored) {
 
         }
 
-        return ret;
+        return guess;
     }
 
     public String toString() {

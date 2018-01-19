@@ -4,6 +4,7 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import polytech.teamf.plugins.SimplePasswordPlugin;
+import polytech.teamf.resources.AnswerResource;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -28,8 +29,8 @@ public class SimplePasswordPluginTest {
 
     @Test
     public void playTest() {
-        assertEquals("test false", plugin.play(new JSONObject("{attempt : 72 }")).getString("success"), "false");
-        assertEquals("test true", plugin.play(new JSONObject("{attempt : ANSWER }")).getString("success"), "true");
+        assertEquals("test false", plugin.play(new AnswerResource("72")).getSuccess(), "false");
+        assertEquals("test true", plugin.play(new AnswerResource("answer")).getSuccess(), "true");
     }
 
 }
