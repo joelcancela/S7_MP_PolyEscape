@@ -1,4 +1,4 @@
-package polytech.teamf.jar_loader;
+package polytech.teamf.jarloader;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;

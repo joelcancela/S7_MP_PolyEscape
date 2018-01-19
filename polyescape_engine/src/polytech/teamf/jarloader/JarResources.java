@@ -1,4 +1,4 @@
-package polytech.teamf.jar_loader;
+package polytech.teamf.jarloader;
 
 import java.io.*;
 import java.util.*;

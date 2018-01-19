@@ -1,7 +1,6 @@
-package polytech.teamf.game_engine;
+package polytech.teamf.gameengine;
 
 import org.json.JSONObject;
-import polytech.teamf.plugins.IPlugin;
 import polytech.teamf.plugins.Plugin;
 
 import java.util.ArrayList;
@@ -112,6 +111,7 @@ public class Runner {
      * @return the instanciated plugin
      * @throws Exception
      */
+    /*
     public ArrayList<Plugin> getPluginsFromJar(List<PluginInit> datas, List<Class> pluginClasses) throws Exception
     {
         ArrayList<Plugin> plugins = new ArrayList<>();
@@ -126,5 +126,5 @@ public class Runner {
         }
         return plugins;
     }
-
+    */
 }
