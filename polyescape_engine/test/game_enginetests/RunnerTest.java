@@ -2,7 +2,7 @@ package game_enginetests;
 
 import org.junit.Before;
 import org.junit.Test;
-import polytech.teamf.game_engine.Runner;
+import polytech.teamf.gameengine.Runner;
 
 
 import static junit.framework.Assert.assertEquals;

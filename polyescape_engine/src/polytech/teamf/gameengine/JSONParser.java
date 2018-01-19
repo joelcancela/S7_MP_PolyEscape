@@ -1,4 +1,4 @@
-package polytech.teamf.game_engine;
+package polytech.teamf.gameengine;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

@@ -1,6 +1,6 @@
 package polytech.teamf.api;
 
-import polytech.teamf.game_engine.Runner;
+import polytech.teamf.gameengine.Runner;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

@@ -1,7 +1,13 @@
-package polytech.teamf.jar_loader;
+package polytech.teamf.jarloader;
 
+import polytech.teamf.gameengine.MetaPlugin;
+
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
@@ -102,6 +108,34 @@ public class JarLoader {
         }
         return res;
     }
+
+
+    public List<MetaPlugin> getMetaPluginFromIniFile(String jarPath){
+
+        ArrayList<MetaPlugin> res = new ArrayList<>();
+        try {
+            JarInputStream crunchifyJarFile = new JarInputStream(new FileInputStream(jarPath));
+            JarEntry crunchifyJar;
+
+            while (true) {
+                crunchifyJar = crunchifyJarFile.getNextJarEntry();
+                if (crunchifyJar == null) {
+                    break;
+                }
+                if ((crunchifyJar.getName().endsWith(".ini"))) {
+                  File f = new File(crunchifyJar.getName());
+                  res.add(MetaPlugin.parseIniFile(f));
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Oops.. Encounter an issue while parsing jar" + e.toString());
+        }
+        return res;
+    }
+
+
+
+
 
     public List<Class> getServicesClasses() {
         return servicesClasses;

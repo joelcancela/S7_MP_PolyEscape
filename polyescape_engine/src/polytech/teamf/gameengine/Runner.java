@@ -1,7 +1,8 @@
-package polytech.teamf.game_engine;
+package polytech.teamf.gameengine;
 
 import org.json.JSONObject;
-import polytech.teamf.plugins.IPlugin;
+import polytech.teamf.events.GoodResponseEvent;
+import polytech.teamf.events.IEvent;
 import polytech.teamf.plugins.Plugin;
 
 import java.util.ArrayList;
@@ -11,11 +12,19 @@ import java.util.List;
 public class Runner {
 
     /**
-     * The list of plugins ordered
+     * The list of plugins (ordered)
      */
     private List<Plugin> plugins = new ArrayList<>();
 
+    /**
+     * Handle on the current plugin
+     */
     private Plugin currentPlugin;
+
+    /**
+     * The current plugin state
+     */
+    private boolean currentPluginStatus = false;
 
     /**
      * The current plugin number in {@link #plugins}.
@@ -46,39 +55,41 @@ public class Runner {
         currentPlugin = plugins.get(it);
     }
 
-    /**
-     * Get the description / context of the plugin.
-     *
-     * @return A JSONObject containing the current plugin description & the format of the waited answer.
-     */
-    public JSONObject getDescription() {
-        // TODO : fix this method stub
-        return new JSONObject().put("description", currentPlugin.getDescription()).put("answer_format" , "");
-    }
-
     public Plugin getPlugin() {
         return this.currentPlugin;
     }
 
     /**
-     * Notify the plugin of an incoming message (sent by a service)
+     * Notify the plugin of an incoming message
+     * Notify the plugin plus its nested plugin of the event
      *
      * @param jsonObject Plugin arguments
+     * @return
      */
-    public void sendMessage(JSONObject jsonObject) {
+    public IEvent sendMessage(JSONObject jsonObject) {
+
         try {
-            this.currentPlugin.sendEvent(this.currentPlugin.execute(null));
+            IEvent e = this.currentPlugin.execute(null);
 
+            if (e instanceof GoodResponseEvent) {
+                this.currentPluginStatus = true;
+            }
 
-            //this.currentPlugin.play(jsonObject);
+            this.sendEvent(e);
+            return e;
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return null;
     }
 
-    public JSONObject sendGuess_GetResponse(String guess) throws Exception {
-        return null;
-        //return currentPlugin.play(new JSONObject(guess));
+    /**
+     * Notify the plugin plus its nested plugin of the event
+     * @return
+     */
+    public void sendEvent(IEvent e) {
+        this.currentPlugin.sendEvent(e);
     }
 
     /**
@@ -98,13 +109,9 @@ public class Runner {
         return new JSONObject().put("status", "ok");
     }
 
-    public String getStatus(){
-        return null;
+    public Boolean getStatus(){
+        return this.currentPluginStatus;
     }
-
-
-
-
 
     /**
      * make real objects from classes and instantiation datas
@@ -112,11 +119,11 @@ public class Runner {
      * @return the instanciated plugin
      * @throws Exception
      */
-    public ArrayList<Plugin> getPluginsFromJar(List<PluginInit> datas, List<Class> pluginClasses) throws Exception
+    public ArrayList<Plugin> getPluginsFromJar(List<MetaPlugin> datas, List<Class> pluginClasses) throws Exception
     {
         ArrayList<Plugin> plugins = new ArrayList<>();
 
-        for(PluginInit pi : datas) {
+        for(MetaPlugin pi : datas) {
             for(Class c : pluginClasses){
                 if(c.getName().equals(pi.getName())) {
                     Object p = c.getClass().getDeclaredConstructor(pi.getTypes()).newInstance(pi.getValues());
@@ -126,5 +133,4 @@ public class Runner {
         }
         return plugins;
     }
-
 }
