@@ -2,8 +2,14 @@ package polytech.teamf.plugins;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import polytech.teamf.events.BadResponseEvent;
+import polytech.teamf.events.GoodResponseEvent;
+import polytech.teamf.events.IEvent;
+import polytech.teamf.services.IService;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
 public class MultipleChoiceQuestionPlugin extends Plugin {
 
@@ -27,60 +33,55 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
     public MultipleChoiceQuestionPlugin(String description, String answers_csv, String correct_answers_csv) {
         super(description, "Epreuve QCM");
 
-        // ARGS
-        super.getArgs().add("answers_csv");
-        super.getArgs().add("correct_answers_csv");
-        // SCHEMA
-        this.schema.put("attempt_answers_csv", "The user answers as a CSV string");
-
-        // FORM
+        // INNER MODEL
         this.answers = answers_csv.split(",");
         this.correct_answers = correct_answers_csv.split(",");
-        this.ans_format = "QCM";
+
+        // SHARED MODEL
+        this.putAttribute("answers", this.answers);
     }
 
     @Override
-    public JSONObject play(JSONObject args) {
+    public IEvent execute(Map<String, Object> args) throws Exception {
 
-        JSONObject ret = new JSONObject();
-
-        try {
-            String[] attempt_answers = args.getString("attempt").split(",");
-
-            if (Arrays.equals(this.correct_answers, attempt_answers)) {
-                this.isValidatedState = true;
-                ret.put(SUCCESS, "true");
-                isSuccess = "true";
-
-            } else {
-                ret.put(SUCCESS, "false");
-                isSuccess = "false";
-
-            }
-        } catch (Exception e) {
-            ret.put(SUCCESS, "false");
-            isSuccess = "false";
-
+        if (!args.containsKey("attempt_csv")) {
+            throw new IllegalArgumentException("Bad response format");
         }
 
-        return ret;
+        String[] attempt_answers = args.get("attempt_csv").toString().split(",");
+        if (Arrays.equals(this.correct_answers, attempt_answers)) {
+            return new GoodResponseEvent(this);
+        }
+        return new BadResponseEvent(this);
     }
 
-    public String toString() {
-        JSONArray ans = new JSONArray();
-        for (String s : this.answers) {
-            ans.put(s);
-        }
-        JSONArray corr = new JSONArray();
-        for (String s : this.correct_answers) {
-            corr.put(s);
-        }
-        return new JSONObject()
-                .put("name", this.getName())
-                .put("description", this.getDescription())
-                .put("answers", ans)
-                .put("correct_answers", corr)
-                .put("answer_format", this.getAns_format())
-                .put("use_remote_service", false).toString();
+    @Override
+    public List<IPlugin> getPluginDependencies() {
+        return null;
+    }
+
+    @Override
+    public List<IService> getServiceDependencies() {
+        return null;
+    }
+
+    @Override
+    public void onBadResponseEvent() {
+
+    }
+
+    @Override
+    public void onGoodResponseEvent() {
+
+    }
+
+    @Override
+    public void onStartEvent() {
+
+    }
+
+    @Override
+    public void onEndEvent() {
+
     }
 }

@@ -35,7 +35,7 @@ public class EmailSpyPlugin extends Plugin {
     @Override
     public IEvent execute(Map<String, Object> args) throws Exception {
 
-        if (args.containsKey("attempt")) {
+        if (!args.containsKey("attempt")) {
             throw new IllegalArgumentException("Bad response format");
         }
 

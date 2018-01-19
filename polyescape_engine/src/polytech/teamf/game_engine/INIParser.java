@@ -24,7 +24,7 @@ public class INIParser {
         Collection<Profile.Section> list = ini.values();
         for(Profile.Section section : list){
             plugins.add(new HashMap());
-            
+
             //output keys of all options of one section
             for(String key : section.keySet()){
                 plugins.get(plugins.size()-1).put(key,section.fetch(key));

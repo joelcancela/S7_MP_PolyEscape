@@ -9,14 +9,19 @@ import java.util.Map;
 public interface IPlugin {
 
     /**
-     * Plugin Complete Name
+     * Plugin Attributes
      */
-    String getName();
+    Map<String, Object> getAttributes();
 
     /**
      * Plugin Description Field
      */
     String getDescription();
+
+    /**
+     * Plugin Name Field
+     */
+    String getName();
 
     /**
      * Reads the input data submitted from an external entity to this plugin

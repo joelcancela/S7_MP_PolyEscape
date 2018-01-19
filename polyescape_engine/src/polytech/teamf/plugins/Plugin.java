@@ -4,7 +4,9 @@ import polytech.teamf.events.IEvent;
 import polytech.teamf.events.IEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class Plugin implements IPlugin, IEventListener {
 
@@ -14,24 +16,9 @@ public abstract class Plugin implements IPlugin, IEventListener {
     private List<Plugin> plugins = new ArrayList<>();
 
     /**
-     * Plugin Name
+     * Plugin attributes
      */
-    private String name = "";
-
-    /**
-     * Plugin Description Field
-     */
-    private String description = "";
-
-    @Override
-    public String getDescription() {
-        return this.description;
-    }
-
-    @Override
-    public String getName() {
-        return this.name;
-    }
+    private Map<String, Object> attributes = new HashMap<>();
 
     /**
      * Shared constructor with inherited plugins
@@ -40,8 +27,8 @@ public abstract class Plugin implements IPlugin, IEventListener {
      * @param description The plugin description as a short text
      */
     Plugin(String name, String description) {
-        this.name = name;
-        this.description = description;
+        this.attributes.put("name", name);
+        this.attributes.put("description", description);
     }
 
     @Override
@@ -59,5 +46,35 @@ public abstract class Plugin implements IPlugin, IEventListener {
         for (Plugin p : this.plugins) {
             p.sendEvent(e);
         }
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return this.attributes;
+    }
+
+    @Override
+    public String getDescription() {
+        if (!this.attributes.containsKey("description")) {
+            return null;
+        }
+        return this.attributes.get("description").toString();
+    }
+
+    @Override
+    public String getName() {
+        if (!this.attributes.containsKey("name")) {
+            return null;
+        }
+        return this.attributes.get("name").toString();
+    }
+
+    /**
+     * Update Plugin attribute given a key
+     * @param key Attribute identifier
+     * @param value Attribute value
+     */
+    void putAttribute(String key, Object value) {
+        this.attributes.put(key, value);
     }
 }
