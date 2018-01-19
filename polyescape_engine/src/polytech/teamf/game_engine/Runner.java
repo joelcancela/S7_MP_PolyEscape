@@ -51,7 +51,7 @@ public class Runner {
      * @return A JSONObject containing the current plugin description & the format of the waited answer.
      */
     public JSONObject getDescription() {
-        return new JSONObject().put("description", currentPlugin.getDescription()).put("answer_format" , currentPlugin.getAns_format());
+        return new JSONObject().put("description", currentPlugin.getDescription()).put("answer_format" , "");
     }
 
     public Plugin getPlugin() {
@@ -65,24 +65,18 @@ public class Runner {
      */
     public void sendMessage(JSONObject jsonObject) {
         try {
-            this.currentPlugin.sendEvent(this.currentPlugin.execute(jsonObject));
+            this.currentPlugin.sendEvent(this.currentPlugin.execute(null));
 
 
-            this.currentPlugin.play(jsonObject);
+            //this.currentPlugin.play(jsonObject);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * Given an answer, tells if you are right or wrong
-     *
-     * @param guess The player's answer to the current step.
-     * @return The answer's result.
-     * @throws Exception See {@link IPlugin#play(org.json.JSONObject)}
-     */
     public JSONObject sendGuess_GetResponse(String guess) throws Exception {
-        return currentPlugin.play(new JSONObject(guess));
+        return null;
+        //return currentPlugin.play(new JSONObject(guess));
     }
 
     /**
@@ -103,7 +97,7 @@ public class Runner {
     }
 
     public String getStatus(){
-        return currentPlugin.getStatus();
+        return null;
     }
 
 }
