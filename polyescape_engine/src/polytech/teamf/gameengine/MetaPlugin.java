@@ -31,27 +31,12 @@ public class MetaPlugin {
     private Map<String, Object> schema;
 
     /**
-     * JAR INI Extractor
-     * @param jarFile
-     * @return
-     * @throws IOException
-     */
-    public static MetaPlugin parseJarFile(File jarFile) throws IOException {
-
-        // Extract INI From JAR
-
-        // TODO : implement this method stub
-
-        return MetaPlugin.parseIniFile(null);
-    }
-
-    /**
      * INI File Parser
      * @param iniFile
      * @return
      * @throws IOException
      */
-    private static MetaPlugin parseIniFile(File iniFile) throws IOException {
+    public static MetaPlugin parseIniFile(File iniFile) throws IOException {
 
         if (!iniFile.exists() || !iniFile.isFile() || !iniFile.getName().endsWith(".ini")) {
             return null;
