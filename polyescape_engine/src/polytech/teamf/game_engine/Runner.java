@@ -29,11 +29,11 @@ public class Runner {
      */
     public Runner(String json) {
 
-        Parser parser = new Parser(json); // parse the json
+        JSONParser JSONParser = new JSONParser(json); // parse the json
 
-        List<HashMap<String, String>> list = parser.getPlugins(); // get the plugins list
+        List<HashMap<String, String>> list = JSONParser.getPlugins(); // get the plugins list
 
-        for (HashMap<String, String> map : list) { // fill the list of plugins thx to the parser data
+        for (HashMap<String, String> map : list) { // fill the list of plugins thx to the JSONParser data
             JSONObject toBuild = new JSONObject();
             for (String str : map.keySet()) {
                 toBuild.put(str, map.get(str));

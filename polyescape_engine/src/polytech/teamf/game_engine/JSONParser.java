@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class Parser {
+public class JSONParser {
 
     private List<HashMap<String, String>> plugins;
     private String path;
@@ -17,7 +17,7 @@ public class Parser {
      *
      * @param json the json object ready to be parsed
      */
-    public Parser(String json) {
+    public JSONParser(String json) {
 
         plugins = new ArrayList<>();
         JSONArray ja = new JSONArray(json);
