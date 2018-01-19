@@ -3,6 +3,7 @@ package polytech.teamf.gameengine;
 import org.json.JSONObject;
 import polytech.teamf.events.GoodResponseEvent;
 import polytech.teamf.events.IEvent;
+import polytech.teamf.plugins.MetaPlugin;
 import polytech.teamf.plugins.Plugin;
 
 import java.util.ArrayList;

@@ -2,7 +2,6 @@ package polytech.teamf.plugins;
 
 import polytech.teamf.events.IEvent;
 import polytech.teamf.events.IEventListener;
-import polytech.teamf.gameengine.MetaPlugin;
 import polytech.teamf.services.Service;
 
 import java.util.ArrayList;

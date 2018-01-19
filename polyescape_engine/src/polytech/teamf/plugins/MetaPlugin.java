@@ -1,11 +1,10 @@
-package polytech.teamf.gameengine;
+package polytech.teamf.plugins;
 
 import org.ini4j.Profile;
 import org.ini4j.Wini;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.*;
 
 public class MetaPlugin {
