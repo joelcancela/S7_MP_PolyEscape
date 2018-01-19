@@ -124,7 +124,7 @@ public class JarLoader {
                 }
                 if ((crunchifyJar.getName().endsWith(".ini"))) {
                   File f = new File(crunchifyJar.getName());
-                  res.add(MetaPlugin.parseJarFile(f));
+                  res.add(MetaPlugin.parseIniFile(f));
                 }
             }
         } catch (Exception e) {
