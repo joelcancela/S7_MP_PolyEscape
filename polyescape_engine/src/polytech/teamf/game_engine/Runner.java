@@ -4,6 +4,7 @@ import org.json.JSONObject;
 import polytech.teamf.plugins.IPlugin;
 import polytech.teamf.plugins.Plugin;
 import polytech.teamf.plugins.PluginFactory;
+import polytech.teamf.resources.PluginInit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -100,6 +101,31 @@ public class Runner {
 
     public String getStatus() {
         return currentPlugin.getStatus();
+    }
+
+
+
+
+
+    /**
+     * make real objects from classes and instantiation datas
+     * @param datas the list of PluginInit, used to instanciate the plugin objects
+     * @return the instanciated plugin
+     * @throws Exception
+     */
+    public ArrayList<Plugin> getPluginsFromJar(List<PluginInit> datas, List<Class> pluginClasses) throws Exception
+    {
+        ArrayList<Plugin> plugins = new ArrayList<>();
+
+        for(PluginInit pi : datas) {
+            for(Class c : pluginClasses){
+                if(c.getName().equals(pi.getName())) {
+                    Object p = c.getClass().getDeclaredConstructor(pi.getTypes()).newInstance(pi.getValues());
+                    plugins.add((Plugin)p);
+                }
+            }
+        }
+        return plugins;
     }
 
 }

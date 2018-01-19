@@ -1,0 +1,113 @@
+package polytech.teamf.jar_loader;
+
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.jar.JarEntry;
+import java.util.jar.JarInputStream;
+
+
+public class JarLoader {
+
+    /**
+     * the list of services classes load from jar files
+     */
+    private List<Class> servicesClasses;
+
+    /**
+     * the list of plugin classes load from jar files
+     */
+    private List<Class> pluginClasses;
+
+
+    /**
+     * load the classes in the jar file at jarPth
+     *
+     * @param jarPath
+     */
+    public void loadServicesFromJar(String jarPath) {
+
+
+        ArrayList<String> servicesName = getClassNamesFromJar(jarPath);
+
+        /*
+         * Create the jar class loader and use the first argument
+         * passed in from the command line as the jar file to use.
+         */
+        JarClassLoader jarLoader = new JarClassLoader(jarPath);
+        /* Load the class from the jar file and resolve it. */
+
+        for (String name : servicesName) {
+
+            try {
+                Class c = jarLoader.loadClass(name, true);
+                servicesClasses.add(c);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
+    /**
+     * load the classes in the jar file at jarPth
+     *
+     * @param jarPath
+     */
+    public void loadPluginFromJar(String jarPath) {
+
+        ArrayList<String> pluginName = getClassNamesFromJar(jarPath);
+
+        /*
+         * Create the jar class loader and use the first argument
+         * passed in from the command line as the jar file to use.
+         */
+        JarClassLoader jarLoader = new JarClassLoader(jarPath);
+        /* Load the class from the jar file and resolve it. */
+
+        for (String name : pluginName) {
+
+            try {
+                Class c = jarLoader.loadClass(name, true);
+                pluginClasses.add(c);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+
+    public ArrayList<String> getClassNamesFromJar(String crunchifyJarName) {
+        ArrayList<String> res = new ArrayList<>();
+
+        try {
+            JarInputStream crunchifyJarFile = new JarInputStream(new FileInputStream(crunchifyJarName));
+            JarEntry crunchifyJar;
+
+            while (true) {
+                crunchifyJar = crunchifyJarFile.getNextJarEntry();
+                if (crunchifyJar == null) {
+                    break;
+                }
+                if ((crunchifyJar.getName().endsWith(".class"))) {
+                    String className = crunchifyJar.getName().replaceAll("/", "\\.");
+                    String myClass = className.substring(0, className.lastIndexOf('.'));
+                    res.add(myClass);
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Oops.. Encounter an issue while parsing jar" + e.toString());
+        }
+        return res;
+    }
+
+    public List<Class> getServicesClasses() {
+        return servicesClasses;
+    }
+
+    public List<Class> getPluginClasses() {
+        return pluginClasses;
+    }
+}
