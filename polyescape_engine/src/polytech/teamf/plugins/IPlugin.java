@@ -1,7 +1,7 @@
 package polytech.teamf.plugins;
 
 import polytech.teamf.events.IEvent;
-import polytech.teamf.services.IService;
+import polytech.teamf.services.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -47,5 +47,5 @@ public interface IPlugin {
     /**
      * Returns the list of required services
      */
-    List<IService> getServiceDependencies();
+    List<Service> getServiceDependencies();
 }

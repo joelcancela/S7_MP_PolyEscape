@@ -1,11 +1,9 @@
 package polytech.teamf.plugins;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import polytech.teamf.events.BadResponseEvent;
 import polytech.teamf.events.GoodResponseEvent;
 import polytech.teamf.events.IEvent;
-import polytech.teamf.services.IService;
+import polytech.teamf.services.Service;
 
 import java.util.Arrays;
 import java.util.List;
@@ -61,7 +59,7 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
     }
 
     @Override
-    public List<IService> getServiceDependencies() {
+    public List<Service> getServiceDependencies() {
         return null;
     }
 

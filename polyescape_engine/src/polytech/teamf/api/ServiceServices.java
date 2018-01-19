@@ -1,8 +1,5 @@
 package polytech.teamf.api;
 
-import polytech.teamf.services.GoogleSheetsService;
-import polytech.teamf.services.PolyescapeEmailSpyService;
-
 import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -44,7 +41,7 @@ public class ServiceServices {
         String[] args = new String[2];
         args[0] = json;
         args[1] = id;
-        new PolyescapeEmailSpyService(args).execute();
+//        new PolyEscapeEmailSpyService(args).execute();
     }
 
     /**
@@ -57,7 +54,8 @@ public class ServiceServices {
     public String getService(@QueryParam("gsheet") String gsheet) {
         String[] args = new String[1];
         args[0] = gsheet.replace("\"", "");
-        return new GoogleSheetsService(args).execute().toString();
+//        return new GoogleSheetsService().call(args);
+        return null;
     }
 
     /**

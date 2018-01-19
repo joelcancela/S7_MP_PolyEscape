@@ -3,7 +3,7 @@ package polytech.teamf.plugins;
 import polytech.teamf.events.BadResponseEvent;
 import polytech.teamf.events.GoodResponseEvent;
 import polytech.teamf.events.IEvent;
-import polytech.teamf.services.IService;
+import polytech.teamf.services.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -53,7 +53,7 @@ public class EmailSpyPlugin extends Plugin {
     }
 
     @Override
-    public List<IService> getServiceDependencies() {
+    public List<Service> getServiceDependencies() {
         return null;
     }
 
