@@ -1,4 +1,4 @@
-package polytech.teamf.api;
+package polytech.teamf.servletconfig;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerResponseContext;
