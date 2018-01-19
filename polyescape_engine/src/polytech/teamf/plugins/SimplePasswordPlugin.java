@@ -1,7 +1,7 @@
 package polytech.teamf.plugins;
 
 import polytech.teamf.events.*;
-import polytech.teamf.services.IService;
+import polytech.teamf.services.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -49,7 +49,7 @@ public class SimplePasswordPlugin extends Plugin {
     }
 
     @Override
-    public List<IService> getServiceDependencies() {
+    public List<Service> getServiceDependencies() {
         return null;
     }
 

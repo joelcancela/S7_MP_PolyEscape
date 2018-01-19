@@ -1,11 +1,9 @@
 package polytech.teamf.plugins;
 
-import org.json.JSONObject;
-import polytech.teamf.api.ServiceManager;
 import polytech.teamf.events.BadResponseEvent;
 import polytech.teamf.events.GoodResponseEvent;
 import polytech.teamf.events.IEvent;
-import polytech.teamf.services.IService;
+import polytech.teamf.services.Service;
 
 import java.util.List;
 import java.util.Map;
@@ -64,7 +62,7 @@ public class CaesarCipherPlugin extends Plugin {
     }
 
     @Override
-    public List<IService> getServiceDependencies() {
+    public List<Service> getServiceDependencies() {
         return null;
     }
 
@@ -77,6 +75,14 @@ public class CaesarCipherPlugin extends Plugin {
     public void onGoodResponseEvent() {
 
     }
+
+//    public String CaesarCipher(Object[] args) {
+//        WebTarget target = client.target(CAESAR_CIPHER_SERVICE_URI);
+//        target = target.queryParam("message", (String) args[0]).queryParam("padding", (int) args[1]);
+//        Invocation.Builder builder = target.request();
+//        builder.accept(MediaType.APPLICATION_JSON_TYPE);
+//        return builder.get(String.class);
+//    }
 
     @Override
     public void onStartEvent() {
