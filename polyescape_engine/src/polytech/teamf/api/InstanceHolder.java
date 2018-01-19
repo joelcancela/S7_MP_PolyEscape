@@ -35,9 +35,14 @@ public class InstanceHolder {
 	 *
 	 * @param config The plugins configurations.
 	 */
-	public static void createNewInstance(String uuid, String config) {
+	public static void createNewInstance(String uuid, Map<String,Object> config) {
 		Runner runner = new Runner(config);
 		runnersInstances.put(uuid, runner);
+	}
+
+
+	public static Runner getRunnerInstance(String id) {
+		return runnersInstances.get(id);
 	}
 
 }

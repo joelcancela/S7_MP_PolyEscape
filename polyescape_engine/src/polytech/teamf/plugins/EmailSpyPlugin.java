@@ -19,8 +19,8 @@ public class EmailSpyPlugin extends Plugin {
     /**
      * Initializes the plugin
      *
-     * @param description The plugin description
-     * @param plain_text  The plain text to discover
+     * @param description the plugin description
+     * @param plain_text  the plain text to discover
      */
     public EmailSpyPlugin(String description, String plain_text) {
 
@@ -76,4 +76,5 @@ public class EmailSpyPlugin extends Plugin {
     public void onEndEvent() {
 
     }
+
 }

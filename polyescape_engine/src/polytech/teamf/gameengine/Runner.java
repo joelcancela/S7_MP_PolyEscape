@@ -8,6 +8,7 @@ import polytech.teamf.plugins.Plugin;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Runner {
 
@@ -36,23 +37,8 @@ public class Runner {
      *
      * @param json The plugins configuration.
      */
-    public Runner(String json) {
+    public Runner(Map<String,Object> config) {
 
-        JSONParser JSONParser = new JSONParser(json); // parse the json
-
-        List<HashMap<String, String>> list = JSONParser.getPlugins(); // get the plugins list
-
-        for (HashMap<String, String> map : list) { // fill the list of plugins thx to the JSONParser data
-            JSONObject toBuild = new JSONObject();
-
-            for (String str : map.keySet()) {
-                toBuild.put(str, map.get(str));
-            }
-            //plugins.add(PluginFactory.create(map.get("type"), toBuild));
-            // TODO : implement correct behavior here without a Plugin Factory
-        }
-
-        currentPlugin = plugins.get(it);
     }
 
     public Plugin getPlugin() {
@@ -66,10 +52,10 @@ public class Runner {
      * @param jsonObject Plugin arguments
      * @return
      */
-    public IEvent sendMessage(JSONObject jsonObject) {
+    public IEvent sendMessage(Map<String,Object> args) {
 
         try {
-            IEvent e = this.currentPlugin.execute(null);
+            IEvent e = this.currentPlugin.execute(args);
 
             if (e instanceof GoodResponseEvent) {
                 this.currentPluginStatus = true;

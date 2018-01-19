@@ -1,11 +1,9 @@
 package polytech.teamf.api;
 
-import org.json.JSONObject;
-import polytech.teamf.plugins.IPlugin;
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Map;
 import java.util.UUID;
 
 @Path("/runners")
@@ -30,22 +28,22 @@ public class RunnerServices {
      */
 
     /**
-     * Instantiate a new runner instance
+     * Instantiate a new runner instance.
      *
-     * @param config The plugins configuration
-     * @return HTTP response. 404 if no plugins configuration is given, 201 otherwise.
+     * @param  config the plugins configuration
+     * @return HTTP response. 404 if no plugins configuration is given, 201 otherwise
      */
     @PUT
     @Path("/instantiate")
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response instantiateRunner(String config) {
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response instantiateRunner(Map<String,Object> config) {
         String uuid = UUID.randomUUID().toString();
         if (config.isEmpty()) {
             return Response.status(400).entity("EmptyConfiguration: Configuration is empty!").build();
         }
         InstanceHolder.createNewInstance(uuid, config);
-        return Response.ok(new JSONObject().put("id", uuid).toString(), MediaType.APPLICATION_JSON).build();
+        return Response.ok().entity(uuid).build();
+
     }
 
     /**
@@ -58,7 +56,7 @@ public class RunnerServices {
      *
      * @apiParamExample {json} Request-Example (Be careful, a request is plugin specific):
      * {
-     *     "attempt_text": "Put your answer here"
+     *     "attempt": "Put your answer here"
      * }
      *
      * @apiError EmptyAnswer The answer was empty. <code>1</code> answer has to be given.
@@ -75,18 +73,14 @@ public class RunnerServices {
      * @param answer The player's answer.
      * @param id     The runner unique id.
      * @return The answer's result.
-     * @throws Exception See {@link IPlugin#play(org.json.JSONObject)}
      */
     @POST
     @Path("/{id}/answer")
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response answerStep(@PathParam("id") String id, String answer) throws Exception {
+    public Response answerStep(@PathParam("id") String id, Map<String,Object> answer) throws Exception {
         if (answer.isEmpty()) {
             return Response.status(400).entity("EmptyAnswer: Answer is empty!").build();
         }
-        return Response.ok(InstanceHolder.runnersInstances.get(id).sendGuess_GetResponse(answer).toString(),
-                MediaType.APPLICATION_JSON).build();
+        return Response.ok(InstanceHolder.getInstance().getRunnerInstance(id).sendMessage(answer)).build();
     }
 
     /**
@@ -112,9 +106,35 @@ public class RunnerServices {
      */
     @GET
     @Path("/{id}/status")
-    @Produces(MediaType.APPLICATION_JSON)
     public String getLastResult(@PathParam("id") String id) {
         return InstanceHolder.runnersInstances.get(id).nextPlugin().toString();
+    }
+
+
+    /**
+     * @api {get} /plugins/{id}/description The current played plugin description on the runner with id {id}
+     * @apiName PluginsDescription
+     * @apiGroup Plugins
+     * @apiVersion 0.1.0
+     *
+     * @apiSuccess (200) {String} description The plugin description
+     *
+     * @apiSuccessExample Example data on success
+     * {
+     *     "description": "Plugin description"
+     * }
+     */
+
+    /**
+     * Get the current played plugin description.
+     *
+     * @return A string obtained from a JSONObject filled with the current played plugin description.
+     */
+    @GET
+    @Path("/{id}/description")
+    public String getPluginDescription(@PathParam("id") String id) {
+        //TODO
+        return null;
     }
 
 }

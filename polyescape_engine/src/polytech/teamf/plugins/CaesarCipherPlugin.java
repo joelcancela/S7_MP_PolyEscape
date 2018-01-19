@@ -59,10 +59,8 @@ public class CaesarCipherPlugin extends Plugin {
 
     private String toCaesar(String plain_text, int cipher_padding) {
 
-        // TODO : implement this method stub
-        return "";
-        // JSONObject response = new JSONObject(ServiceManager.callCaesarCipherPlugin(plain_text, cipher_padding));
-        // return response.get("result").toString();
+        //TODO
+	    return null;
     }
 
     @Override
@@ -85,13 +83,6 @@ public class CaesarCipherPlugin extends Plugin {
 
     }
 
-//    public String CaesarCipher(Object[] args) {
-//        WebTarget target = client.target(CAESAR_CIPHER_SERVICE_URI);
-//        target = target.queryParam("message", (String) args[0]).queryParam("padding", (int) args[1]);
-//        Invocation.Builder builder = target.request();
-//        builder.accept(MediaType.APPLICATION_JSON_TYPE);
-//        return builder.get(String.class);
-//    }
 
     @Override
     public void onStartEvent() {
@@ -102,4 +93,5 @@ public class CaesarCipherPlugin extends Plugin {
     public void onEndEvent() {
 
     }
+
 }
