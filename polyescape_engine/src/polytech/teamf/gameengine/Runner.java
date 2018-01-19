@@ -111,12 +111,12 @@ public class Runner {
      * @return the instanciated plugin
      * @throws Exception
      */
-    /*
-    public ArrayList<Plugin> getPluginsFromJar(List<PluginInit> datas, List<Class> pluginClasses) throws Exception
+
+    public ArrayList<Plugin> getPluginsFromJar(List<MetaPlugin> datas, List<Class> pluginClasses) throws Exception
     {
         ArrayList<Plugin> plugins = new ArrayList<>();
 
-        for(PluginInit pi : datas) {
+        for(MetaPlugin pi : datas) {
             for(Class c : pluginClasses){
                 if(c.getName().equals(pi.getName())) {
                     Object p = c.getClass().getDeclaredConstructor(pi.getTypes()).newInstance(pi.getValues());
@@ -126,5 +126,5 @@ public class Runner {
         }
         return plugins;
     }
-    */
+
 }
