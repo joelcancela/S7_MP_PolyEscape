@@ -3,7 +3,6 @@ package polytech.teamf.game_engine;
 import org.json.JSONObject;
 import polytech.teamf.plugins.IPlugin;
 import polytech.teamf.plugins.Plugin;
-import polytech.teamf.plugins.PluginFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,15 +29,18 @@ public class Runner {
      */
     public Runner(String json) {
 
-        Parser parser = new Parser(json); // parse the json
+        JSONParser JSONParser = new JSONParser(json); // parse the json
 
-        List<HashMap<String, String>> list = parser.getPlugins(); // get the plugins list
+        List<HashMap<String, String>> list = JSONParser.getPlugins(); // get the plugins list
 
-        for (HashMap<String, String> map : list) { // fill the list of plugins thx to the parser data
+        for (HashMap<String, String> map : list) { // fill the list of plugins thx to the JSONParser data
             JSONObject toBuild = new JSONObject();
-            map.keySet().forEach(str -> toBuild.put(str, map.get(str)));
-            plugins.add(PluginFactory.create(map.get("type"), toBuild));
 
+            for (String str : map.keySet()) {
+                toBuild.put(str, map.get(str));
+            }
+            //plugins.add(PluginFactory.create(map.get("type"), toBuild));
+            // TODO : implement correct behavior here without a Plugin Factory
         }
 
         currentPlugin = plugins.get(it);
@@ -50,7 +52,8 @@ public class Runner {
      * @return A JSONObject containing the current plugin description & the format of the waited answer.
      */
     public JSONObject getDescription() {
-        return new JSONObject().put("description", currentPlugin.getDescription()).put("answer_format", currentPlugin.getAns_format());
+        // TODO : fix this method stub
+        return new JSONObject().put("description", currentPlugin.getDescription()).put("answer_format" , "");
     }
 
     public Plugin getPlugin() {
@@ -64,21 +67,18 @@ public class Runner {
      */
     public void sendMessage(JSONObject jsonObject) {
         try {
-            this.currentPlugin.play(jsonObject);
+            this.currentPlugin.sendEvent(this.currentPlugin.execute(null));
+
+
+            //this.currentPlugin.play(jsonObject);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * Given an answer, tells if you are right or wrong
-     *
-     * @param guess The player's answer to the current step.
-     * @return The answer's result.
-     * @throws Exception See {@link IPlugin#play(org.json.JSONObject)}
-     */
     public JSONObject sendGuess_GetResponse(String guess) throws Exception {
-        return currentPlugin.play(new JSONObject(guess));
+        return null;
+        //return currentPlugin.play(new JSONObject(guess));
     }
 
     /**
@@ -98,8 +98,7 @@ public class Runner {
         return new JSONObject().put("status", "ok");
     }
 
-    public String getStatus() {
-        return currentPlugin.getStatus();
+    public String getStatus(){
+        return null;
     }
-
 }

@@ -64,24 +64,6 @@ public class PluginServices {
 
             if (Plugin.class.isAssignableFrom(c) && c != Plugin.class) {
 
-                try {
-                    Plugin p = (Plugin) c.newInstance(); // Call default constructor
-
-                    jsonPlugin.put("name", p.getName());
-
-                    List<String> args = p.getArgs();
-                    for (String arg : args) {
-                        jsonPluginArgs.put(arg);
-                    }
-
-                    Map<String, String> schema = p.getSchema();
-                    for (Map.Entry<String, String> entry : schema.entrySet()) {
-                        jsonPluginSchema.put(entry.getKey(), entry.getValue());
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
                 jsonPlugin.put("type", c.getSimpleName());
                 jsonPlugin.put("args", jsonPluginArgs);
                 jsonPlugin.put("schema", jsonPluginSchema);

@@ -1,104 +1,80 @@
 package polytech.teamf.plugins;
 
+import polytech.teamf.events.IEvent;
+import polytech.teamf.events.IEventListener;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Plugin implements IPlugin {
+public abstract class Plugin implements IPlugin, IEventListener {
 
     /**
-     * Constructor Arguments
+     * Nested Plugin List
      */
-    private List<String> args = new ArrayList<>();
+    private List<Plugin> plugins = new ArrayList<>();
 
     /**
-     * Form Schema
+     * Plugin attributes
      */
-    protected Map<String, String> schema = new HashMap<>();
-
-    /**
-     * Validation State of The Plugin
-     */
-    protected boolean isValidatedState = false;
-    protected static final String SUCCESS = "success";
-
-    protected String isSuccess = "false";
-
-    /**
-     * Plugin Description Field
-     */
-    private String description = "";
-
-    /**
-     * Plugin Name
-     */
-    private String name = "";
-
-
-    /**
-     * the format of the answer
-     */
-    protected String ans_format = "";
-
-    /**
-     * Description Getter
-     *
-     * @return description
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
-     * Name Getter
-     *
-     * @return name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * answer format getter
-     *
-     * @return answer format
-     */
-    public String getAns_format() {
-        return ans_format;
-    }
+    private Map<String, Object> attributes = new HashMap<>();
 
     /**
      * Shared constructor with inherited plugins
      *
-     * @param description The plugin description as a short text
      * @param name        The plugin name
+     * @param description The plugin description as a short text
      */
-    Plugin(String description, String name) {
-        this.description = description;
-        this.name = name;
-
-        // ARGS
-        args.add("description");
-    }
-
-    public boolean isValidatedState() {
-        return isValidatedState;
+    Plugin(String name, String description) {
+        this.attributes.put("name", name);
+        this.attributes.put("description", description);
     }
 
     @Override
-    public List<String> getArgs() {
-        return args;
+    public final void addPlugin(Plugin p) {
+        this.plugins.add(p);
     }
 
     @Override
-    public Map<String, String> getSchema() {
-        return schema;
+    public final void sendEvent(IEvent e) {
+
+        // Fire event
+        e.fire();
+
+        // Notify nested plugins
+        for (Plugin p : this.plugins) {
+            p.sendEvent(e);
+        }
     }
 
     @Override
-    public String getStatus() {
-        return isSuccess;
+    public Map<String, Object> getAttributes() {
+        return this.attributes;
     }
 
+    @Override
+    public String getDescription() {
+        if (!this.attributes.containsKey("description")) {
+            return null;
+        }
+        return this.attributes.get("description").toString();
+    }
+
+    @Override
+    public String getName() {
+        if (!this.attributes.containsKey("name")) {
+            return null;
+        }
+        return this.attributes.get("name").toString();
+    }
+
+    /**
+     * Update Plugin attribute given a key
+     * @param key Attribute identifier
+     * @param value Attribute value
+     */
+    void putAttribute(String key, Object value) {
+        this.attributes.put(key, value);
+    }
 }
