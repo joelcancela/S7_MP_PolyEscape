@@ -1,8 +1,8 @@
 package polytech.teamf.services;
 
-public class PolyEscapeEmailSpyService extends Service {
+public class EmailSpyService extends Service {
 
-    public PolyEscapeEmailSpyService() {
+    public EmailSpyService() {
         this.name = "Service de Mail Zapier";
         this.inputService = true;
         this.serviceHost = "https://zapier.com/";
