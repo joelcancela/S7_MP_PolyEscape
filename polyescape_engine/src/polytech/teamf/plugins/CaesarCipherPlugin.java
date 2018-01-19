@@ -3,8 +3,10 @@ package polytech.teamf.plugins;
 import polytech.teamf.events.BadResponseEvent;
 import polytech.teamf.events.GoodResponseEvent;
 import polytech.teamf.events.IEvent;
+import polytech.teamf.services.CaesarCipherService;
 import polytech.teamf.services.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +20,7 @@ public class CaesarCipherPlugin extends Plugin {
     /**
      * Caesar Service Handle
      */
-    private Service caesar;
+    private CaesarCipherService caesar;
 
     /**
      * Initializes the plugin
@@ -32,7 +34,7 @@ public class CaesarCipherPlugin extends Plugin {
         super(description, "Epreuve code Caesar");
 
         // SERVICES
-        this.caesar = this.invokeService("CaesarCipherService");
+        this.caesar = (CaesarCipherService) this.invokeService("CaesarCipherService");
 
         // INNER MODEL
         this.plain_text = plain_text.toUpperCase();
@@ -58,9 +60,10 @@ public class CaesarCipherPlugin extends Plugin {
     }
 
     private String toCaesar(String plain_text, int cipher_padding) {
-
-        //TODO
-	    return null;
+        Map<String,Object> args = new HashMap<>();
+        args.put(caesar.MESSAGE_KEY,plain_text);
+        args.put(caesar.PADDING_KEY,cipher_padding);
+        return caesar.call(args);
     }
 
     @Override

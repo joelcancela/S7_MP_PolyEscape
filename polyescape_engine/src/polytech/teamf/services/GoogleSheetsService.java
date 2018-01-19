@@ -15,7 +15,7 @@ public class GoogleSheetsService extends Service {
 		this.serviceHost = "https://docs.google.com/spreadsheets/d/";
 	}
 
-	protected String call(Map<String, Object> callArgs) {
+	public String call(Map<String, Object> callArgs) {
 		String spreadsheetID = (String) callArgs.get(SPREADSHEET_ID_KEY);
 		WebTarget target = client.target(serviceHost + spreadsheetID);
 		Invocation.Builder builder = target.request();
