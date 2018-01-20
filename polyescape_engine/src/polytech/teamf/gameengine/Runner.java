@@ -36,7 +36,7 @@ public class Runner {
     /**
      * Runner that parse the json & instantiate plugins.
      *
-     * @param json The plugins configuration.
+     * @param config The plugins configuration.
      */
     public Runner(Map<String,Object> config) {
 
@@ -50,7 +50,7 @@ public class Runner {
      * Notify the plugin of an incoming message
      * Notify the plugin plus its nested plugin of the event
      *
-     * @param jsonObject Plugin arguments
+     * @param args Plugin arguments
      * @return
      */
     public IEvent sendMessage(Map<String,Object> args) {
@@ -86,6 +86,12 @@ public class Runner {
      * plugins to play or "ok" otherwise.
      */
     public JSONObject nextPlugin() {
+
+        this.currentPluginStatus = false; // Reset plugin state
+
+        // TODO : refactor this method
+        // Go to next plugin
+        // Require to remove the JSON OBject
 
         it++;
 
