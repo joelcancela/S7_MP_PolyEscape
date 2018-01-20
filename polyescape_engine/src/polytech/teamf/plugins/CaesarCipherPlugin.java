@@ -3,9 +3,10 @@ package polytech.teamf.plugins;
 import polytech.teamf.events.BadResponseEvent;
 import polytech.teamf.events.GoodResponseEvent;
 import polytech.teamf.events.IEvent;
+import polytech.teamf.services.CaesarCipherService;
 import polytech.teamf.services.Service;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +20,7 @@ public class CaesarCipherPlugin extends Plugin {
     /**
      * Caesar Service Handle
      */
-    private Service caesar;
+    private CaesarCipherService caesar;
 
     /**
      * Initializes the plugin
@@ -33,7 +34,7 @@ public class CaesarCipherPlugin extends Plugin {
         super(description, "Epreuve code Caesar");
 
         // SERVICES
-        this.caesar = this.invokeService("CaesarCipherService");
+        this.caesar = (CaesarCipherService) this.invokeService("CaesarCipherService");
 
         // INNER MODEL
         this.plain_text = plain_text.toUpperCase();
@@ -59,11 +60,10 @@ public class CaesarCipherPlugin extends Plugin {
     }
 
     private String toCaesar(String plain_text, int cipher_padding) {
-
-        // TODO : implement this method stub
-        return "";
-        // JSONObject response = new JSONObject(ServiceManager.callCaesarCipherPlugin(plain_text, cipher_padding));
-        // return response.get("result").toString();
+        Map<String,Object> args = new HashMap<>();
+        args.put(caesar.MESSAGE_KEY,plain_text);
+        args.put(caesar.PADDING_KEY,cipher_padding);
+        return caesar.call(args);
     }
 
     @Override
@@ -76,13 +76,6 @@ public class CaesarCipherPlugin extends Plugin {
 
     }
 
-//    public String CaesarCipher(Object[] args) {
-//        WebTarget target = client.target(CAESAR_CIPHER_SERVICE_URI);
-//        target = target.queryParam("message", (String) args[0]).queryParam("padding", (int) args[1]);
-//        Invocation.Builder builder = target.request();
-//        builder.accept(MediaType.APPLICATION_JSON_TYPE);
-//        return builder.get(String.class);
-//    }
 
     @Override
     public void onStartEvent() {
@@ -93,4 +86,5 @@ public class CaesarCipherPlugin extends Plugin {
     public void onEndEvent() {
 
     }
+
 }

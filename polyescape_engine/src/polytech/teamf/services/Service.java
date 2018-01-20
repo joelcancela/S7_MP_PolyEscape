@@ -11,7 +11,7 @@ public abstract class Service {
 	protected String serviceHost = "localhost:8080";
 	protected Client client = ClientBuilder.newBuilder().newClient();
 
-	protected String call(Map<String, Object> callArgs) {
+	public String call(Map<String, Object> callArgs) {
 		return null;
 	}
 }
