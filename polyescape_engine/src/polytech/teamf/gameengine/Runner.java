@@ -6,14 +6,12 @@ import polytech.teamf.events.IEvent;
 import polytech.teamf.jarloader.JarLoader;
 import polytech.teamf.plugins.MetaPlugin;
 import polytech.teamf.plugins.Plugin;
+import polytech.teamf.resources.PluginDescriptionResource;
 import polytech.teamf.resources.PluginInstantiationResource;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Runner {
 
@@ -46,6 +44,24 @@ public class Runner {
 		for (PluginInstantiationResource plugin : config) {
 			instantiatePlugin(plugin);
 		}
+		currentPlugin = plugins.get(it);
+	}
+
+	public PluginDescriptionResource getCurrentPluginDescription(){
+		Map<String,Object> attributes = currentPlugin.getAttributes();
+		Map<String,Object> schema = new HashMap<>();
+		for(MetaPlugin metaPlugin : JarLoader.getInstance().getMetaPlugins()){
+			if(metaPlugin.getName().equals(currentPlugin.getName())){
+				schema = metaPlugin.getSchema();
+				System.out.println("Found");
+				System.out.println(attributes.keySet());
+				System.out.println(attributes.values());
+				System.out.println(schema.keySet());
+				System.out.println(schema.values());
+
+			}
+		}
+		return new PluginDescriptionResource(attributes, schema);
 	}
 
 
