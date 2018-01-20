@@ -1,6 +1,6 @@
 package polytech.teamf.jarloader;
 
-import polytech.teamf.gameengine.MetaPlugin;
+import polytech.teamf.plugins.MetaPlugin;
 
 import javax.inject.Singleton;
 import java.io.File;

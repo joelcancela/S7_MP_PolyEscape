@@ -38,14 +38,4 @@ public interface IPlugin {
      * Notify the plugin plus the nested plugins of the event
      */
     void sendEvent(IEvent e);
-
-    /**
-     * Returns the list of required plugins
-     */
-    List<IPlugin> getPluginDependencies();
-
-    /**
-     * Returns the list of required services
-     */
-    List<Service> getServiceDependencies();
 }
