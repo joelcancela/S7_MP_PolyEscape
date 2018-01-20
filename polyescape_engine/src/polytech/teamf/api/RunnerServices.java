@@ -2,6 +2,7 @@ package polytech.teamf.api;
 
 import polytech.teamf.resources.PluginDescriptionResource;
 import polytech.teamf.resources.PluginInstantiationResource;
+import polytech.teamf.resources.RunnerInstanceResource;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -46,8 +47,9 @@ public class RunnerServices {
             return Response.status(400).entity("EmptyConfiguration: Configuration is empty!").build();
         }
         InstanceHolder.createNewInstance(uuid, config);
-        return Response.ok().entity(uuid).build();
-
+        RunnerInstanceResource runnerInstanceResource = new RunnerInstanceResource();
+        runnerInstanceResource.setId(uuid);
+        return Response.ok().entity(runnerInstanceResource).build();
     }
 
     /**
