@@ -3,21 +3,19 @@ package polytech.teamf.plugins;
 import polytech.teamf.events.BadResponseEvent;
 import polytech.teamf.events.GoodResponseEvent;
 import polytech.teamf.events.IEvent;
-import polytech.teamf.services.Service;
 
-import java.util.List;
 import java.util.Map;
 
 public class EmailSpyPlugin extends Plugin {
 
     /**
-     * The original plain text
-     * Is used by the validation process
+     * The original plain text.
+     * Is used by the validation process.
      */
     private String plain_text = "";
 
     /**
-     * Initializes the plugin
+     * Initializes the plugin.
      *
      * @param description the plugin description
      * @param plain_text  the plain text to discover
@@ -44,6 +42,7 @@ public class EmailSpyPlugin extends Plugin {
         if (this.plain_text.equals(response)) {
             return new GoodResponseEvent(this);
         }
+
         return new BadResponseEvent(this);
     }
 

@@ -8,12 +8,8 @@ import org.json.JSONObject;
  * @author Joël CANCELA VAZ
  */
 public class GoogleSheetsPlugin {
-	/**
-	      * Google Sheet URL
-	      */
 
-	// TODO : implement this plugin
-
+    // TODO : implement this plugin
     public JSONObject execute() {
         return null;
     }

@@ -9,4 +9,5 @@ public abstract class Event implements IEvent {
     Event(Plugin p) {
         this.source = p;
     }
+
 }

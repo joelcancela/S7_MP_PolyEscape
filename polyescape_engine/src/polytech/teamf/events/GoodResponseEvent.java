@@ -12,4 +12,5 @@ public class GoodResponseEvent extends Event {
     public void fire() {
         this.source.onGoodResponseEvent();
     }
+
 }

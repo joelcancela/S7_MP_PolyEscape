@@ -12,22 +12,23 @@ import java.util.Map;
  */
 public class CaesarCipherService extends Service {
 
-	public static final String MESSAGE_KEY = "message";
-	public static final String PADDING_KEY = "padding";
+    public static final String MESSAGE_KEY = "message";
+    public static final String PADDING_KEY = "padding";
 
-	public CaesarCipherService() {
-		this.name = "Service de cryptage en Code César";
-		this.inputService = false;
-		this.serviceHost = "https://www.joelcancela.fr/services/fun/caesar_cipher.php";
-	}
+    public CaesarCipherService() {
+        this.name = "Service de cryptage en Code César";
+        this.inputService = false;
+        this.serviceHost = "https://www.joelcancela.fr/services/fun/caesar_cipher.php";
+    }
 
-	@Override
-	public String call(Map<String, Object> callArgs) {
-		WebTarget target = client.target(serviceHost);
-		target = target.queryParam(MESSAGE_KEY, callArgs.get(MESSAGE_KEY))
-				.queryParam(PADDING_KEY,(int) callArgs.get(PADDING_KEY));
-		Invocation.Builder builder = target.request();
-		builder.accept(MediaType.APPLICATION_JSON_TYPE);
-		return builder.get(String.class);
-	}
+    @Override
+    public String call(Map<String, Object> callArgs) {
+        WebTarget target = client.target(serviceHost);
+        target = target.queryParam(MESSAGE_KEY, callArgs.get(MESSAGE_KEY))
+                .queryParam(PADDING_KEY, (int) callArgs.get(PADDING_KEY));
+        Invocation.Builder builder = target.request();
+        builder.accept(MediaType.APPLICATION_JSON_TYPE);
+        return builder.get(String.class);
+    }
+
 }

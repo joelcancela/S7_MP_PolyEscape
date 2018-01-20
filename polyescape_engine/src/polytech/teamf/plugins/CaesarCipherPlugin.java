@@ -58,9 +58,9 @@ public class CaesarCipherPlugin extends Plugin {
     }
 
     private String toCaesar(String plain_text, int cipher_padding) {
-        Map<String,Object> args = new HashMap<>();
-        args.put(caesar.MESSAGE_KEY,plain_text);
-        args.put(caesar.PADDING_KEY,cipher_padding);
+        Map<String, Object> args = new HashMap<>();
+        args.put(caesar.MESSAGE_KEY, plain_text);
+        args.put(caesar.PADDING_KEY, cipher_padding);
         return caesar.call(args);
     }
 

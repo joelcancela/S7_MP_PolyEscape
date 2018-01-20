@@ -2,10 +2,14 @@ package polytech.teamf.events;
 
 import java.util.EventListener;
 
-public interface IEventListener extends EventListener{
+public interface IEventListener extends EventListener {
 
-	void onBadResponseEvent();
-	void onGoodResponseEvent();
-	void onStartEvent();
-	void onEndEvent();
+    void onBadResponseEvent();
+
+    void onGoodResponseEvent();
+
+    void onStartEvent();
+
+    void onEndEvent();
+
 }

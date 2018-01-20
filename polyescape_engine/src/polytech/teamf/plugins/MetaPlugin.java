@@ -2,7 +2,6 @@ package polytech.teamf.plugins;
 
 import org.ini4j.Profile;
 import org.ini4j.Wini;
-import polytech.teamf.services.Service;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,40 +10,41 @@ import java.util.*;
 public class MetaPlugin {
 
     /**
-     * Class name
+     * Class name.
      */
     private String type;
 
     /**
-     * Constructor args types
+     * Constructor args types.
      */
     private List<Class> argsTypes = new ArrayList<>();
 
     /**
-     * Values to pass back to the plugin constructor
+     * Values to pass back to the plugin constructor.
      */
     private List<Object> argsValues = new ArrayList<>();
 
     /**
-     * the expected format of the input for the plugin execution
+     * The expected format of the input for the plugin execution.
      */
     private Map<String, Object> schema;
 
     /**
-     * Plugins dependencies
+     * Plugins dependencies.
      */
     private List<Class> plugins = new ArrayList<>();
 
     /**
-     * Service dependencies
+     * Service dependencies.
      */
     private List<Class> services = new ArrayList<>();
 
     /**
-     * INI File Parser
-     * @param iniFile
-     * @return
-     * @throws IOException
+     * INI File Parser.
+     *
+     * @param iniFile the ini file
+     * @return a {@link MetaPlugin}
+     * @throws IOException triggers if a resource can't be loaded
      */
     public static MetaPlugin parseIniFile(File iniFile) throws IOException {
 
@@ -63,30 +63,32 @@ public class MetaPlugin {
         Wini ini = new Wini(iniFile);
         Collection<Profile.Section> list = ini.values();
 
-        for(Profile.Section section : list){
+        for (Profile.Section section : list) {
+
             switch (section.getName()) {
                 case "SCHEMA":
-                    for(Map.Entry entry : section.entrySet()){
+                    for (Map.Entry entry : section.entrySet()) {
                         schema.put(entry.getKey().toString(), entry.getValue().toString());
                     }
                     break;
                 case "PLUGINS":
-                    for(Map.Entry entry : section.entrySet()){
+                    for (Map.Entry entry : section.entrySet()) {
                         plugins.add(entry.getValue().toString());
                     }
                     break;
                 case "SERVICES":
-                    for(Map.Entry entry : section.entrySet()){
+                    for (Map.Entry entry : section.entrySet()) {
                         services.add(entry.getValue().toString());
                     }
                     break;
                 default:
                     type = section.getName();
-                    for(Map.Entry entry : section.entrySet()){
+                    for (Map.Entry entry : section.entrySet()) {
                         args.put(entry.getKey().toString(), entry.getValue().toString());
                     }
                     break;
             }
+
         }
 
         try {
@@ -94,6 +96,7 @@ public class MetaPlugin {
         } catch (ClassNotFoundException e) {
             return null;
         }
+
     }
 
     private MetaPlugin(
@@ -107,7 +110,7 @@ public class MetaPlugin {
         this.type = type;
 
         for (Map.Entry e : args.entrySet()) {
-            Class t = Class.forName( "java.lang." + e.getValue().toString()); // Triggers exception if type not found
+            Class t = Class.forName("java.lang." + e.getValue().toString()); // Triggers exception if type not found
             this.argsTypes.add(t);
             this.argsValues.add(null);
         }
@@ -115,30 +118,33 @@ public class MetaPlugin {
         this.schema = schema;
 
         for (String clazz : plugins) {
-            Class t = Class.forName( clazz );
+            Class t = Class.forName(clazz);
             this.plugins.add(t);
         }
 
         for (String clazz : services) {
-            Class t = Class.forName( clazz );
+            Class t = Class.forName(clazz);
             this.services.add(t);
         }
+
     }
 
     /**
-     * Returns the Simple Class Name of the plugin
-     * @return
+     * Get the Simple Class Name of the plugin.
+     *
+     * @return the class name
      */
     public String getName() {
         return this.type;
     }
 
     /**
-     * Returns the Constructor Types
-     * @return
+     * Get the Constructor Types.
+     *
+     * @return a class array which include the constructor parameters types
      */
     public Class[] getTypes() {
-        Class[] clazz = new Class[ this.argsTypes.size() ];
+        Class[] clazz = new Class[this.argsTypes.size()];
         int i = 0;
         for (Class c : this.argsTypes) {
             clazz[i] = c;
@@ -148,38 +154,45 @@ public class MetaPlugin {
     }
 
     /**
-     * Returns the Constructor Initialized Values (i.e : the concrete ones)
-     * @return
+     * Get the Constructor Initialized Values (i.e : the concrete ones).
+     *
+     * @return the {@link #argsValues} list
      */
-    public ArrayList getValues() {
-        return (ArrayList) this.argsValues;
+    public List getValues() {
+        return this.argsValues;
     }
 
     /**
-     * Initialize the values to pass back to the plugin constructor
+     * Initializes the values to pass back to the plugin constructor
+     *
      * @param initializationList
      */
-    public void initialize(ArrayList initializationList) {
+    public void initialize(List initializationList) {
         this.argsValues = initializationList;
     }
 
     /**
-     * Returns the expected format of the input for the plugin execution
-     * @return
+     * Get the expected format of the input for the plugin execution.
+     *
+     * @return the schema map
      */
     public Map<String, Object> getSchema() {
         return this.schema;
     }
 
     /**
-     * Returns the list of required plugins
+     * Get the list of required plugins.
+     *
+     * @return a class list which include the class of each plugin
      */
     List<Class> getPluginDependencies() {
         return this.plugins;
     }
 
     /**
-     * Returns the list of required services
+     * Get the list of required services.
+     *
+     * @return a class list which include the class of each service
      */
     List<Class> getServiceDependencies() {
         return this.services;
@@ -214,4 +227,5 @@ public class MetaPlugin {
                 this.getSchema().toString() +
                 "}";
     }
+
 }

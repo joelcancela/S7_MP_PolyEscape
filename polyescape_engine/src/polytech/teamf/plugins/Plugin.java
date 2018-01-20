@@ -72,7 +72,8 @@ public abstract class Plugin implements IPlugin, IEventListener {
 
     /**
      * Update Plugin attribute given a key
-     * @param key Attribute identifier
+     *
+     * @param key   Attribute identifier
      * @param value Attribute value
      */
     void putAttribute(String key, Object value) {
@@ -82,15 +83,14 @@ public abstract class Plugin implements IPlugin, IEventListener {
     /**
      * Service Invoker
      *
-     * @param className
-     * @return
+     * @param className the class name
+     * @return the service to invoke
      */
     protected Service invokeService(String className) {
 
         try {
             Class t = Class.forName(className);
-            return (Service)t.newInstance();
-
+            return (Service) t.newInstance();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
@@ -98,7 +98,8 @@ public abstract class Plugin implements IPlugin, IEventListener {
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
-        return null;
 
+        return null;
     }
+
 }
