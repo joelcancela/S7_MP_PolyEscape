@@ -31,6 +31,16 @@ public class MetaPlugin {
     private Map<String, Object> schema;
 
     /**
+     * Plugins dependencies
+     */
+    private List<Class> plugins = new ArrayList<>();
+
+    /**
+     * Service dependencies
+     */
+    private List<Class> services = new ArrayList<>();
+
+    /**
      * INI File Parser
      * @param iniFile
      * @return
@@ -46,6 +56,9 @@ public class MetaPlugin {
         Map<String, Object> args = new HashMap<>();
         Map<String, Object> schema = new HashMap<>();
 
+        List<String> plugins = new ArrayList<>();
+        List<String> services = new ArrayList<>();
+
         // read plugin sections
         Wini ini = new Wini(iniFile);
         Collection<Profile.Section> list = ini.values();
@@ -55,6 +68,16 @@ public class MetaPlugin {
                 case "SCHEMA":
                     for(Map.Entry entry : section.entrySet()){
                         schema.put(entry.getKey().toString(), entry.getValue().toString());
+                    }
+                    break;
+                case "PLUGINS":
+                    for(Map.Entry entry : section.entrySet()){
+                        plugins.add(entry.getValue().toString());
+                    }
+                    break;
+                case "SERVICES":
+                    for(Map.Entry entry : section.entrySet()){
+                        services.add(entry.getValue().toString());
                     }
                     break;
                 default:
@@ -67,13 +90,19 @@ public class MetaPlugin {
         }
 
         try {
-            return new MetaPlugin(type, args, schema);
+            return new MetaPlugin(type, args, schema, plugins, services);
         } catch (ClassNotFoundException e) {
             return null;
         }
     }
 
-    private MetaPlugin (String type, Map<String, Object> args, Map<String, Object> schema) throws ClassNotFoundException {
+    private MetaPlugin(
+            String type,
+            Map<String, Object> args,
+            Map<String, Object> schema,
+            List<String> plugins,
+            List<String> services
+    ) throws ClassNotFoundException {
 
         this.type = type;
 
@@ -84,6 +113,16 @@ public class MetaPlugin {
         }
 
         this.schema = schema;
+
+        for (String clazz : plugins) {
+            Class t = Class.forName( clazz );
+            this.plugins.add(t);
+        }
+
+        for (String clazz : services) {
+            Class t = Class.forName( clazz );
+            this.services.add(t);
+        }
     }
 
     /**
@@ -135,15 +174,15 @@ public class MetaPlugin {
     /**
      * Returns the list of required plugins
      */
-    List<IPlugin> getPluginDependencies() {
-        return null;
+    List<Class> getPluginDependencies() {
+        return this.plugins;
     }
 
     /**
      * Returns the list of required services
      */
-    List<Service> getServiceDependencies() {
-        return null;
+    List<Class> getServiceDependencies() {
+        return this.services;
     }
 
     @Override

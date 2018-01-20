@@ -4,10 +4,8 @@ import polytech.teamf.events.BadResponseEvent;
 import polytech.teamf.events.GoodResponseEvent;
 import polytech.teamf.events.IEvent;
 import polytech.teamf.services.CaesarCipherService;
-import polytech.teamf.services.Service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class CaesarCipherPlugin extends Plugin {
