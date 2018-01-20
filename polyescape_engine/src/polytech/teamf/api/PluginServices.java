@@ -1,5 +1,7 @@
 package polytech.teamf.api;
 
+import polytech.teamf.jarloader.JarLoader;
+
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -38,7 +40,7 @@ public class PluginServices {
 	@GET
 	@Path("/list")
 	public String getAllStepsType() {
-		//TODO
+        JarLoader.getInstance();
 		return null;
 	}
 
