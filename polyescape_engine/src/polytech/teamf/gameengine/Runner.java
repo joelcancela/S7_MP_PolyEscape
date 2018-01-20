@@ -77,22 +77,24 @@ public class Runner {
 	 * @param args plugin arguments
 	 * @return an event if the plugin executed properly
 	 */
-	public IEvent sendMessage(Map<String, Object> args) {
+	public boolean sendMessage(Map<String, Object> args) {
 
+
+		IEvent e = null;
 		try {
-			IEvent e = this.currentPlugin.execute(args);
+			e = this.currentPlugin.execute(args);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 
-			if (e instanceof GoodResponseEvent) {
+		if (e instanceof GoodResponseEvent) {
 				this.currentPluginStatus = true;
 			}
 
 			this.sendEvent(e);
-			return e;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
-		return null;
+
+		return currentPluginStatus;
 	}
 
 	/**

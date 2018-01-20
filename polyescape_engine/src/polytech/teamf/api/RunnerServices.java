@@ -1,6 +1,7 @@
 package polytech.teamf.api;
 
 import polytech.teamf.resources.PluginInstantiationResource;
+import polytech.teamf.resources.PluginStatusResource;
 import polytech.teamf.resources.RunnerInstanceResource;
 
 import javax.ws.rs.*;
@@ -81,11 +82,13 @@ public class RunnerServices {
      */
     @POST
     @Path("/{id}/answer")
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response answerStep(@PathParam("id") String id, Map<String, Object> answer) throws Exception {
         if (answer.isEmpty()) {
             return Response.status(400).entity("EmptyAnswer: Answer is empty!").build();
         }
-        return Response.ok(InstanceHolder.getRunnerInstance(id).sendMessage(answer)).build();
+        boolean status = InstanceHolder.getRunnerInstance(id).sendMessage(answer);
+        return Response.ok(new PluginStatusResource(status)).build();
     }
 
     /**
