@@ -1,6 +1,5 @@
 package polytech.teamf.gameengine;
 
-import org.json.JSONObject;
 import polytech.teamf.events.GoodResponseEvent;
 import polytech.teamf.events.IEvent;
 import polytech.teamf.jarloader.JarLoader;
@@ -8,6 +7,7 @@ import polytech.teamf.plugins.MetaPlugin;
 import polytech.teamf.plugins.Plugin;
 import polytech.teamf.resources.PluginDescriptionResource;
 import polytech.teamf.resources.PluginInstantiationResource;
+import polytech.teamf.resources.RunnerInstanceResource;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -112,21 +112,17 @@ public class Runner {
 	 * @return A JSONObject containing the status of the game. The status will be "finish" in case there are no more
 	 * plugins to play or "ok" otherwise.
 	 */
-	public JSONObject nextPlugin() {
-
+	public RunnerInstanceResource nextPlugin() {
+		//FIXME check if currentPluginStatus is true then it could prevent from skipping steps
 		this.currentPluginStatus = false; // Reset plugin state
-
-		// TODO : refactor this method
-		// Go to next plugin
-		// Require to remove the JSON OBject
 
 		it++;
 
 		if (it >= plugins.size())
-			return new JSONObject().put("status", "finish");
+			return new RunnerInstanceResource("finish");
 
 		currentPlugin = plugins.get(it);
-		return new JSONObject().put("status", "ok");
+		return new RunnerInstanceResource("ok");
 	}
 
 	public Boolean getStatus() {

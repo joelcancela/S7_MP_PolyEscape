@@ -114,8 +114,9 @@ public class RunnerServices {
      */
     @GET
     @Path("/{id}/status")
-    public String getLastResult(@PathParam("id") String id) {
-        return InstanceHolder.runnersInstances.get(id).nextPlugin().toString();
+    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    public Response getLastResult(@PathParam("id") String id) {
+	    return Response.ok(InstanceHolder.runnersInstances.get(id).nextPlugin()).build();
     }
 
 
