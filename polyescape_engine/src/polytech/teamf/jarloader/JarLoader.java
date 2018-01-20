@@ -7,7 +7,9 @@ import java.io.FileInputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
@@ -27,12 +29,12 @@ public class JarLoader {
 	/**
 	 * the list of services classes load from jar files
 	 */
-	private List<Class> servicesClasses = new ArrayList<>();
+	private Map<String,Class> servicesClasses = new HashMap<>();
 
 	/**
 	 * the list of plugin classes load from jar files
 	 */
-	private List<Class> pluginClasses = new ArrayList<>();
+	private Map<String,Class> pluginClasses = new HashMap<>();
 
 	private List<MetaPlugin> metaPlugins = new ArrayList<>();
 
@@ -79,13 +81,12 @@ public class JarLoader {
 
 			try {
 				File file = new File(jarFullPath);
-				String classToLoad = name;
 				URL jarUrl = new URL("jar", "", "file:" + file.getAbsolutePath() + "!/");
 				Class loadedClass;
 				try (URLClassLoader cl = new URLClassLoader(new URL[]{jarUrl}, JarLoader.class.getClassLoader())) {
-					loadedClass = cl.loadClass(classToLoad);
+					loadedClass = cl.loadClass(name);
 				}
-				servicesClasses.add(loadedClass);
+				servicesClasses.put(name,loadedClass);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -114,14 +115,13 @@ public class JarLoader {
 
 			try {
 				File file = new File(jarFullPath);
-				String classToLoad = name;
 				URL jarUrl = new URL("jar", "", "file:" + file.getAbsolutePath() + "!/");
 				Class loadedClass;
 				try (URLClassLoader cl = new URLClassLoader(new URL[]{jarUrl}, JarLoader.class.getClassLoader())) {
-					loadedClass = cl.loadClass(classToLoad);
+					loadedClass = cl.loadClass(name);
 				}
 				System.out.println("Loading class: "+loadedClass.toString());
-				pluginClasses.add(loadedClass);
+				pluginClasses.put(name,loadedClass);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -134,18 +134,19 @@ public class JarLoader {
 		ArrayList<String> res = new ArrayList<>();
 
 		try {
-			JarInputStream crunchifyJarFile = new JarInputStream(new FileInputStream(crunchifyJarName));
-			JarEntry crunchifyJar;
+			try (JarInputStream crunchifyJarFile = new JarInputStream(new FileInputStream(crunchifyJarName))) {
+				JarEntry crunchifyJar;
 
-			while (true) {
-				crunchifyJar = crunchifyJarFile.getNextJarEntry();
-				if (crunchifyJar == null) {
-					break;
-				}
-				if ((crunchifyJar.getName().endsWith(".class"))) {
-					String className = crunchifyJar.getName().replaceAll("/", "\\.");
-					String myClass = className.substring(0, className.lastIndexOf('.'));
-					res.add(myClass);
+				while (true) {
+					crunchifyJar = crunchifyJarFile.getNextJarEntry();
+					if (crunchifyJar == null) {
+						break;
+					}
+					if ((crunchifyJar.getName().endsWith(".class"))) {
+						String className = crunchifyJar.getName().replaceAll("/", "\\.");
+						String myClass = className.substring(0, className.lastIndexOf('.'));
+						res.add(myClass);
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -158,19 +159,20 @@ public class JarLoader {
 	public List<MetaPlugin> getMetaPluginFromIniFile(String jarPath) {
 
 		try {
-			JarInputStream crunchifyJarFile = new JarInputStream(new FileInputStream(jarPath));
-			JarEntry crunchifyJar;
+			try (JarInputStream crunchifyJarFile = new JarInputStream(new FileInputStream(jarPath))) {
+				JarEntry crunchifyJar;
 
-			while (true) {
-				crunchifyJar = crunchifyJarFile.getNextJarEntry();
-				if (crunchifyJar == null) {
-					break;
-				}
-				if ((crunchifyJar.getName().endsWith(".ini"))) {
-					File f = new File(crunchifyJar.getName());
-					URL jarUrl = new URL("jar", "", "file:" + jarPath + "!/"+crunchifyJar.getName());
-					MetaPlugin metaPlugin = MetaPlugin.parseIniFile(jarUrl);
-					metaPlugins.add(metaPlugin);
+				while (true) {
+					crunchifyJar = crunchifyJarFile.getNextJarEntry();
+					if (crunchifyJar == null) {
+						break;
+					}
+					if ((crunchifyJar.getName().endsWith(".ini"))) {
+						File f = new File(crunchifyJar.getName());
+						URL jarUrl = new URL("jar", "", "file:" + jarPath + "!/" + crunchifyJar.getName());
+						MetaPlugin metaPlugin = MetaPlugin.parseIniFile(jarUrl);
+						metaPlugins.add(metaPlugin);
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -180,11 +182,11 @@ public class JarLoader {
 	}
 
 
-	public List<Class> getServicesClasses() {
+	public Map<String,Class> getServicesClasses() {
 		return servicesClasses;
 	}
 
-	public List<Class> getPluginClasses() {
+	public Map<String,Class> getPluginClasses() {
 		return pluginClasses;
 	}
 

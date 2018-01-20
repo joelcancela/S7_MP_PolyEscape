@@ -128,26 +128,13 @@ public class MetaPlugin {
         return this.type;
     }
 
-    /**
-     * Returns the Constructor Types
-     * @return
-     */
-    public Class[] getTypes() {
-        Class[] clazz = new Class[ this.argsTypes.size() ];
-        int i = 0;
-        for (Class c : this.argsTypes) {
-            clazz[i] = c;
-            i++;
-        }
-        return clazz;
-    }
 
-    /**
-     * Returns the Constructor Initialized Values (i.e : the concrete ones)
-     * @return
-     */
-    public ArrayList getValues() {
-        return (ArrayList) this.argsValues;
+    public Map<String, Object> getArgs(){
+        Map<String,Object> args = new HashMap<>();
+        for(int i =0; i<argsTypes.size();i++){
+            args.put((String)argsValues.get(i),argsTypes.get(i));
+        }
+        return args;
     }
 
     /**

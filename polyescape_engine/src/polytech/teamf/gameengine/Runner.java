@@ -3,7 +3,6 @@ package polytech.teamf.gameengine;
 import org.json.JSONObject;
 import polytech.teamf.events.GoodResponseEvent;
 import polytech.teamf.events.IEvent;
-import polytech.teamf.plugins.MetaPlugin;
 import polytech.teamf.plugins.Plugin;
 
 import java.util.ArrayList;
@@ -106,24 +105,24 @@ public class Runner {
         return this.currentPluginStatus;
     }
 
-    /**
-     * make real objects from classes and instantiation datas
-     *
-     * @param datas the list of PluginInit, used to instanciate the plugin objects
-     * @return the instanciated plugin
-     * @throws Exception
-     */
-    public ArrayList<Plugin> getPluginsFromJar(List<MetaPlugin> datas, List<Class> pluginClasses) throws Exception {
-        ArrayList<Plugin> plugins = new ArrayList<>();
-
-        for (MetaPlugin pi : datas) {
-            for (Class c : pluginClasses) {
-                if (c.getName().equals(pi.getName())) {
-                    Object p = c.getClass().getDeclaredConstructor(pi.getTypes()).newInstance(pi.getValues());
-                    plugins.add((Plugin) p);
-                }
-            }
-        }
-        return plugins;
-    }
+//    /**
+//     * make real objects from classes and instantiation datas
+//     *
+//     * @param datas the list of PluginInit, used to instanciate the plugin objects
+//     * @return the instanciated plugin
+//     * @throws Exception
+//     */
+//    public ArrayList<Plugin> getPluginsFromJar(List<MetaPlugin> datas, List<Class> pluginClasses) throws Exception {
+//        ArrayList<Plugin> plugins = new ArrayList<>();
+//
+//        for (MetaPlugin pi : datas) {
+//            for (Class c : pluginClasses) {
+//                if (c.getName().equals(pi.getName())) {
+//                    Object p = c.getClass().getDeclaredConstructor(pi.getTypes()).newInstance(pi.getValues());
+//                    plugins.add((Plugin) p);
+//                }
+//            }
+//        }
+//        return plugins;
+//    }
 }
