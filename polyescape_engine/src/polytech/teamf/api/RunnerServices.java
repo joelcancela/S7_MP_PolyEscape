@@ -46,7 +46,7 @@ public class RunnerServices {
         if (config.isEmpty()) {
             return Response.status(400).entity("EmptyConfiguration: Configuration is empty!").build();
         }
-        InstanceHolder.createNewInstance(uuid, config);
+        InstanceHolder.getInstance().createNewInstance(uuid, config);
         RunnerInstanceResource runnerInstanceResource = new RunnerInstanceResource();
         runnerInstanceResource.setId(uuid);
         return Response.ok().entity(runnerInstanceResource).build();
@@ -87,7 +87,7 @@ public class RunnerServices {
         if (answer.isEmpty()) {
             return Response.status(400).entity("EmptyAnswer: Answer is empty!").build();
         }
-        boolean status = InstanceHolder.getRunnerInstance(id).sendMessage(answer);
+        boolean status = InstanceHolder.getInstance().getRunnerInstance(id).sendMessage(answer);
         return Response.ok(new PluginStatusResource(status)).build();
     }
 
@@ -116,7 +116,7 @@ public class RunnerServices {
     @Path("/{id}/status")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getLastResult(@PathParam("id") String id) {
-	    return Response.ok(InstanceHolder.runnersInstances.get(id).nextPlugin()).build();
+	    return Response.ok(InstanceHolder.getInstance().getRunnerInstance(id).nextPlugin()).build();
     }
 
 
@@ -143,7 +143,7 @@ public class RunnerServices {
     @GET
     @Path("/{id}/description")
     public Response getPluginDescription(@PathParam("id") String id) {
-	    return Response.ok().entity(InstanceHolder.getRunnerInstance(id).getCurrentPluginDescription()).build();
+	    return Response.ok().entity(InstanceHolder.getInstance().getRunnerInstance(id).getCurrentPluginDescription()).build();
     }
 
 }

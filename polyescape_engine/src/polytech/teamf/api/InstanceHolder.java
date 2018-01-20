@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class InstanceHolder {
 
-    public static Map<String, Runner> runnersInstances = new HashMap<>();
+    private Map<String, Runner> runnersInstances = new HashMap<>();
 
     /**
      * Private constructor.
@@ -37,7 +37,7 @@ public class InstanceHolder {
      *
      * @param config The plugins configuration.
      */
-    public static void createNewInstance(String uuid, List<PluginInstantiationResource> config) {
+    public void createNewInstance(String uuid, List<PluginInstantiationResource> config) {
         Runner runner = new Runner(config);
         runnersInstances.put(uuid, runner);
     }
@@ -48,7 +48,7 @@ public class InstanceHolder {
      * @param id the unique id of a runner instance
      * @return a runner instance
      */
-    public static Runner getRunnerInstance(String id) {
+    public Runner getRunnerInstance(String id) {
         return runnersInstances.get(id);
     }
 
