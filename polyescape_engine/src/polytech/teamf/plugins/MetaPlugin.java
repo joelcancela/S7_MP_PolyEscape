@@ -107,7 +107,13 @@ public class MetaPlugin {
             this.argsValues.add(e.getKey());
         }
 
-        this.schema = schema;
+        Map<String, Object> schemaUpdated = new HashMap<>();
+        for (Map.Entry e : schema.entrySet()) {
+            Class t = Class.forName( "java.lang." + e.getValue().toString()); // Triggers exception if type not found
+            schemaUpdated.put((String) e.getKey(), t);
+        }
+
+        this.schema = schemaUpdated;
 
         for (String clazz : plugins) {
             Class t = Class.forName("polytech.teamf.plugins."+ clazz );
