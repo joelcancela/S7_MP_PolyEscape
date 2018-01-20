@@ -1,6 +1,5 @@
 package polytech.teamf.api;
 
-import polytech.teamf.resources.PluginDescriptionResource;
 import polytech.teamf.resources.PluginInstantiationResource;
 import polytech.teamf.resources.RunnerInstanceResource;
 
@@ -139,8 +138,8 @@ public class RunnerServices {
      */
     @GET
     @Path("/{id}/description")
-    public PluginDescriptionResource getPluginDescription(@PathParam("id") String id) {
-	    return InstanceHolder.getRunnerInstance(id).getCurrentPluginDescription();
+    public Response getPluginDescription(@PathParam("id") String id) {
+	    return Response.ok().entity(InstanceHolder.getRunnerInstance(id).getCurrentPluginDescription()).build();
     }
 
 }
