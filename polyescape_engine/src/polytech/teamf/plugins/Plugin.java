@@ -27,7 +27,7 @@ public abstract class Plugin implements IPlugin, IEventListener {
      * @param name        The plugin name
      * @param description The plugin description as a short text
      */
-    Plugin(String name, String description) {
+   public Plugin(String name, String description) {
         this.attributes.put("name", name);
         this.attributes.put("description", description);
     }
@@ -75,7 +75,7 @@ public abstract class Plugin implements IPlugin, IEventListener {
      * @param key Attribute identifier
      * @param value Attribute value
      */
-    void putAttribute(String key, Object value) {
+    public void putAttribute(String key, Object value) {
         this.attributes.put(key, value);
     }
 

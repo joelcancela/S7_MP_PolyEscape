@@ -2,10 +2,9 @@ package polytech.teamf.plugins;
 
 import org.ini4j.Profile;
 import org.ini4j.Wini;
-import polytech.teamf.services.Service;
 
-import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.*;
 
 public class MetaPlugin {
@@ -46,12 +45,7 @@ public class MetaPlugin {
      * @return
      * @throws IOException
      */
-    public static MetaPlugin parseIniFile(File iniFile) throws IOException {
-
-        if (!iniFile.exists() || !iniFile.isFile() || !iniFile.getName().endsWith(".ini")) {
-            return null;
-        }
-
+    public static MetaPlugin parseIniFile(URL iniFile) throws IOException {
         String type = "";
         Map<String, Object> args = new HashMap<>();
         Map<String, Object> schema = new HashMap<>();
@@ -92,8 +86,9 @@ public class MetaPlugin {
         try {
             return new MetaPlugin(type, args, schema, plugins, services);
         } catch (ClassNotFoundException e) {
-            return null;
+            e.printStackTrace();
         }
+        return null;
     }
 
     private MetaPlugin(
@@ -109,18 +104,18 @@ public class MetaPlugin {
         for (Map.Entry e : args.entrySet()) {
             Class t = Class.forName( "java.lang." + e.getValue().toString()); // Triggers exception if type not found
             this.argsTypes.add(t);
-            this.argsValues.add(null);
+            this.argsValues.add(e.getKey());
         }
 
         this.schema = schema;
 
         for (String clazz : plugins) {
-            Class t = Class.forName( clazz );
+            Class t = Class.forName("polytech.teamf.plugins."+ clazz );
             this.plugins.add(t);
         }
 
         for (String clazz : services) {
-            Class t = Class.forName( clazz );
+            Class t = Class.forName("polytech.teamf.services."+ clazz );
             this.services.add(t);
         }
     }

@@ -6,6 +6,7 @@ package polytech.teamf.servletconfig;
  * @author Joël CANCELA VAZ
  */
 import polytech.teamf.jarloader.JarLoader;
+import polytech.teamf.plugins.MetaPlugin;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -20,6 +21,9 @@ public class StartupListener implements ServletContextListener {
 		JarLoader.getInstance().loadServices("./resources/services/");
 		System.out.println("Chargement des plugins");
 		JarLoader.getInstance().loadPlugins("./resources/plugins/");
+		for(MetaPlugin plugin : JarLoader.getInstance().getMetaPlugins()){
+			System.out.println(plugin.toString());
+		}
 	}
 
 	@Override
