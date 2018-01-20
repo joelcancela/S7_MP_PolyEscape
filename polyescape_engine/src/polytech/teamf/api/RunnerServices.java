@@ -30,13 +30,13 @@ public class RunnerServices {
     /**
      * Instantiate a new runner instance.
      *
-     * @param  config the plugins configuration
+     * @param config the plugins configuration
      * @return HTTP response. 404 if no plugins configuration is given, 201 otherwise
      */
     @PUT
     @Path("/instantiate")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response instantiateRunner(Map<String,Object> config) {
+    public Response instantiateRunner(Map<String, Object> config) {
         String uuid = UUID.randomUUID().toString();
         if (config.isEmpty()) {
             return Response.status(400).entity("EmptyConfiguration: Configuration is empty!").build();
@@ -76,7 +76,7 @@ public class RunnerServices {
      */
     @POST
     @Path("/{id}/answer")
-    public Response answerStep(@PathParam("id") String id, Map<String,Object> answer) throws Exception {
+    public Response answerStep(@PathParam("id") String id, Map<String, Object> answer) throws Exception {
         if (answer.isEmpty()) {
             return Response.status(400).entity("EmptyAnswer: Answer is empty!").build();
         }

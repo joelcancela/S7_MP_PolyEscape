@@ -1,10 +1,5 @@
 package polytech.teamf.servletconfig;
 
-/**
- * Class x
- *
- * @author Joël CANCELA VAZ
- */
 import polytech.teamf.jarloader.JarLoader;
 import polytech.teamf.plugins.MetaPlugin;
 
@@ -12,6 +7,11 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
+/**
+ * Loads every services and plugins at the servlet initialization.
+ *
+ * @author Joël CANCELA VAZ
+ */
 @WebListener
 public class StartupListener implements ServletContextListener {
 

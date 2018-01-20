@@ -1,10 +1,10 @@
 package polytech.teamf.api;
 
 import polytech.teamf.jarloader.JarLoader;
+import polytech.teamf.plugins.MetaPlugin;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -40,9 +40,9 @@ public class PluginServices {
 	 */
 	@GET
 	@Path("/list")
-	public String getAllStepsType() {
-        JarLoader.getInstance();
-		return null;
+	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	public List<MetaPlugin> getAllStepsType() {
+		return JarLoader.getInstance().getMetaPlugins();
 	}
 
 }
