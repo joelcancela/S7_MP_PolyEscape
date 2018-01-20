@@ -3,126 +3,155 @@ package polytech.teamf.gameengine;
 import org.json.JSONObject;
 import polytech.teamf.events.GoodResponseEvent;
 import polytech.teamf.events.IEvent;
+import polytech.teamf.jarloader.JarLoader;
+import polytech.teamf.plugins.MetaPlugin;
 import polytech.teamf.plugins.Plugin;
+import polytech.teamf.resources.PluginInstantiationResource;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 public class Runner {
 
-    /**
-     * The list of plugins (ordered).
-     */
-    private List<Plugin> plugins = new ArrayList<>();
+	/**
+	 * The list of plugins (ordered).
+	 */
+	private List<Plugin> plugins = new ArrayList<>();
 
-    /**
-     * Handle on the current plugin.
-     */
-    private Plugin currentPlugin;
+	/**
+	 * Handle on the current plugin.
+	 */
+	private Plugin currentPlugin;
 
-    /**
-     * The current plugin state.
-     */
-    private boolean currentPluginStatus = false;
+	/**
+	 * The current plugin state.
+	 */
+	private boolean currentPluginStatus = false;
 
-    /**
-     * The current plugin number in {@link #plugins}.
-     */
-    private int it = 0;
+	/**
+	 * The current plugin number in {@link #plugins}.
+	 */
+	private int it = 0;
 
-    /**
-     * Runner that parse the json & instantiate plugins.
-     *
-     * @param config the plugins configuration
-     */
-    public Runner(Map<String, Object> config) {
+	/**
+	 * Runner that parse the json & instantiate plugins.
+	 *
+	 * @param config the plugins configuration
+	 */
+	public Runner(List<PluginInstantiationResource> config) {
+		for (PluginInstantiationResource plugin : config) {
+			instantiatePlugin(plugin);
+		}
+	}
 
-    }
 
-    public Plugin getPlugin() {
-        return this.currentPlugin;
-    }
 
-    /**
-     * Notify the plugin of an incoming message.
-     * Notify the plugin plus its nested plugin of the event.
-     *
-     * @param args plugin arguments
-     * @return an event if the plugin executed properly
-     */
-    public IEvent sendMessage(Map<String, Object> args) {
+	public Plugin getPlugin() {
+		return this.currentPlugin;
+	}
 
-        try {
-            IEvent e = this.currentPlugin.execute(args);
+	/**
+	 * Notify the plugin of an incoming message.
+	 * Notify the plugin plus its nested plugin of the event.
+	 *
+	 * @param args plugin arguments
+	 * @return an event if the plugin executed properly
+	 */
+	public IEvent sendMessage(Map<String, Object> args) {
 
-            if (e instanceof GoodResponseEvent) {
-                this.currentPluginStatus = true;
-            }
+		try {
+			IEvent e = this.currentPlugin.execute(args);
 
-            this.sendEvent(e);
-            return e;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+			if (e instanceof GoodResponseEvent) {
+				this.currentPluginStatus = true;
+			}
 
-        return null;
-    }
+			this.sendEvent(e);
+			return e;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-    /**
-     * Notify the plugin plus its nested plugin of the event.
-     *
-     * @return
-     */
-    public void sendEvent(IEvent e) {
-        this.currentPlugin.sendEvent(e);
-    }
+		return null;
+	}
 
-    /**
-     * The current plugin becomes the next in the list if there is another plugin to play (next step in the game).
-     *
-     * @return A JSONObject containing the status of the game. The status will be "finish" in case there are no more
-     * plugins to play or "ok" otherwise.
-     */
-    public JSONObject nextPlugin() {
+	/**
+	 * Notify the plugin plus its nested plugin of the event.
+	 *
+	 * @return
+	 */
+	public void sendEvent(IEvent e) {
+		this.currentPlugin.sendEvent(e);
+	}
 
-        this.currentPluginStatus = false; // Reset plugin state
+	/**
+	 * The current plugin becomes the next in the list if there is another plugin to play (next step in the game).
+	 *
+	 * @return A JSONObject containing the status of the game. The status will be "finish" in case there are no more
+	 * plugins to play or "ok" otherwise.
+	 */
+	public JSONObject nextPlugin() {
 
-        // TODO : refactor this method
-        // Go to next plugin
-        // Require to remove the JSON OBject
+		this.currentPluginStatus = false; // Reset plugin state
 
-        it++;
+		// TODO : refactor this method
+		// Go to next plugin
+		// Require to remove the JSON OBject
 
-        if (it >= plugins.size())
-            return new JSONObject().put("status", "finish");
+		it++;
 
-        currentPlugin = plugins.get(it);
-        return new JSONObject().put("status", "ok");
-    }
+		if (it >= plugins.size())
+			return new JSONObject().put("status", "finish");
 
-    public Boolean getStatus() {
-        return this.currentPluginStatus;
-    }
+		currentPlugin = plugins.get(it);
+		return new JSONObject().put("status", "ok");
+	}
 
-//    /**
-//     * make real objects from classes and instantiation datas
-//     *
-//     * @param datas the list of PluginInit, used to instanciate the plugin objects
-//     * @return the instanciated plugin
-//     * @throws Exception
-//     */
-//    public ArrayList<Plugin> getPluginsFromJar(List<MetaPlugin> datas, List<Class> pluginClasses) throws Exception {
-//        ArrayList<Plugin> plugins = new ArrayList<>();
-//
-//        for (MetaPlugin pi : datas) {
-//            for (Class c : pluginClasses) {
-//                if (c.getName().equals(pi.getName())) {
-//                    Object p = c.getClass().getDeclaredConstructor(pi.getTypes()).newInstance(pi.getValues());
-//                    plugins.add((Plugin) p);
-//                }
-//            }
-//        }
-//        return plugins;
-//    }
+	public Boolean getStatus() {
+		return this.currentPluginStatus;
+	}
+
+
+
+	private void instantiatePlugin(PluginInstantiationResource plugin) {
+		String className = plugin.getName();
+		JarLoader jarloader = JarLoader.getInstance();
+		Class pluginClass = jarloader.getPluginClasses().get(className);
+		System.out.println(pluginClass);
+		List<MetaPlugin> pluginMeta = jarloader.getMetaPlugins();
+		Class[] types = null;
+		for(MetaPlugin metaPlugin : pluginMeta){
+			if(metaPlugin.getName().equals(className)){
+				types = metaPlugin.toClassArray();
+			}
+		}
+		System.out.println("DEBUG");
+		for (int i = 0; i < types.length; i++) {
+			System.out.println(types[i]);
+		}
+		Collection<Object> objects = plugin.getArgs().values();
+		Object[] values = objects.toArray(new Object[objects.size()]);
+		Object p = null;
+		try {
+			System.out.println(types);
+			System.out.println(values);
+			System.out.println(pluginClass);
+			Constructor ct = pluginClass.getConstructor(types);
+			System.out.println(ct);
+			p = ct.newInstance(values);
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		}
+		plugins.add((Plugin) p);
+	}
 }

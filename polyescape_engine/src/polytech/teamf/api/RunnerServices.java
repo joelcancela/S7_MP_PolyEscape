@@ -1,8 +1,11 @@
 package polytech.teamf.api;
 
+import polytech.teamf.resources.PluginInstantiationResource;
+
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -36,7 +39,7 @@ public class RunnerServices {
     @PUT
     @Path("/instantiate")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-    public Response instantiateRunner(Map<String, Object> config) {
+    public Response instantiateRunner(List<PluginInstantiationResource> config) {
         String uuid = UUID.randomUUID().toString();
         if (config.isEmpty()) {
             return Response.status(400).entity("EmptyConfiguration: Configuration is empty!").build();

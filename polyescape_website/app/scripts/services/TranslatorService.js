@@ -14,7 +14,8 @@ angular.module('polyEscapeApp')
         answers_csv: "Réponses possibles séparées par des \",\"",
         correct_answers_csv: "Réponses correctes séparées par des \",\"",
         plain_text: "Réponse",
-        cipher_padding: "Longueur du décalage"
+        cipher_padding: "Longueur du décalage",
+        CaesarCipherPlugin: "Epreuve Code César"
       };
 
       this.translate = function(str){

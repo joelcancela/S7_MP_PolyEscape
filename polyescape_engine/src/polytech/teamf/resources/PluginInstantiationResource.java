@@ -1,6 +1,6 @@
 package polytech.teamf.resources;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * {@code PluginInstantiationResource} is Object used to translate response of /runners/instantiate
@@ -11,32 +11,8 @@ import java.util.List;
  */
 public class PluginInstantiationResource {
 
-	private Class[] types;
-	private List values;
 	private String name;
-
-	public PluginInstantiationResource(Class[] types, List values, String name) {
-		this.types = types;
-		this.values = values;
-		this.name = name;
-	}
-
-
-	public Class[] getTypes() {
-		return types;
-	}
-
-	public void setTypes(Class[] types) {
-		this.types = types;
-	}
-
-	public List getValues() {
-		return values;
-	}
-
-	public void setValues(List values) {
-		this.values = values;
-	}
+	private Map<String, Object> args;
 
 	public String getName() {
 		return name;
@@ -46,5 +22,19 @@ public class PluginInstantiationResource {
 		this.name = name;
 	}
 
+	public Map<String, Object> getArgs() {
+		return args;
+	}
 
+	public void setArgs(Map<String, Object> args) {
+		this.args = args;
+	}
+
+	@Override
+	public String toString() {
+		return "PluginInstantiationResource{" +
+				"name='" + name + '\'' +
+				", args=" + args +
+				'}';
+	}
 }

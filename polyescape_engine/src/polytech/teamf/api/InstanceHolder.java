@@ -1,8 +1,10 @@
 package polytech.teamf.api;
 
 import polytech.teamf.gameengine.Runner;
+import polytech.teamf.resources.PluginInstantiationResource;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,7 +37,7 @@ public class InstanceHolder {
      *
      * @param config The plugins configuration.
      */
-    public static void createNewInstance(String uuid, Map<String, Object> config) {
+    public static void createNewInstance(String uuid, List<PluginInstantiationResource> config) {
         Runner runner = new Runner(config);
         runnersInstances.put(uuid, runner);
     }

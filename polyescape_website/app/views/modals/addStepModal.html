@@ -7,13 +7,14 @@
   <label>
     <select name="stepTypeSelect" ng-model="stepTypeSelect">
       <option disabled selected value> -- Sélectionnez un type d'épreuve -- </option>
-      <option ng-repeat="stepType in stepTypes" value="{{stepType}}">{{stepType.name}}</option>
+      <option ng-repeat="stepType in stepTypes" value="{{stepType}}">{{translate(stepType.name)}}</option>
     </select>
   </label>
-  <div ng-repeat="(arg, name) in parseJson(stepTypeSelect).args track by $index">
-    {{translate(name)}}:
+  <div ng-repeat="(arg, type) in parseJson(stepTypeSelect).args track by $index">
+    <!--arg is the name, type is the type String/int-->
+    {{translate(arg)}}:
     <label>
-      <input ng-model="stepArgsValue[stepCreated][name]" required>
+      <input type="{{getInputType(type)}}" ng-model="stepArgsValue[stepCreated]['args'][arg]" required>
     </label>
   </div>
 </div>

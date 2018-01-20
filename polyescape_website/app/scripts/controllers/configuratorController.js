@@ -96,15 +96,15 @@ angular.module('polyEscapeApp')
         if (stepSelectedType === undefined) {
           return;
         }
-        var jsonType = {name: JSON.parse(stepSelectedType).name, type: JSON.parse(stepSelectedType).type};
+        var jsonType = {name: JSON.parse(stepSelectedType).name};
         var jsonStep = angular.extend({}, jsonType, $rootScope.stepArgsValue[$rootScope.stepCreated]);
         $rootScope.stepCreated++;
-        console.log($rootScope.escapeGameSteps);
+        console.dir($rootScope.escapeGameSteps);
         return jsonStep;
       };
 
       $scope.configStep = function (index) {
-      //TODO
+        //TODO
       };
 
       $scope.removeStep = function (index) {
@@ -113,6 +113,14 @@ angular.module('polyEscapeApp')
 
       $rootScope.translate = function (str) {
         return TranslatorService.translate(str);
+      };
+
+      $rootScope.getInputType = function (str) {
+        if (str === "java.lang.String") {
+          return "text";
+        } else if (str === "java.lang.Integer") {
+          return "number";
+        }
       };
 
       init();
