@@ -7,24 +7,23 @@ import polytech.teamf.plugins.MetaPlugin;
 import polytech.teamf.plugins.Plugin;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Runner {
 
     /**
-     * The list of plugins (ordered)
+     * The list of plugins (ordered).
      */
     private List<Plugin> plugins = new ArrayList<>();
 
     /**
-     * Handle on the current plugin
+     * Handle on the current plugin.
      */
     private Plugin currentPlugin;
 
     /**
-     * The current plugin state
+     * The current plugin state.
      */
     private boolean currentPluginStatus = false;
 
@@ -36,9 +35,9 @@ public class Runner {
     /**
      * Runner that parse the json & instantiate plugins.
      *
-     * @param config The plugins configuration.
+     * @param config the plugins configuration
      */
-    public Runner(Map<String,Object> config) {
+    public Runner(Map<String, Object> config) {
 
     }
 
@@ -47,13 +46,13 @@ public class Runner {
     }
 
     /**
-     * Notify the plugin of an incoming message
-     * Notify the plugin plus its nested plugin of the event
+     * Notify the plugin of an incoming message.
+     * Notify the plugin plus its nested plugin of the event.
      *
-     * @param args Plugin arguments
-     * @return
+     * @param args plugin arguments
+     * @return an event if the plugin executed properly
      */
-    public IEvent sendMessage(Map<String,Object> args) {
+    public IEvent sendMessage(Map<String, Object> args) {
 
         try {
             IEvent e = this.currentPlugin.execute(args);
@@ -72,7 +71,8 @@ public class Runner {
     }
 
     /**
-     * Notify the plugin plus its nested plugin of the event
+     * Notify the plugin plus its nested plugin of the event.
+     *
      * @return
      */
     public void sendEvent(IEvent e) {
@@ -102,25 +102,25 @@ public class Runner {
         return new JSONObject().put("status", "ok");
     }
 
-    public Boolean getStatus(){
+    public Boolean getStatus() {
         return this.currentPluginStatus;
     }
 
     /**
      * make real objects from classes and instantiation datas
+     *
      * @param datas the list of PluginInit, used to instanciate the plugin objects
      * @return the instanciated plugin
      * @throws Exception
      */
-    public ArrayList<Plugin> getPluginsFromJar(List<MetaPlugin> datas, List<Class> pluginClasses) throws Exception
-    {
+    public ArrayList<Plugin> getPluginsFromJar(List<MetaPlugin> datas, List<Class> pluginClasses) throws Exception {
         ArrayList<Plugin> plugins = new ArrayList<>();
 
-        for(MetaPlugin pi : datas) {
-            for(Class c : pluginClasses){
-                if(c.getName().equals(pi.getName())) {
+        for (MetaPlugin pi : datas) {
+            for (Class c : pluginClasses) {
+                if (c.getName().equals(pi.getName())) {
                     Object p = c.getClass().getDeclaredConstructor(pi.getTypes()).newInstance(pi.getValues());
-                    plugins.add((Plugin)p);
+                    plugins.add((Plugin) p);
                 }
             }
         }

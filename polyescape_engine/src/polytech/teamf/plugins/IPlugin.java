@@ -1,41 +1,40 @@
 package polytech.teamf.plugins;
 
 import polytech.teamf.events.IEvent;
-import polytech.teamf.services.Service;
 
-import java.util.List;
 import java.util.Map;
 
 public interface IPlugin {
 
     /**
-     * Plugin Attributes
+     * Plugin Attributes.
      */
     Map<String, Object> getAttributes();
 
     /**
-     * Plugin Description Field
+     * Plugin Description Field.
      */
     String getDescription();
 
     /**
-     * Plugin Name Field
+     * Plugin Name Field.
      */
     String getName();
 
     /**
-     * Reads the input data submitted from an external entity to this plugin
-     * Outputs the response, given the plugin initialization and the user input
+     * Reads the input data submitted from an external entity to this plugin.
+     * Outputs the response, given the plugin initialization and the user input.
      */
     IEvent execute(Map<String, Object> args) throws Exception;
 
     /**
-     * Add a new nested plugin
+     * Add a new nested plugin.
      */
     void addPlugin(Plugin p);
 
     /**
-     * Notify the plugin plus the nested plugins of the event
+     * Notify the plugin plus the nested plugins of the event.
      */
     void sendEvent(IEvent e);
+
 }

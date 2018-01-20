@@ -1,24 +1,24 @@
 package polytech.teamf.plugins;
 
-import polytech.teamf.events.*;
-import polytech.teamf.services.Service;
+import polytech.teamf.events.BadResponseEvent;
+import polytech.teamf.events.GoodResponseEvent;
+import polytech.teamf.events.IEvent;
 
-import java.util.List;
 import java.util.Map;
 
 public class SimplePasswordPlugin extends Plugin {
 
     /**
-     * The original plain text
-     * Is used by the validation process
+     * The original plain text.
+     * Is used by the validation process.
      */
     private String plain_text = "";
 
     /**
-     * Initializes the plugin
+     * Initializes the plugin.
      *
-     * @param description The plugin description
-     * @param plain_text  The plain text to discover
+     * @param description the plugin description
+     * @param plain_text  the plain text to discover
      */
     public SimplePasswordPlugin(String description, String plain_text) {
 
@@ -62,6 +62,7 @@ public class SimplePasswordPlugin extends Plugin {
     public void onEndEvent() {
 
     }
+
 }
 
 

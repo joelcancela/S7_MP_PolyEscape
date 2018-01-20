@@ -33,7 +33,8 @@ public class PluginServices {
 	 */
 
 	/**
-	 * Get all the classes which inherits the Plugin class and return their full name and the list of args needed to use them.
+	 * Get all the classes which inherits the Plugin class and return their full name
+	 * and the list of args needed to use them.
 	 *
 	 * @return A string obtained from a JSONArray filled with the full class names.
 	 */

@@ -10,39 +10,44 @@ import java.util.Map;
  */
 public class InstanceHolder {
 
-	public static Map<String, Runner> runnersInstances = new HashMap<>();
+    public static Map<String, Runner> runnersInstances = new HashMap<>();
 
-	/**
-	 * Constructeur privé
-	 */
-	private InstanceHolder() {
-	}
+    /**
+     * Private constructor.
+     */
+    private InstanceHolder() {
+    }
 
-	/**
-	 * Instance unique pré-initialisée
-	 */
-	private static InstanceHolder INSTANCE = new InstanceHolder();
+    /**
+     * Pre-initialized unique instance.
+     */
+    private static InstanceHolder INSTANCE = new InstanceHolder();
 
-	/**
-	 * Point d'accès pour l'instance unique du singleton
-	 */
-	public static InstanceHolder getInstance() {
-		return INSTANCE;
-	}
+    /**
+     * Entry point for the unique instance of the singleton.
+     */
+    public static InstanceHolder getInstance() {
+        return INSTANCE;
+    }
 
-	/**
-	 * Create a new unique runner instance.
-	 *
-	 * @param config The plugins configurations.
-	 */
-	public static void createNewInstance(String uuid, Map<String,Object> config) {
-		Runner runner = new Runner(config);
-		runnersInstances.put(uuid, runner);
-	}
+    /**
+     * Create a new unique runner instance.
+     *
+     * @param config The plugins configuration.
+     */
+    public static void createNewInstance(String uuid, Map<String, Object> config) {
+        Runner runner = new Runner(config);
+        runnersInstances.put(uuid, runner);
+    }
 
-
-	public static Runner getRunnerInstance(String id) {
-		return runnersInstances.get(id);
-	}
+    /**
+     * Get a runner instance given its unique id.
+     *
+     * @param id the unique id of a runner instance
+     * @return a runner instance
+     */
+    public static Runner getRunnerInstance(String id) {
+        return runnersInstances.get(id);
+    }
 
 }

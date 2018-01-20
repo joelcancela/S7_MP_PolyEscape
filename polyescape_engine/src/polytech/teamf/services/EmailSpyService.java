@@ -7,4 +7,5 @@ public class EmailSpyService extends Service {
         this.inputService = true;
         this.serviceHost = "https://zapier.com/";
     }
+
 }

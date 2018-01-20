@@ -12,4 +12,5 @@ public class EndEvent extends Event {
     public void fire() {
         this.source.onEndEvent();
     }
+
 }

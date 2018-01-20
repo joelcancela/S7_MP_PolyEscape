@@ -70,9 +70,9 @@ public class RunnerServices {
     /**
      * Gives the step answer of a player to the runner and retrieve the result to send to the user.
      *
-     * @param answer The player's answer.
-     * @param id     The runner unique id.
-     * @return The answer's result.
+     * @param answer the player's answer
+     * @param id     the runner unique id
+     * @return the answer's result
      */
     @POST
     @Path("/{id}/answer")
@@ -80,7 +80,7 @@ public class RunnerServices {
         if (answer.isEmpty()) {
             return Response.status(400).entity("EmptyAnswer: Answer is empty!").build();
         }
-        return Response.ok(InstanceHolder.getInstance().getRunnerInstance(id).sendMessage(answer)).build();
+        return Response.ok(InstanceHolder.getRunnerInstance(id).sendMessage(answer)).build();
     }
 
     /**
@@ -100,9 +100,9 @@ public class RunnerServices {
     /**
      * Get the last result produced by the last player's answer.
      *
-     * @param id The runner unique id.
-     * @return A JSONObject containing the result of the last answer. "success" is "true" if the correct
-     * answer was given, "success" is "false" otherwise.
+     * @param id the runner unique id
+     * @return a JSONObject containing the result of the last answer. "success" is "true" if the correct
+     * answer was given, "success" is "false" otherwise
      */
     @GET
     @Path("/{id}/status")
@@ -128,7 +128,8 @@ public class RunnerServices {
     /**
      * Get the current played plugin description.
      *
-     * @return A string obtained from a JSONObject filled with the current played plugin description.
+     * @return a string obtained from a JSONObject filled with
+     * the current played plugin description
      */
     @GET
     @Path("/{id}/description")

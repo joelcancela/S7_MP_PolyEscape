@@ -12,4 +12,5 @@ public class BadResponseEvent extends Event {
     public void fire() {
         this.source.onBadResponseEvent();
     }
+
 }
