@@ -15,7 +15,7 @@ import java.util.UUID;
 public class RunnerServices {
 
     /**
-     * @api {put} /runners/instantiate Instantiate a new runner instance
+     * @api {put} /runners/instantiate Instantiate a new unique runner instance
      * @apiName InstantiateRunner
      * @apiGroup Runners
      * @apiVersion 0.1.0
@@ -23,33 +23,39 @@ public class RunnerServices {
      * @apiParam {String} config The plugins configuration
      * @apiParamExample {json} Request-Example:
      * [{
-     *     "type": "CaesarCipherPlugin",
-     *     "description": "Put a description here",
-     *     "plain_text": "Put the text to cipher here",
-     *     "cipher_padding": "5"
+     *   "name": "CaesarCipherPlugin",
+     *   "args": {
+     *     "plain_text": "a",
+     *     "description": "d",
+     *     "cipher_padding": 7
+     *   }
      * }]
      *
      * @apiError EmptyConfiguration The configuration was empty. Minimum of <code>1</code> plugin configuration is required.
      */
 
     /**
-     * Instantiate a new runner instance.
+     * Instantiate a new unique runner instance.
      *
      * @param config the plugins configuration
-     * @return HTTP response. 404 if no plugins configuration is given, 201 otherwise
+     * @return a response object whose status will be 400 if no plugins configuration is given, 200 otherwise
      */
     @PUT
     @Path("/instantiate")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response instantiateRunner(List<PluginInstantiationResource> config) {
         String uuid = UUID.randomUUID().toString();
+
         if (config.isEmpty()) {
             return Response.status(400).entity("EmptyConfiguration: Configuration is empty!").build();
         }
+
         InstanceHolder.getInstance().createNewInstance(uuid, config);
         RunnerInstanceResource runnerInstanceResource = new RunnerInstanceResource();
         runnerInstanceResource.setId(uuid);
-        return Response.ok().entity(runnerInstanceResource).build();
+
+        return Response.ok(runnerInstanceResource).build();
     }
 
     /**
@@ -60,12 +66,12 @@ public class RunnerServices {
      *
      * @apiParam {String} answer The player's answer
      *
-     * @apiParamExample {json} Request-Example (Be careful, a request is plugin specific):
+     * @apiParamExample {json} Request-Example:
      * {
      *     "attempt": "Put your answer here"
      * }
      *
-     * @apiError EmptyAnswer The answer was empty. <code>1</code> answer has to be given.
+     * @apiError EmptyAnswer The answer was empty. Exactly <code>1</code> answer has to be given.
      *
      * @apiSuccessExample Example data on success
      * {
@@ -78,11 +84,12 @@ public class RunnerServices {
      *
      * @param answer the player's answer
      * @param id     the runner unique id
-     * @return the answer's result
+     * @return a response object whose status will be 400 if no answer is given, 200 otherwise
      */
     @POST
     @Path("/{id}/answer")
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response answerStep(@PathParam("id") String id, Map<String, Object> answer) throws Exception {
         if (answer.isEmpty()) {
             return Response.status(400).entity("EmptyAnswer: Answer is empty!").build();
@@ -93,7 +100,7 @@ public class RunnerServices {
 
     /**
      * @api {get} /runners/{id}/status Retrieve the status for the next step of the game on the runner with id {id}
-     * @apiName RunnerHasNext
+     * @apiName RunnerStatus
      * @apiGroup Runners
      * @apiVersion 0.1.0
      *
@@ -109,24 +116,23 @@ public class RunnerServices {
      * Get the last result produced by the last player's answer.
      *
      * @param id the runner unique id
-     * @return a JSONObject containing the result of the last answer. "success" is "true" if the correct
-     * answer was given, "success" is "false" otherwise
+     * @return a response object containing the result of the last answer
      */
     @GET
     @Path("/{id}/status")
-    @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getLastResult(@PathParam("id") String id) {
-	    return Response.ok(InstanceHolder.getInstance().getRunnerInstance(id).nextPlugin()).build();
+        return Response.ok(InstanceHolder.getInstance().getRunnerInstance(id).nextPlugin()).build();
     }
 
 
     /**
-     * @api {get} /plugins/{id}/description The current played plugin description on the runner with id {id}
-     * @apiName PluginsDescription
-     * @apiGroup Plugins
+     * @api {get} /runners/{id}/description The current played plugin description on the runner with id {id}
+     * @apiName RunnerDescription
+     * @apiGroup Runners
      * @apiVersion 0.1.0
      *
-     * @apiSuccess (200) {String} description The plugin description
+     * @apiSuccess (200) {String} description The current played plugin description
      *
      * @apiSuccessExample Example data on success
      * {
@@ -137,13 +143,13 @@ public class RunnerServices {
     /**
      * Get the current played plugin description.
      *
-     * @return a string obtained from a JSONObject filled with
-     * the current played plugin description
+     * @return a response object containing the current played plugin description
      */
     @GET
     @Path("/{id}/description")
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     public Response getPluginDescription(@PathParam("id") String id) {
-	    return Response.ok().entity(InstanceHolder.getInstance().getRunnerInstance(id).getCurrentPluginDescription()).build();
+        return Response.ok().entity(InstanceHolder.getInstance().getRunnerInstance(id).getCurrentPluginDescription()).build();
     }
 
 }

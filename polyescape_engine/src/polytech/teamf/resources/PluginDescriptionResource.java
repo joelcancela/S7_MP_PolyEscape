@@ -1,5 +1,6 @@
 package polytech.teamf.resources;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Map;
 
 /**
@@ -9,33 +10,33 @@ import java.util.Map;
  *
  * @author Joël CANCELA VAZ
  */
+@XmlRootElement(name = "plugin_description")
 public class PluginDescriptionResource {
 
-	private Map<String, Object> attributes;
-	private Map<String, Object> responseFormat;
+    private Map<String, Object> attributes;
+    private Map<String, Object> responseFormat;
 
-	public PluginDescriptionResource() {
-	}
+    public PluginDescriptionResource() {
+    }
 
+    public PluginDescriptionResource(Map<String, Object> attributes, Map<String, Object> schema) {
+        this.attributes = attributes;
+        this.responseFormat = schema;
+    }
 
-	public PluginDescriptionResource(Map<String, Object> attributes, Map<String, Object> schema) {
-		this.attributes = attributes;
-		this.responseFormat = schema;
-	}
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
 
-	public Map<String, Object> getAttributes() {
-		return attributes;
-	}
+    public Map<String, Object> getResponseFormat() {
+        return responseFormat;
+    }
 
-	public void setAttributes(Map<String, Object> attributes) {
-		this.attributes = attributes;
-	}
+    public void setAttributes(Map<String, Object> attributes) {
+        this.attributes = attributes;
+    }
 
-	public Map<String, Object> getResponseFormat() {
-		return responseFormat;
-	}
-
-	public void setResponseFormat(Map<String, Object> responseFormat) {
-		this.responseFormat = responseFormat;
-	}
+    public void setResponseFormat(Map<String, Object> responseFormat) {
+        this.responseFormat = responseFormat;
+    }
 }

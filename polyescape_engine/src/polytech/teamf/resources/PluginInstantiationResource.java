@@ -1,5 +1,7 @@
 package polytech.teamf.resources;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.util.Map;
 
 /**
@@ -9,32 +11,34 @@ import java.util.Map;
  *
  * @author Joël CANCELA VAZ
  */
-public class PluginInstantiationResource {
+@XmlRootElement(name = "plugin_resource")
+public class PluginInstantiationResource implements Serializable {
 
-	private String name;
-	private Map<String, Object> args;
+    private String name;
+    private Map<String, Object> args;
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Map<String, Object> getArgs() {
+        return args;
+    }
 
-	public Map<String, Object> getArgs() {
-		return args;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setArgs(Map<String, Object> args) {
-		this.args = args;
-	}
+    public void setArgs(Map<String, Object> args) {
+        this.args = args;
+    }
 
-	@Override
-	public String toString() {
-		return "PluginInstantiationResource{" +
-				"name='" + name + '\'' +
-				", args=" + args +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "PluginInstantiationResource{" +
+                "name='" + name + '\'' +
+                ", args=" + args +
+                '}';
+    }
+
 }

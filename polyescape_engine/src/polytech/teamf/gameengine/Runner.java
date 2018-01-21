@@ -72,9 +72,8 @@ public class Runner {
      * @return an event if the plugin executed properly
      */
     public boolean sendMessage(Map<String, Object> args) {
-
-
         IEvent e = null;
+
         try {
             e = this.currentPlugin.execute(args);
         } catch (Exception e1) {
@@ -86,7 +85,6 @@ public class Runner {
         }
 
         this.sendEvent(e);
-
 
         return currentPluginStatus;
     }
