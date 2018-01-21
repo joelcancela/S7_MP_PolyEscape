@@ -2,6 +2,7 @@ package polytech.teamf.plugins;
 
 import org.ini4j.Profile;
 import org.ini4j.Wini;
+import polytech.teamf.jarloader.JarLoader;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -70,13 +71,12 @@ public class MetaPlugin {
 		this.schema = schemaUpdated;
 
 		for (String clazz : plugins) {
-			Class t = Class.forName("polytech.teamf.plugins." + clazz);
+			Class t = Class.forName(clazz);//FIXME might be changed like line 79
 			this.plugins.add(t);
 		}
 
 		for (String clazz : services) {
-			Class t = Class.forName("polytech.teamf.services." + clazz);
-			this.services.add(t);
+			this.services.add(JarLoader.getInstance().getServicesClasses().get(clazz));
 		}
 	}
 

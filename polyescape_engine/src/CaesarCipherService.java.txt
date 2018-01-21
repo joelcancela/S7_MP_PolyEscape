@@ -1,4 +1,4 @@
-package polytech.teamf.services;
+import polytech.teamf.services.Service;
 
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
