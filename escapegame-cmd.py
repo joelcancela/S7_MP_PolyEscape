@@ -215,6 +215,7 @@ def start():
 
     if os.path.exists(_wd):
         os.system("mvn install -f " + _wd + "/polyescape_engine/pom.xml -Dmaven.test.skip=true")
+        os.chdir("/home/polyescape/escapegame/polyescape_engine")
         os.system("screen mvn tomcat7:run-war -f " + _wd + "/polyescape_engine/pom.xml -Dmaven.test.skip=true")
 
 
