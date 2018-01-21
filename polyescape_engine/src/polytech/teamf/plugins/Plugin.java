@@ -2,6 +2,7 @@ package polytech.teamf.plugins;
 
 import polytech.teamf.events.IEvent;
 import polytech.teamf.events.IEventListener;
+import polytech.teamf.jarloader.JarLoader;
 import polytech.teamf.services.Service;
 
 import java.util.ArrayList;
@@ -89,10 +90,8 @@ public abstract class Plugin implements IPlugin, IEventListener {
     protected Service invokeService(String className) {
 
         try {
-            Class t = Class.forName(className);
+            Class t = JarLoader.getInstance().getServicesClasses().get(className);
             return (Service) t.newInstance();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {

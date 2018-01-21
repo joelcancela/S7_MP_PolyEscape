@@ -85,6 +85,7 @@ public class JarLoader {
 				try (URLClassLoader cl = new URLClassLoader(new URL[]{jarUrl}, JarLoader.class.getClassLoader())) {
 					loadedClass = cl.loadClass(name);
 				}
+				System.out.println("Loading class: "+loadedClass.toString());
 				servicesClasses.put(name,loadedClass);
 			} catch (Exception e) {
 				e.printStackTrace();
