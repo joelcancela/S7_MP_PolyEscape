@@ -3,42 +3,48 @@ package polytech.teamf.plugins;
 import org.ini4j.Profile;
 import org.ini4j.Wini;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
+@XmlRootElement(name = "metaplugin")
 public class MetaPlugin {
 
     /**
      * Class name.
      */
+    @XmlElement(name = "name")
     private String type;
 
     /**
-     * Constructor args types.
+     * Map of the constructor parameters. The key is the parameter name,
+     * and the value is the parameter type.
      */
-    private List<Class> argsTypes = new ArrayList<>();
-
-    /**
-     * Values to pass back to the plugin constructor.
-     */
-    private List<Object> argsValues = new ArrayList<>();
+    @XmlElement(name = "args")
+    private Map<Object, Class> constructorArgs = new HashMap<>();
 
     /**
      * the expected format of the input for the plugin execution.
      */
-    private Map<String, Object> schema;
+    @XmlElement(name = "schema")
+    private Map<String, Object> schema = new HashMap<>();
 
     /**
-     * Plugins dependencies.
+     * Plugin dependencies.
      */
+    @XmlElement(name = "pluginDependencies")
     private List<Class> plugins = new ArrayList<>();
 
     /**
      * Service dependencies.
      */
+    @XmlElement(name = "serviceDependencies")
     private List<Class> services = new ArrayList<>();
+
+    public MetaPlugin() {
+    }
 
     private MetaPlugin(
             String type,
@@ -52,8 +58,7 @@ public class MetaPlugin {
 
         for (Map.Entry e : args.entrySet()) {
             Class t = Class.forName("java.lang." + e.getValue().toString()); // Triggers exception if type not found
-            this.argsTypes.add(t);
-            this.argsValues.add(e.getKey());
+            constructorArgs.put(e.getKey(), t);
         }
 
         Map<String, Object> schemaUpdated = new HashMap<>();
@@ -130,15 +135,6 @@ public class MetaPlugin {
     }
 
     /**
-     * Initialize the values to pass back to the plugin constructor.
-     *
-     * @param initializationList
-     */
-    public void initialize(ArrayList initializationList) {
-        this.argsValues = initializationList;
-    }
-
-    /**
      * Get the Simple Class Name of the plugin.
      *
      * @return a string which is the plugin name
@@ -147,22 +143,19 @@ public class MetaPlugin {
         return this.type;
     }
 
-
-    public Map<String, Class> getArgs() {
-        Map<String, Class> args = new HashMap<>();
-        for (int i = 0; i < argsTypes.size(); i++) {
-            args.put((String) argsValues.get(i), argsTypes.get(i));
-        }
-        return args;
+    /**
+     * Get the args' names and types of the constructor {@link #MetaPlugin(String, Map, Map, List, List)}
+     *
+     * @return a map whose keys are objects and values are classes
+     */
+    public Map<Object, Class> getConstructorArgs() {
+        return constructorArgs;
     }
 
     public Class[] toClassArray() {
-        Class[] classesArgs = new Class[argsTypes.size()];
-        for (int i = 0; i < argsTypes.size(); i++) {
-            System.out.println(i + " " + argsTypes.get(i));
-            classesArgs[i] = argsTypes.get(i);
-        }
-        return classesArgs;
+        List<Class> classesArgs = new ArrayList<>();
+        classesArgs.addAll(constructorArgs.values());
+        return classesArgs.toArray(new Class[classesArgs.size()]);
     }
 
     /**
@@ -175,44 +168,37 @@ public class MetaPlugin {
     }
 
     /**
-     * Returns the list of required plugins.
+     * Get the plugin dependencies of the plugin.
+     *
+     * @return a list of class where each class is a plugin needed by the plugin
      */
-    List<Class> getPluginDependencies() {
+    public List<Class> getPluginDependencies() {
         return this.plugins;
     }
 
     /**
-     * Returns the list of required services.
+     * Get the service dependencies of the plugin.
+     *
+     * @return a list of class where each class is a service needed by the plugin
      */
-    List<Class> getServiceDependencies() {
+    public List<Class> getServiceDependencies() {
         return this.services;
     }
 
     @Override
     public String toString() {
+        StringBuilder ctrArgsBuilder = new StringBuilder();
 
-        StringBuilder constructorArgs = new StringBuilder();
-
-        int i = 0;
-        for (Class c : this.argsTypes) {
-
-            Object o = this.argsValues.get(i);
-            if (o == null) {
-                o = "<empty>";
-            }
-
-            constructorArgs
-                    .append(o.toString())
-                    .append(" => ")
-                    .append(c.getSimpleName())
-                    .append(",");
-            i++;
-        }
+        constructorArgs.keySet().forEach(o -> ctrArgsBuilder
+                .append(o.toString())
+                .append(" => ")
+                .append(constructorArgs.get(o).getSimpleName())
+                .append(","));
 
         return "{ type: " +
                 this.getName() +
                 ", args: [" +
-                constructorArgs.toString().substring(0, constructorArgs.toString().length() - 1) +
+                ctrArgsBuilder.toString().substring(0, ctrArgsBuilder.toString().length() - 1) +
                 "], schema: " +
                 this.getSchema().toString() +
                 "}";
