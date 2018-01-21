@@ -164,7 +164,7 @@ public class RunnerServices {
 		return Response.ok().entity(InstanceHolder.getInstance().getRunnerInstance(id).getCurrentPluginDescription()).build();
 	}
 
-
+	//doc TODO route for input services only
 	@GET
 	@Path("/{id}/inputStatus")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
