@@ -11,154 +11,164 @@ import polytech.teamf.resources.RunnerInstanceResource;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class Runner {
 
-    /**
-     * The list of plugins (ordered).
-     */
-    private List<Plugin> plugins = new LinkedList<>();
+	/**
+	 * The list of plugins (ordered).
+	 */
+	private List<Plugin> plugins = new LinkedList<>();
 
-    /**
-     * Handle on the current plugin.
-     */
-    private Plugin currentPlugin;
+	/**
+	 * Handle on the current plugin.
+	 */
+	private Plugin currentPlugin;
 
-    /**
-     * The current plugin state.
-     */
-    private boolean currentPluginStatus = false;
+	/**
+	 * The current plugin state.
+	 */
+	private boolean currentPluginStatus = false;
 
-    /**
-     * The current plugin number in {@link #plugins}.
-     */
-    private int it = 0;
+	/**
+	 * The current plugin number in {@link #plugins}.
+	 */
+	private int it = 0;
 
-    /**
-     * Runner that parse the json & instantiate plugins.
-     *
-     * @param config the plugins configuration
-     */
-    public Runner(List<PluginInstantiationResource> config) {
-        for (PluginInstantiationResource plugin : config) {
-            instantiatePlugin(plugin);
-        }
-        currentPlugin = plugins.get(it);
-    }
+	/**
+	 * Runner that parse the json & instantiate plugins.
+	 *
+	 * @param config the plugins configuration
+	 */
+	public Runner(List<PluginInstantiationResource> config) {
+		for (PluginInstantiationResource plugin : config) {
+			instantiatePlugin(plugin);
+		}
+		currentPlugin = plugins.get(it);
+	}
 
-    public PluginDescriptionResource getCurrentPluginDescription() {
-        Map<String, Object> attributes = currentPlugin.getAttributes();
-        Map<String, Object> schema = new HashMap<>();
-        for (MetaPlugin metaPlugin : JarLoader.getInstance().getMetaPlugins()) {
-            if (metaPlugin.getName().equals(currentPlugin.getName())) {
-                schema = metaPlugin.getSchema();
-            }
-        }
-        return new PluginDescriptionResource(attributes, schema);
-    }
+	public PluginDescriptionResource getCurrentPluginDescription() {
+		Map<String, Object> attributes = currentPlugin.getAttributes();
+		Map<String, Object> schema = new HashMap<>();
+		for (MetaPlugin metaPlugin : JarLoader.getInstance().getMetaPlugins()) {
+			if (metaPlugin.getName().equals(currentPlugin.getName())) {
+				schema = metaPlugin.getSchema();
+			}
+		}
+		return new PluginDescriptionResource(attributes, schema);
+	}
 
-    /**
-     * Notify the plugin of an incoming message.
-     * Notify the plugin plus its nested plugin of the event.
-     *
-     * @param args plugin arguments
-     * @return an event if the plugin executed properly
-     */
-    public boolean sendMessage(Map<String, Object> args) {
-        IEvent e = null;
+	/**
+	 * Notify the plugin of an incoming message.
+	 * Notify the plugin plus its nested plugin of the event.
+	 *
+	 * @param args plugin arguments
+	 * @return an event if the plugin executed properly
+	 */
+	public boolean sendMessage(Map<String, Object> args) {
+		IEvent e = null;
 
-        try {
-            e = this.currentPlugin.execute(args);
-        } catch (Exception e1) {
-            e1.printStackTrace();
-        }
+		try {
+			e = this.currentPlugin.execute(args);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 
-        if (e instanceof GoodResponseEvent) {
-            this.currentPluginStatus = true;
-        }
+		if (e instanceof GoodResponseEvent) {
+			this.currentPluginStatus = true;
+		}
 
-        this.sendEvent(e);
+		this.sendEvent(e);
 
-        return currentPluginStatus;
-    }
+		return currentPluginStatus;
+	}
 
-    /**
-     * Notify the plugin plus its nested plugin of the event.
-     *
-     * @return
-     */
-    public void sendEvent(IEvent e) {
-        this.currentPlugin.sendEvent(e);
-    }
+	/**
+	 * Notify the plugin plus its nested plugin of the event.
+	 *
+	 * @return
+	 */
+	public void sendEvent(IEvent e) {
+		this.currentPlugin.sendEvent(e);
+	}
 
-    /**
-     * The current plugin becomes the next in the list if there is another plugin to play (next step in the game).
-     *
-     * @return A JSONObject containing the status of the game. The status will be "finish" in case there are no more
-     * plugins to play or "ok" otherwise.
-     */
-    public RunnerInstanceResource nextPlugin() {
-        if (currentPluginStatus) {
-            this.currentPluginStatus = false; // Reset plugin state
-            it++;
+	/**
+	 * The current plugin becomes the next in the list if there is another plugin to play (next step in the game).
+	 *
+	 * @return A JSONObject containing the status of the game. The status will be "finish" in case there are no more
+	 * plugins to play or "ok" otherwise.
+	 */
+	public RunnerInstanceResource nextPlugin() {
+		if (currentPluginStatus) {
+			this.currentPluginStatus = false; // Reset plugin state
+			it++;
 
-            if (it >= plugins.size()) {
-                return new RunnerInstanceResource("finish");
-            }
+			if (it >= plugins.size()) {
+				return new RunnerInstanceResource("finish");
+			}
 
-            currentPlugin = plugins.get(it);
-            return new RunnerInstanceResource("ok");
-        } else {
-            return new RunnerInstanceResource("forbidden");
-        }
-    }
+			currentPlugin = plugins.get(it);
+			return new RunnerInstanceResource("ok");
+		} else {
+			return new RunnerInstanceResource("forbidden");
+		}
+	}
 
-    private void instantiatePlugin(PluginInstantiationResource plugin) {
-        String className = plugin.getName();
-        JarLoader jarloader = JarLoader.getInstance();
-        Class pluginClass = jarloader.getPluginClasses().get(className);
-        List<MetaPlugin> pluginMeta = jarloader.getMetaPlugins();
-        Class[] types = null;
-        for (MetaPlugin metaPlugin : pluginMeta) {
-            if (metaPlugin.getName().equals(className)) {
-                types = metaPlugin.toClassArray();
-            }
-        }
-        Collection<Object> objects = plugin.getArgs().values();
-        Object[] values = objects.toArray(new Object[objects.size()]);
-        Object p = null;
-        try {
-            Constructor ct = pluginClass.getConstructor(types);
-            p = ct.newInstance(values);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-        plugins.add((Plugin) p);
-    }
+	private void instantiatePlugin(PluginInstantiationResource plugin) {
+		String className = plugin.getName(); //PluginClassName
+		JarLoader jarloader = JarLoader.getInstance();
+		Class pluginClass = jarloader.getPluginClasses().get(className);
+		List<MetaPlugin> pluginMeta = jarloader.getMetaPlugins();
+		Class[] types = null;
+		MetaPlugin metaPlugin1t = null;
+		for (MetaPlugin metaPlugin : pluginMeta) {
+			if (metaPlugin.getName().equals(className)) {
+				metaPlugin1t = metaPlugin;
+				types = metaPlugin.toClassArray();
+			}
+		}
 
-    /**
-     * Get the current played plugin.
-     *
-     * @return the current played plugin
-     */
-    public Plugin getPlugin() {
-        return this.currentPlugin;
-    }
+		Object[] values = new Object[plugin.getArgs().size()];
+		int i = 0;
+		for (Object entry : metaPlugin1t.getConstructorArgs().keySet()) {
+			values[i] = plugin.getArgs().get(entry.toString());
+			i++;
+		}
+		Object p = null;
+		try {
+			Constructor ct = pluginClass.getConstructor(types);
+			p = ct.newInstance(values);
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		}
+		plugins.add((Plugin) p);
+	}
 
-    /**
-     * Get the current played plugin status.
-     *
-     * @return true if the last answer was correct, false otherwise
-     */
-    public boolean getStatus() {
-        return this.currentPluginStatus;
-    }
+	/**
+	 * Get the current played plugin.
+	 *
+	 * @return the current played plugin
+	 */
+	public Plugin getPlugin() {
+		return this.currentPlugin;
+	}
+
+	/**
+	 * Get the current played plugin status.
+	 *
+	 * @return true if the last answer was correct, false otherwise
+	 */
+	public boolean getStatus() {
+		return this.currentPluginStatus;
+	}
 
 }
