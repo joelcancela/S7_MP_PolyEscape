@@ -139,6 +139,7 @@ public class Runner {
 		}
 		Object p = null;
 		try {
+			System.out.println("DEBUG "+pluginClass);
 			Constructor ct = pluginClass.getConstructor(types);
 			p = ct.newInstance(values);
 		} catch (InstantiationException e) {
