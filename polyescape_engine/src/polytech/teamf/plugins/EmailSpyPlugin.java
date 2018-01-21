@@ -30,6 +30,12 @@ public class EmailSpyPlugin extends Plugin {
         this.plain_text = plain_text;
     }
 
+    public EmailSpyPlugin() {
+        super("EmailSpyPlugin", "");
+        args.put("description", "String");
+        args.put("plain_text", "String");
+    }
+
     @Override
     public IEvent execute(Map<String, Object> args) throws Exception {
 

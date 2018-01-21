@@ -5,10 +5,7 @@ import polytech.teamf.events.IEventListener;
 import polytech.teamf.jarloader.JarLoader;
 import polytech.teamf.services.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public abstract class Plugin implements IPlugin, IEventListener {
 
@@ -21,6 +18,8 @@ public abstract class Plugin implements IPlugin, IEventListener {
      * Plugin attributes
      */
     private Map<String, Object> attributes = new HashMap<>();
+
+    public Map<String, Object> args = new LinkedHashMap<>();
 
     /**
      * Shared constructor with inherited plugins

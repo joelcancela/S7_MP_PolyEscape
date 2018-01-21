@@ -1,15 +1,14 @@
 package polytech.teamf.jarloader;
 
 import polytech.teamf.plugins.MetaPlugin;
+import polytech.teamf.plugins.Plugin;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
@@ -191,5 +190,65 @@ public class JarLoader {
 
 	public List<MetaPlugin> getMetaPlugins() {
 		return metaPlugins;
+	}
+
+	public void addLocalPlugins() throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
+		//List Plugins from polytech.teamf.plugins
+		Class[] classArray = getClasses("polytech.teamf.plugins");
+		for (Class c : classArray) {
+			if (Plugin.class.isAssignableFrom(c) && c != Plugin.class) {
+				Plugin p = (Plugin) c.newInstance();
+				metaPlugins.add(new MetaPlugin(c.getSimpleName(),p.args));
+			}
+		}
+	}
+
+	/**
+	 * Scans all classes accessible from the context class loader which belong to the given package and subpackages.
+	 *
+	 * @param packageName The base package.
+	 * @return The classes found in the package.
+	 * @throws ClassNotFoundException See {@link #findClasses(File, String)}.
+	 * @throws IOException            Triggered if the classLoader cant get the resource given the package name.
+	 */
+	private static Class[] getClasses(String packageName) throws ClassNotFoundException, IOException {
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		String path = packageName.replace('.', '/');
+		Enumeration resources = classLoader.getResources(path);
+		List<File> dirs = new ArrayList<>();
+		while (resources.hasMoreElements()) {
+			URL resource = (URL) resources.nextElement();
+			dirs.add(new File(resource.getFile()));
+		}
+		List<Class> classes = new ArrayList<>();
+		for (File directory : dirs) {
+			classes.addAll(findClasses(directory, packageName));
+		}
+		return classes.toArray(new Class[classes.size()]);
+	}
+
+	/**
+	 * Recursive method used to find all classes in a given directory and subdirs.
+	 *
+	 * @param directory   The base directory.
+	 * @param packageName The package name for classes found inside the base directory.
+	 * @return The classes found in the package contained in the directory.
+	 * @throws ClassNotFoundException Triggered if no class has been found in a package.
+	 */
+	private static List findClasses(File directory, String packageName) throws ClassNotFoundException {
+		List classes = new ArrayList();
+		if (!directory.exists()) {
+			return classes;
+		}
+		File[] files = directory.listFiles();
+		for (File file : files) {
+			if (file.isDirectory()) {
+				assert !file.getName().contains(".");
+				classes.addAll(findClasses(file, packageName + "." + file.getName()));
+			} else if (file.getName().endsWith(".class")) {
+				classes.add(Class.forName(packageName + '.' + file.getName().substring(0, file.getName().length() - 6)));
+			}
+		}
+		return classes;
 	}
 }

@@ -80,6 +80,14 @@ public class MetaPlugin {
 		}
 	}
 
+	public MetaPlugin(String simpleName, Map<String, Object> args) throws ClassNotFoundException {
+		this.type = simpleName;
+		for (Map.Entry e : args.entrySet()) {
+			Class t = Class.forName("java.lang." + e.getValue().toString()); // Triggers exception if type not found
+			constructorArgs.put(e.getKey(), t);
+		}
+	}
+
 	/**
 	 * INI File Parser.
 	 *
@@ -140,16 +148,16 @@ public class MetaPlugin {
 		List<Map.Entry<K, V>> list = new LinkedList<Map.Entry<K, V>>(map.entrySet());
 		Collections.sort(list, new Comparator<Map.Entry<K, V>>() {
 			public int compare(Map.Entry<K, V> o1, Map.Entry<K, V> o2) {
-				if(o1.getKey().equals("description")){//Description is the first arg
+				if (o1.getKey().equals("description")) {//Description is the first arg
 					return -1;
 				}
-				if(o2.getKey().equals("description")){
+				if (o2.getKey().equals("description")) {
 					return 1;
 				}
 				int i = o1.getValue().compareTo(o2.getValue());
-				if(i != 0){//Reverse sort by type
+				if (i != 0) {//Reverse sort by type
 					return -i;
-				}else{
+				} else {
 					return o1.getKey().toString().compareTo(o2.getKey().toString());//Sort alphabetically
 				}
 			}

@@ -1,19 +1,25 @@
 package polytech.teamf.plugins;
 
-import org.json.JSONObject;
+import polytech.teamf.events.IEvent;
+
+import java.util.Map;
 
 /**
  * Class x
  *
  * @author Joël CANCELA VAZ
  */
-public class GoogleSheetsPlugin {
+public class GoogleSheetsPlugin extends Plugin{
 
-    // TODO : implement this plugin
-    public JSONObject execute() {
-        return null;
+
+    public GoogleSheetsPlugin() {
+        super("GoogleSheetsPlugin", "");
+        args.put("url", "String");
     }
-//        String description = "";
+
+    @Override
+    public IEvent execute(Map<String, Object> args) throws Exception {
+        //        String description = "";
 //        String answers_csv = "";
 //        String correct_answers_csv = "";
 //
@@ -61,4 +67,27 @@ public class GoogleSheetsPlugin {
 //        }
 //
 //        return super.execute(new MultipleChoiceQuestionPlugin(description, answers_csv, correct_answers_csv));
+        return null;
+    }
+
+    @Override
+    public void onBadResponseEvent() {
+
+    }
+
+    @Override
+    public void onGoodResponseEvent() {
+
+    }
+
+    @Override
+    public void onStartEvent() {
+
+    }
+
+    @Override
+    public void onEndEvent() {
+
+    }
+
 }
