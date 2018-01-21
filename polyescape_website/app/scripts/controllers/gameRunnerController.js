@@ -106,7 +106,7 @@ angular.module('polyEscapeApp')
         var promise = PolyEscapeAPIService.getPluginStatus();
         promise.then(function (result) {
           console.log(result.data.status);
-          if(result.data.status === 'true'){
+          if(result.data.status === true){
             $interval.cancel(intervalPromise);
             $rootScope.correctAnswerGiven = true;
           }
