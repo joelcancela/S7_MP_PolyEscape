@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-import base64
 import os
 import signal
 import sys
