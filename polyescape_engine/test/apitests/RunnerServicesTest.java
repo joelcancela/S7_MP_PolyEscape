@@ -153,6 +153,18 @@ public class RunnerServicesTest extends JerseyTest {
     }
 
     @Test
+    public void testRunnerStatusRequestForbiddenProperty() {
+        instantiateRunner(successConfig);
+        successAnswer.setAttempt("rip");
+        answerRunner(successAnswer);
+        RunnerInstanceResource response = target("runners/" + runnerID + "/status").request()
+                .get(new GenericType<RunnerInstanceResource>() {
+                });
+        assertFalse("Status shouldn't be empty", response.getStatus().isEmpty());
+        assertEquals("Status should be forbidden", "forbidden", response.getStatus());
+    }
+
+    @Test
     public void testMultipleInstances() {
         instantiateRunner(successConfig);
         instantiateRunner(successConfig);
