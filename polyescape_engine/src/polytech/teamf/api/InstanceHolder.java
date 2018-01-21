@@ -43,6 +43,17 @@ public class InstanceHolder {
     }
 
     /**
+     * Clear the runner instances.
+     */
+    public void clear() {
+        runnersInstances.clear();
+    }
+
+    public int getRunnerInstanceNumber() {
+        return runnersInstances.size();
+    }
+
+    /**
      * Get a runner instance given its unique id.
      *
      * @param id the unique id of a runner instance
