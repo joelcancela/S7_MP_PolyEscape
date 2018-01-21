@@ -198,7 +198,7 @@ public class JarLoader {
 		for (Class c : classArray) {
 			if (Plugin.class.isAssignableFrom(c) && c != Plugin.class) {
 				Plugin p = (Plugin) c.newInstance();
-				metaPlugins.add(new MetaPlugin(c.getSimpleName(),p.args));
+				metaPlugins.add(new MetaPlugin("polytech.teamf.plugins."+c.getSimpleName(),p.args));
 			}
 		}
 	}
