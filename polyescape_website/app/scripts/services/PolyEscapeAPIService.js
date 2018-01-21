@@ -56,11 +56,11 @@ angular.module('polyEscapeApp')
       return deferred.promise;
     };
 
-    this.getPluginDescription = function () {
+    this.getPluginDescription = function (id) {
       var deferred = $q.defer();
       $http({
         method: 'GET',
-        url: this.serverHost + '/plugins/description'
+        url: this.serverHost + '/runners/'+id+'/description'
       }).then(function successCallback(data) {
         deferred.resolve(data);
       }, function errorCallback(data) {
@@ -69,11 +69,11 @@ angular.module('polyEscapeApp')
       return deferred.promise;
     };
 
-    this.hasNextPlugin = function () {
+    this.hasNextPlugin = function (id) {
       var deferred = $q.defer();
       $http({
         method: 'GET',
-        url: this.serverHost + '/runners/status'
+        url: this.serverHost + '/runners/'+id+'/status'
       }).then(function successCallback(data) {
         deferred.resolve(data);
       }, function errorCallback(data) {
@@ -83,14 +83,14 @@ angular.module('polyEscapeApp')
     };
 
 
-    this.answerResponse = function (json) {
+    this.answerResponse = function (id, json) {
       var deferred = $q.defer();
       $http({
         method: 'POST',
-        url: this.serverHost + '/runners/answer',
+        url: this.serverHost + '/runners/'+id+'/answer',
         data:json,
         headers: {
-          "Content-Type": "text/plain"
+          "Content-Type": "application/json"
         }
       }).then(function successCallback(data) {
         deferred.resolve(data);
