@@ -7,6 +7,13 @@
 <%@ page import="java.lang.reflect.Method" %>
 <%@ page import="java.time.LocalDateTime" %>
 <%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="polytech.teamf.resources.PluginInstantiationResource" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="javax.ws.rs.core.GenericType" %>
+<%@ page import="polytech.teamf.jarloader.JarLoader" %>
+<%@ page import="polytech.teamf.plugins.MetaPlugin" %>
+<%@ page import="java.util.Set" %>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 <%
@@ -32,25 +39,16 @@
     <header class="w3-container w3-gray w3-hover-opacity w3-xxlarge" style="text-align: center">Engine data</header>
     <div class="w3-margin">
         <%
-            JSONArray supportedPlugins = new JSONArray();
-            try {
-                supportedPlugins = new JSONArray(new PluginServices().getAllStepsType());
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
+            List<MetaPlugin> supportedPlugins = JarLoader.getInstance().getMetaPlugins();
         %>
         <p>Supported plugins list (up to date):</p>
         <ul class="w3-padding w3-ul w3-card-4" style="width:50%">
             <%
-                for (int i = 0; i < supportedPlugins.length(); ++i) {
-                    JSONObject pluginData = (JSONObject) supportedPlugins.get(i);
+                for (MetaPlugin p : supportedPlugins) {
             %>
             <li class="w3-hover-opacity">
                 <jsp:text>Plugin:</jsp:text>
-                <%= pluginData.get("type")%>
-                <jsp:text> (</jsp:text>
-                <%= pluginData.get("name")%>
-                <jsp:text>)</jsp:text>
+                <%= p.getName()%>
             </li>
             <%
                 }
@@ -60,30 +58,12 @@
 
     <div class="w3-margin">
         <%
-            JSONArray supportedServices = new JSONArray();
-            try {
-                PluginServices pluginServices = new PluginServices();
-                Method method = pluginServices.getClass().getDeclaredMethod("getClasses", String.class);
-                method.setAccessible(true);
-                Class[] services = (Class[]) method.invoke(pluginServices, "polytech.teamf.services");
-                for (Class c : services) {
-                    if (Service.class.isAssignableFrom(c) && c != Service.class) {
-                        supportedServices.put(c.getSimpleName());
-                    }
-                }
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
+            Set<String> supportedServices = JarLoader.getInstance().getServicesClasses().keySet();
         %>
         <p>Supported services list (up to date):</p>
         <ul class="w3-padding w3-ul w3-card-4" style="width:50%">
             <%
-                for (int i = 0; i < supportedServices.length(); ++i) {
-                    String service = supportedServices.getString(i);
+                for (String service : supportedServices) {
             %>
             <li class="w3-hover-opacity">
                 <jsp:text>Service:</jsp:text>
