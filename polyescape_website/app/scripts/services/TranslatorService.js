@@ -16,11 +16,12 @@ angular.module('polyEscapeApp')
         plain_text: "Réponse",
         cipher_padding: "Longueur du décalage",
         CaesarCipherPlugin: "Epreuve Code César",
-        SimplePasswordPlugin: "Epreuve Question simple"
+        SimplePasswordPlugin: "Epreuve Question simple",
+        MultipleChoiceQuestionPlugin: "Epreuve QCM"
       };
 
       this.translate = function(str){
-        return this.translator[str];
+        return this.translator[str] || str;
       };
 
   });
