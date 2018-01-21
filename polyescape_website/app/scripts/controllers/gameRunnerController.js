@@ -92,7 +92,11 @@ angular.module('polyEscapeApp')
         var promise = PolyEscapeAPIService.getPluginDescription($rootScope.playerID);
         promise.then(function (result) {
           console.log(result.data);
-          $rootScope.currentPluginIsInput = result.data.use_remote_service;
+          if(Object.keys(result.data.responseFormat).length === 0){
+            $rootScope.currentPluginIsInput = true;
+          }else{
+            $rootScope.currentPluginIsInput = false;
+          }
           $rootScope.currentPluginDescription = result.data.attributes.description;
           if($rootScope.currentPluginIsInput){
             intervalPromise =  $interval(triggerIntervalInputService, 3000);
@@ -103,10 +107,10 @@ angular.module('polyEscapeApp')
       }
 
       function triggerIntervalInputService(){
-        var promise = PolyEscapeAPIService.getPluginStatus();
+        var promise = PolyEscapeAPIService.getPluginStatus($rootScope.playerID);
         promise.then(function (result) {
-          console.log(result.data.status);
-          if(result.data.status === true){
+          console.log(result.data);
+          if(result.data.status){
             $interval.cancel(intervalPromise);
             $rootScope.correctAnswerGiven = true;
           }

@@ -9,8 +9,8 @@
 angular.module('polyEscapeApp')
   .service('PolyEscapeAPIService', ['$http', '$q', function ($http, $q) {
 
-    this.serverHost = "http://localhost:8080";
-    // this.serverHost = "https://ns3265327.ip-5-39-78.eu:8443";
+    // this.serverHost = "http://localhost:8080";
+    this.serverHost = "https://ns3265327.ip-5-39-78.eu:8443";
 
     this.getAvailablePlugins = function () {
       var deferred = $q.defer();
@@ -26,11 +26,11 @@ angular.module('polyEscapeApp')
       return deferred.promise;
     };
 
-    this.getPluginStatus = function () {
+    this.getPluginStatus = function (id) {
       var deferred = $q.defer();
       $http({
         method: 'GET',
-        url: this.serverHost + '/plugins/status'
+        url: this.serverHost + '/runners/'+id+'/inputStatus'
       }).then(function successCallback(data) {
         deferred.resolve(data);
       }, function errorCallback(data) {
