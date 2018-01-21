@@ -1,18 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ page import="org.json.JSONArray" %>
-<%@ page import="org.json.JSONObject" %>
-<%@ page import="polytech.teamf.api.PluginServices" %>
-<%@ page import="polytech.teamf.services.Service" %>
-<%@ page import="java.lang.reflect.InvocationTargetException" %>
-<%@ page import="java.lang.reflect.Method" %>
-<%@ page import="java.time.LocalDateTime" %>
-<%@ page import="java.time.format.DateTimeFormatter" %>
-<%@ page import="polytech.teamf.resources.PluginInstantiationResource" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="javax.ws.rs.core.GenericType" %>
 <%@ page import="polytech.teamf.jarloader.JarLoader" %>
 <%@ page import="polytech.teamf.plugins.MetaPlugin" %>
+<%@ page import="java.time.LocalDateTime" %>
+<%@ page import="java.time.format.DateTimeFormatter" %>
+<%@ page import="java.util.List" %>
 <%@ page import="java.util.Set" %>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
