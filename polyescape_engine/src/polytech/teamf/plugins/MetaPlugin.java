@@ -143,6 +143,9 @@ public class MetaPlugin {
 				if(o1.getKey().equals("description")){//Description is the first arg
 					return -1;
 				}
+				if(o2.getKey().equals("description")){
+					return 1;
+				}
 				int i = o1.getValue().compareTo(o2.getValue());
 				if(i != 0){//Reverse sort by type
 					return -i;
