@@ -3,7 +3,7 @@
 //import org.json.JSONObject;
 //import org.junit.Before;
 //import org.junit.Test;
-//import polytech.teamf.plugins.SimplePasswordPlugin;
+//import SimplePasswordPlugin;
 //import polytech.teamf.resources.AnswerResource;
 //
 //import static junit.framework.Assert.assertEquals;
