@@ -53,12 +53,6 @@ public class Runner {
         for (MetaPlugin metaPlugin : JarLoader.getInstance().getMetaPlugins()) {
             if (metaPlugin.getName().equals(currentPlugin.getName())) {
                 schema = metaPlugin.getSchema();
-                System.out.println("Found");
-                System.out.println(attributes.keySet());
-                System.out.println(attributes.values());
-                System.out.println(schema.keySet());
-                System.out.println(schema.values());
-
             }
         }
         return new PluginDescriptionResource(attributes, schema);
@@ -124,7 +118,6 @@ public class Runner {
         String className = plugin.getName();
         JarLoader jarloader = JarLoader.getInstance();
         Class pluginClass = jarloader.getPluginClasses().get(className);
-        System.out.println(pluginClass);
         List<MetaPlugin> pluginMeta = jarloader.getMetaPlugins();
         Class[] types = null;
         for (MetaPlugin metaPlugin : pluginMeta) {
@@ -132,19 +125,11 @@ public class Runner {
                 types = metaPlugin.toClassArray();
             }
         }
-        System.out.println("DEBUG");
-        for (int i = 0; i < types.length; i++) {
-            System.out.println(types[i]);
-        }
         Collection<Object> objects = plugin.getArgs().values();
         Object[] values = objects.toArray(new Object[objects.size()]);
         Object p = null;
         try {
-            System.out.println(types);
-            System.out.println(values);
-            System.out.println(pluginClass);
             Constructor ct = pluginClass.getConstructor(types);
-            System.out.println(ct);
             p = ct.newInstance(values);
         } catch (InstantiationException e) {
             e.printStackTrace();

@@ -76,7 +76,6 @@ public class JarLoader {
 
 		ArrayList<String> servicesName = getClassNamesFromJar(jarFullPath);
 
-		System.out.println(jarFullPath);
 		for (String name : servicesName) {
 
 			try {
@@ -110,7 +109,6 @@ public class JarLoader {
 		 */
 
 		/* Load the class from the jar file and resolve it. */
-		System.out.println(jarFullPath);
 		for (String name : pluginName) {
 
 			try {
