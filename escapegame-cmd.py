@@ -186,6 +186,11 @@ def update():
     print(" * Downloading remote repository (" + _git_branch + ")...")
     os.system("git clone -b " + _git_branch + " " + _git_url + " " + _wd)
 
+    print(" * Fix project...")
+    if os.path.exists(_wd):
+        os.system("mv ./escapegame/polyescape_engine/pom.xml ./escapegame/polyescape_engine/pom.xml.bak")
+        os.system("cp ./catalina/pom.xml ./escapegame/polyescape_engine/pom.xml")
+
     free_lock()
 
     print("[INFO] Update OK.")
