@@ -30,7 +30,7 @@ public class EmailSpyPlugin extends Plugin {
 	}
 
 	public EmailSpyPlugin() {
-		super("polytech.teamf.plugins.EmailSpyPlugin", "");
+		super("EmailSpyPlugin", "");
 		args.put("description", "String");
 		args.put("plain_text", "String");
 	}
