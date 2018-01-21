@@ -1,8 +1,7 @@
-package polytech.teamf.plugins;
-
 import polytech.teamf.events.BadResponseEvent;
 import polytech.teamf.events.GoodResponseEvent;
 import polytech.teamf.events.IEvent;
+import polytech.teamf.plugins.Plugin;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -27,7 +26,7 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
      * @param correct_answers_csv the list of correct answers in answers as a CSV string
      */
     public MultipleChoiceQuestionPlugin(String description, String answers_csv, String correct_answers_csv) {
-        super(description, "Epreuve QCM");
+        super("MultipleChoiceQuestionPlugin",description);
 
         // INNER MODEL
         this.answers = answers_csv.split(",");
@@ -40,11 +39,11 @@ public class MultipleChoiceQuestionPlugin extends Plugin {
     @Override
     public IEvent execute(Map<String, Object> args) throws Exception {
 
-        if (!args.containsKey("attempt_csv")) {
+        if (!args.containsKey("attempt")) {
             throw new IllegalArgumentException("Bad response format");
         }
 
-        String[] attempt_answers = args.get("attempt_csv").toString().split(",");
+        String[] attempt_answers = args.get("attempt").toString().split(",");
         if (Arrays.equals(this.correct_answers, attempt_answers)) {
             return new GoodResponseEvent(this);
         }
