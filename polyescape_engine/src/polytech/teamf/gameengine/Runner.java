@@ -18,7 +18,7 @@ public class Runner {
     /**
      * The list of plugins (ordered).
      */
-    private List<Plugin> plugins = new ArrayList<>();
+    private List<Plugin> plugins = new LinkedList<>();
 
     /**
      * Handle on the current plugin.
@@ -157,7 +157,7 @@ public class Runner {
      *
      * @return true if the last answer was correct, false otherwise
      */
-    public Boolean getStatus() {
+    public boolean getStatus() {
         return this.currentPluginStatus;
     }
 

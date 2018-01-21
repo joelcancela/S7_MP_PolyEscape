@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Service handles everything that every others services might need.
+ * Holds all instances of the runner
  */
 public class InstanceHolder {
 
@@ -35,7 +35,7 @@ public class InstanceHolder {
     /**
      * Create a new unique runner instance.
      *
-     * @param config The plugins configuration.
+     * @param config The plugins configuration for the new instance
      */
     public void createNewInstance(String uuid, List<PluginInstantiationResource> config) {
         Runner runner = new Runner(config);
