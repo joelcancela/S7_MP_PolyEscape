@@ -14,10 +14,19 @@ public class ServiceServices {
         if (serviceName.isEmpty()) { // rather test if the service name doesn't exist
             return Response.status(400).build();
         } else {
+
+            if (serviceName.equals("EmailSpyService")) {
+
+                
+            }
+
             return Response.ok().build();
         }
     }
 
+    // TODO : Implement GET if required
+
+    /*
     @GET
     @Path("/{service}")
     @Consumes(MediaType.APPLICATION_JSON)
@@ -28,5 +37,5 @@ public class ServiceServices {
             return Response.ok().build();
         }
     }
-
+    */
 }
