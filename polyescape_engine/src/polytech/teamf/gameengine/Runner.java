@@ -120,38 +120,72 @@ public class Runner {
 	private void instantiatePlugin(PluginInstantiationResource plugin) {
 		String className = plugin.getName(); //PluginClassName
 		JarLoader jarloader = JarLoader.getInstance();
-		Class pluginClass = jarloader.getPluginClasses().get(className);
-		List<MetaPlugin> pluginMeta = jarloader.getMetaPlugins();
-		Class[] types = null;
-		MetaPlugin metaPlugin1t = null;
-		for (MetaPlugin metaPlugin : pluginMeta) {
-			if (metaPlugin.getName().equals(className)) {
-				metaPlugin1t = metaPlugin;
-				types = metaPlugin.toClassArray();
+		if (className.startsWith("polytech.teamf")) {
+			try {
+				Class pluginClass = Class.forName(className);
+				List<MetaPlugin> pluginMeta = jarloader.getMetaPlugins();
+				Class[] types = null;
+				MetaPlugin metaPlugin1t = null;
+				for (MetaPlugin metaPlugin : pluginMeta) {
+					if (metaPlugin.getName().equals(className)) {
+						metaPlugin1t = metaPlugin;
+						types = metaPlugin.toClassArray();
+					}
+				}
+				Constructor ct = pluginClass.getConstructor(types);
+				Object[] values = new Object[plugin.getArgs().size()];
+				int i = 0;
+				for (Object entry : metaPlugin1t.getConstructorArgs().keySet()) {
+					values[i] = plugin.getArgs().get(entry.toString());
+					i++;
+				}
+				Object p = ct.newInstance(values);
+				plugins.add((Plugin) p);
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
 			}
-		}
+		} else {
 
-		Object[] values = new Object[plugin.getArgs().size()];
-		int i = 0;
-		for (Object entry : metaPlugin1t.getConstructorArgs().keySet()) {
-			values[i] = plugin.getArgs().get(entry.toString());
-			i++;
+			Class pluginClass = jarloader.getPluginClasses().get(className);
+			List<MetaPlugin> pluginMeta = jarloader.getMetaPlugins();
+			Class[] types = null;
+			MetaPlugin metaPlugin1t = null;
+			for (MetaPlugin metaPlugin : pluginMeta) {
+				if (metaPlugin.getName().equals(className)) {
+					metaPlugin1t = metaPlugin;
+					types = metaPlugin.toClassArray();
+				}
+			}
+
+			Object[] values = new Object[plugin.getArgs().size()];
+			int i = 0;
+			for (Object entry : metaPlugin1t.getConstructorArgs().keySet()) {
+				values[i] = plugin.getArgs().get(entry.toString());
+				i++;
+			}
+			Object p = null;
+			try {
+				Constructor ct = pluginClass.getConstructor(types);
+				p = ct.newInstance(values);
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
+			} catch (NoSuchMethodException e) {
+				e.printStackTrace();
+			}
+			plugins.add((Plugin) p);
 		}
-		Object p = null;
-		try {
-			System.out.println("DEBUG "+pluginClass);
-			Constructor ct = pluginClass.getConstructor(types);
-			p = ct.newInstance(values);
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
-		}
-		plugins.add((Plugin) p);
 	}
 
 	/**
