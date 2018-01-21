@@ -1,36 +1,6 @@
 define({ "api": [
   {
     "type": "get",
-    "url": "/plugins/{id}/description",
-    "title": "The current played plugin description on the runner with id {id}",
-    "name": "PluginsDescription",
-    "group": "Plugins",
-    "version": "0.1.0",
-    "success": {
-      "fields": {
-        "200": [
-          {
-            "group": "200",
-            "type": "String",
-            "optional": false,
-            "field": "description",
-            "description": "<p>The plugin description</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Example data on success",
-          "content": "{\n    \"description\": \"Plugin description\"\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "filename": "polyescape_engine/src/polytech/teamf/api/PluginServices.java",
-    "groupTitle": "Plugins"
-  },
-  {
-    "type": "get",
     "url": "/plugins/list",
     "title": "The list of available plugins",
     "name": "PluginsList",
@@ -51,37 +21,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Example data on success",
-          "content": "[{\n    \"type\": \"polytech.teamf.plugins.CaesarCipherPlugin\",\n    \"args\":\n    [\n    \"description\",\n    \"plain_text\",\n    \"cipher_padding\"\n    ]\n}]",
-          "type": "json"
-        }
-      ]
-    },
-    "filename": "polyescape_engine/src/polytech/teamf/api/PluginServices.java",
-    "groupTitle": "Plugins"
-  },
-  {
-    "type": "get",
-    "url": "/plugins/{id}/status",
-    "title": "The current played plugin status",
-    "name": "PluginsStatus",
-    "group": "Plugins",
-    "version": "0.1.0",
-    "success": {
-      "fields": {
-        "200": [
-          {
-            "group": "200",
-            "type": "String",
-            "optional": false,
-            "field": "status",
-            "description": "<p>The plugin status</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Example data on success",
-          "content": "{\n    \"status\": \"true\"\n}",
+          "content": "[\n  {\n    \"name\": \"CaesarCipherPlugin\",\n    \"serviceDependencies\": [\n    \"polytech.teamf.services.CaesarCipherService\"\n    ],\n    \"pluginDependencies\": [],\n    \"args\": {\n      \"plain_text\": \"java.lang.String\",\n      \"description\": \"java.lang.String\",\n      \"cipher_padding\": \"java.lang.Integer\"\n    },\n    \"schema\": {\n      \"attempt\": \"java.lang.String\"\n    }\n  }\n]",
           "type": "json"
         }
       ]
@@ -92,7 +32,7 @@ define({ "api": [
   {
     "type": "put",
     "url": "/runners/instantiate",
-    "title": "Instantiate a new runner instance",
+    "title": "Instantiate a new unique runner instance",
     "name": "InstantiateRunner",
     "group": "Runners",
     "version": "0.1.0",
@@ -111,7 +51,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Request-Example:",
-          "content": "[{\n    \"type\": \"CaesarCipherPlugin\",\n    \"description\": \"Put a description here\",\n    \"plain_text\": \"Put the text to cipher here\",\n    \"cipher_padding\": \"5\"\n}]",
+          "content": "[{\n  \"name\": \"CaesarCipherPlugin\",\n  \"args\": {\n    \"plain_text\": \"a\",\n    \"description\": \"d\",\n    \"cipher_padding\": 7\n  }\n}]",
           "type": "json"
         }
       ]
@@ -127,6 +67,15 @@ define({ "api": [
           }
         ]
       }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Example data on success",
+          "content": "{\n\"id\": \"872ac411-39ec-4674-922e-3a51b7ba522d\",\n\"status\": null\n}",
+          "type": "json"
+        }
+      ]
     },
     "filename": "polyescape_engine/src/polytech/teamf/api/RunnerServices.java",
     "groupTitle": "Runners"
@@ -152,8 +101,8 @@ define({ "api": [
       },
       "examples": [
         {
-          "title": "Request-Example (Be careful, a request is plugin specific):",
-          "content": "{\n    \"attempt_text\": \"Put your answer here\"\n}",
+          "title": "Request-Example:",
+          "content": "{\n    \"attempt\": \"Put your answer here\"\n}",
           "type": "json"
         }
       ]
@@ -165,7 +114,7 @@ define({ "api": [
             "group": "Error 4xx",
             "optional": false,
             "field": "EmptyAnswer",
-            "description": "<p>The answer was empty. <code>1</code> answer has to be given.</p>"
+            "description": "<p>The answer was empty. Exactly <code>1</code> answer has to be given.</p>"
           }
         ]
       }
@@ -184,9 +133,39 @@ define({ "api": [
   },
   {
     "type": "get",
+    "url": "/runners/{id}/description",
+    "title": "The current played plugin description on the runner with id {id}",
+    "name": "RunnerDescription",
+    "group": "Runners",
+    "version": "0.1.0",
+    "success": {
+      "fields": {
+        "200": [
+          {
+            "group": "200",
+            "type": "String",
+            "optional": false,
+            "field": "description",
+            "description": "<p>The current played plugin description</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Example data on success",
+          "content": "{\n     \"attributes\": {\n          \"name\": \"CaesarCipherPlugin\",\n          \"description\": \"a Voici le code à décrypter: K\"\n     },\n     \"responseFormat\": {\n         \"attempt\": \"java.lang.String\"\n     }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "polyescape_engine/src/polytech/teamf/api/RunnerServices.java",
+    "groupTitle": "Runners"
+  },
+  {
+    "type": "get",
     "url": "/runners/{id}/status",
     "title": "Retrieve the status for the next step of the game on the runner with id {id}",
-    "name": "RunnerHasNext",
+    "name": "RunnerStatus",
     "group": "Runners",
     "version": "0.1.0",
     "success": {
@@ -202,43 +181,13 @@ define({ "api": [
       },
       "examples": [
         {
-          "title": "Example data on success",
-          "content": "{\n    \"status\": \"ok\"\n}",
+          "title": "Example data on success,",
+          "content": "the status can be ok if a correct answer has been given and there's another step after,\nfinish if a correct answer has been given and there's no more step\nor forbidden if no correct answer has been given (the player tries to skip the step)\n\t{\n\t\"id\": null,\n\t\"status\": \"ok/finish/forbidden\"\n\t}",
           "type": "json"
         }
       ]
     },
     "filename": "polyescape_engine/src/polytech/teamf/api/RunnerServices.java",
     "groupTitle": "Runners"
-  },
-  {
-    "type": "get",
-    "url": "/services/{service}",
-    "title": "Doc here",
-    "name": "Service",
-    "group": "Services",
-    "version": "0.1.0",
-    "success": {
-      "fields": {
-        "200": [
-          {
-            "group": "200",
-            "type": "String",
-            "optional": false,
-            "field": "service",
-            "description": "<p>Doc here</p> <p>http://localhost:8080/services/GoogleSheetsService?gsheet=%22https://docs.google.com/spreadsheets/d/17d4SfrjbdyPq9x8HEjumkfYN8b_aBPwaIHVFJnNqbG0/gviz/tq?tqx=out:csv%22</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Example data on success",
-          "content": "{\n    \"example\": \"example\"\n}",
-          "type": "json"
-        }
-      ]
-    },
-    "filename": "polyescape_engine/src/polytech/teamf/api/ServiceServices.java",
-    "groupTitle": "Services"
   }
 ] });
