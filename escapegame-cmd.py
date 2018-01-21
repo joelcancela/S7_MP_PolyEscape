@@ -179,6 +179,8 @@ def update():
     print("[INFO] Updating project...")
     print("[INFO] `EscapeGame` is located at : '" + _wd + "'")
 
+    os.system(" cd ~/")
+
     print(" * Flushing project...")
     if os.path.exists(_wd):
         os.system("rm -rf " + _wd)
@@ -216,6 +218,8 @@ def start():
     """Start the EscapeGame service"""
 
     print("[INFO] Start server...")
+
+    os.system(" cd ~/")
 
     if os.path.exists(_wd):
         os.system("mvn install -f " + _wd + "/polyescape_engine/pom.xml -Dmaven.test.skip=true")
