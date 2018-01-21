@@ -102,14 +102,12 @@ public class Runner {
 	 * plugins to play or "ok" otherwise.
 	 */
 	public RunnerInstanceResource nextPlugin() {
+		if (it >= plugins.size()) {
+			return new RunnerInstanceResource("finish");
+		}
 		if (currentPluginStatus) {
 			this.currentPluginStatus = false; // Reset plugin state
 			it++;
-
-			if (it >= plugins.size()) {
-				return new RunnerInstanceResource("finish");
-			}
-
 			currentPlugin = plugins.get(it);
 			return new RunnerInstanceResource("ok");
 		} else {
