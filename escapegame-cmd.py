@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-import base64
 import os
 import signal
 import sys
@@ -187,6 +186,11 @@ def update():
     print(" * Downloading remote repository (" + _git_branch + ")...")
     os.system("git clone -b " + _git_branch + " " + _git_url + " " + _wd)
 
+    print(" * Fix project...")
+    if os.path.exists(_wd):
+        os.system("mv ./escapegame/polyescape_engine/pom.xml ./escapegame/polyescape_engine/pom.xml.bak")
+        os.system("cp ./catalina/pom.xml ./escapegame/polyescape_engine/pom.xml")
+
     free_lock()
 
     print("[INFO] Update OK.")
@@ -215,6 +219,7 @@ def start():
 
     if os.path.exists(_wd):
         os.system("mvn install -f " + _wd + "/polyescape_engine/pom.xml -Dmaven.test.skip=true")
+        os.chdir("/home/polyescape/escapegame/polyescape_engine")
         os.system("screen mvn tomcat7:run-war -f " + _wd + "/polyescape_engine/pom.xml -Dmaven.test.skip=true")
 
 
