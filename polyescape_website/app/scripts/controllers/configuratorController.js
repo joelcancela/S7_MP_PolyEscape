@@ -128,6 +128,13 @@ angular.module('polyEscapeApp')
       };
 
 
+      $scope.loadConfig= function(){
+        document.getElementById('file').click();
+      };
+
+      $scope.loadConfigOnSubmit = function($fileContent) {
+        $rootScope.escapeGameSteps = JSON.parse($fileContent);
+      };
 
       init();
 
