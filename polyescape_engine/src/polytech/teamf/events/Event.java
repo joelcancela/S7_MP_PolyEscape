@@ -10,4 +10,9 @@ public abstract class Event implements IEvent {
         this.source = p;
     }
 
+    @Override
+    public void setSrouce(Plugin aSource){
+        source= aSource;
+    }
+
 }

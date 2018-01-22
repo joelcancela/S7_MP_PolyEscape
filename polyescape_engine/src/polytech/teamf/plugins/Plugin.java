@@ -1,5 +1,6 @@
 package polytech.teamf.plugins;
 
+import polytech.teamf.events.Event;
 import polytech.teamf.events.IEvent;
 import polytech.teamf.events.IEventListener;
 import polytech.teamf.jarloader.JarLoader;
@@ -45,6 +46,7 @@ public abstract class Plugin implements IPlugin, IEventListener {
 
         // Notify nested plugins
         for (Plugin p : this.plugins) {
+            e.setSrouce(p);
             p.sendEvent(e);
         }
     }
