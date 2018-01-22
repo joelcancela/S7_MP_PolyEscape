@@ -123,6 +123,12 @@ angular.module('polyEscapeApp')
         }
       };
 
+      $scope.downloadConfig = function() {
+        return encodeURIComponent(JSON.stringify($rootScope.escapeGameSteps));
+      };
+
+
+
       init();
 
     }]);
