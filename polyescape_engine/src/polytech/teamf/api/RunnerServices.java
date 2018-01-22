@@ -34,9 +34,9 @@ public class RunnerServices {
 	 *
 	 * @apiSuccessExample Example data on success
 	 * {
-	 *"id": "872ac411-39ec-4674-922e-3a51b7ba522d",
-	 *"status": null
-	 *}
+	 *   "id": "872ac411-39ec-4674-922e-3a51b7ba522d",
+	 *   "status": null
+	 * }
 	 */
 
 	/**
@@ -164,7 +164,26 @@ public class RunnerServices {
 		return Response.ok().entity(InstanceHolder.getInstance().getRunnerInstance(id).getCurrentPluginDescription()).build();
 	}
 
-	//doc TODO route for input services only
+    /**
+     * @api {get} /runners/{id}/inputStatus Notify the current step on the runner with id {id}
+     * @apiName RunnerInputStatus
+     * @apiGroup Runners
+     * @apiVersion 0.1.0
+     *
+     * @apiError EmptyAnswer The answer was empty. Exactly <code>1</code> answer has to be given.
+     *
+     * @apiSuccessExample Example data on success
+     * {
+     *     "success": "true"
+     * }
+     */
+
+	/**
+	 * Get the current played plugin status.
+	 *
+	 * @param id the runner unique id
+	 * @return a response object containing the status of the current played plugin
+	 */
 	@GET
 	@Path("/{id}/inputStatus")
 	@Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})

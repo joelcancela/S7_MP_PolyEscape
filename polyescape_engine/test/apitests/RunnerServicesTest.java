@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -29,7 +30,8 @@ public class RunnerServicesTest extends JerseyTest {
 
     private List<PluginInstantiationResource> successConfig = new ArrayList<>();
     private List<PluginInstantiationResource> successMultipleConfig = new ArrayList<>();
-    private PluginStatusResource successAnswer;
+    private PluginStatusResource passwordAnswer;
+    private PluginStatusResource caesarAnswer;
     private PluginStatusResource resultAnswer;
     private String runnerID;
 
@@ -39,24 +41,25 @@ public class RunnerServicesTest extends JerseyTest {
         JarLoader.getInstance().loadPlugins("./resources/plugins/");
 
         PluginInstantiationResource pluginResource = new PluginInstantiationResource();
-        pluginResource.setName("CaesarCipherPlugin");
+        pluginResource.setName("SimplePasswordPlugin");
         Map<String, Object> args = new HashMap<>();
         args.put("description", "Put a description here");
-        args.put("plain_text", "Caesar");
-        args.put("cipher_padding", 5);
+        args.put("plain_text", "password");
         pluginResource.setArgs(args);
         successConfig.add(pluginResource);
         successMultipleConfig.add(pluginResource);
 
         pluginResource = new PluginInstantiationResource();
-        pluginResource.setName("SimplePasswordPlugin");
+        pluginResource.setName("CaesarCipherPlugin");
         args = new HashMap<>();
         args.put("description", "Put a description here");
-        args.put("plain_text", "password");
+        args.put("plain_text", "caesar");
+        args.put("cipher_padding", 5);
         pluginResource.setArgs(args);
         successMultipleConfig.add(pluginResource);
 
-        successAnswer = new PluginStatusResource("HFJXFW");
+        passwordAnswer = new PluginStatusResource("password");
+        caesarAnswer = new PluginStatusResource("hfjxfw");
     }
 
     @After
@@ -71,7 +74,7 @@ public class RunnerServicesTest extends JerseyTest {
     }
 
     private void answerRunner(PluginStatusResource answer) {
-        Entity<PluginStatusResource> answerEntity = Entity.entity(successAnswer, MediaType.APPLICATION_JSON_TYPE);
+        Entity<PluginStatusResource> answerEntity = Entity.entity(answer, MediaType.APPLICATION_JSON_TYPE);
         resultAnswer = target("runners/" + runnerID + "/answer").request().post(answerEntity)
                 .readEntity(new GenericType<PluginStatusResource>() {
                 });
@@ -92,7 +95,7 @@ public class RunnerServicesTest extends JerseyTest {
 
         runnerID = response.readEntity(new GenericType<RunnerInstanceResource>() {
         }).getId();
-        assertFalse("Id shouldn't be empty", runnerID.isEmpty());
+        assertFalse("It shouldn't be empty", runnerID.isEmpty());
     }
 
     @Test
@@ -109,15 +112,15 @@ public class RunnerServicesTest extends JerseyTest {
     @Test
     public void testRunnerAnswerRequestSuccess() {
         instantiateRunner(successConfig);
-        Entity<PluginStatusResource> answerEntity = Entity.entity(successAnswer, MediaType.APPLICATION_JSON_TYPE);
+        Entity<PluginStatusResource> answerEntity = Entity.entity(passwordAnswer, MediaType.APPLICATION_JSON_TYPE);
         Response response = target("runners/" + runnerID + "/answer").request().post(answerEntity);
-        successAnswer.setStatus(response.readEntity(new GenericType<PluginStatusResource>() {
+        passwordAnswer.setStatus(response.readEntity(new GenericType<PluginStatusResource>() {
         }).getStatus());
 
         assertEquals("Status should be 200", 200, response.getStatus());
         assertEquals("MediaType should be JSON", MediaType.APPLICATION_JSON_TYPE, response.getMediaType());
-        assertEquals("Attempt should be HFJXFW", "HFJXFW", successAnswer.getAttempt());
-        //assertTrue("Answer should be correct", successAnswer.getStatus()); // it seems the answer order bug is back...
+        assertEquals("Attempt should be password", "password", passwordAnswer.getAttempt());
+        assertTrue("Answer should be correct", passwordAnswer.getStatus());
     }
 
     @Test
@@ -133,30 +136,28 @@ public class RunnerServicesTest extends JerseyTest {
     @Test
     public void testRunnerStatusRequestFinishProperty() {
         instantiateRunner(successConfig);
-        answerRunner(successAnswer);
-        RunnerInstanceResource response = target("runners/" + runnerID + "/status").request()
-                .get(new GenericType<RunnerInstanceResource>() {
-                });
+        answerRunner(passwordAnswer);
+        RunnerInstanceResource response = target("runners/" + runnerID + "/status").request().get(new GenericType<RunnerInstanceResource>() {});
         assertFalse("Status shouldn't be empty", response.getStatus().isEmpty());
-        //assertEquals("Status should be finish", "finish", response.getStatus()); //status is forbidden because of the same bug as line 116
+        assertEquals("Status should be finish", "finish", response.getStatus());
     }
 
     @Test
     public void testRunnerStatusRequestOkProperty() {
         instantiateRunner(successMultipleConfig);
-        answerRunner(successAnswer);
+        answerRunner(passwordAnswer);
         RunnerInstanceResource response = target("runners/" + runnerID + "/status").request()
                 .get(new GenericType<RunnerInstanceResource>() {
                 });
         assertFalse("Status shouldn't be empty", response.getStatus().isEmpty());
-        //assertEquals("Status should be ok", "ok", response.getStatus()); //status is forbidden because of the same bug as line 116
+        assertEquals("Status should be ok", "ok", response.getStatus());
     }
 
     @Test
     public void testRunnerStatusRequestForbiddenProperty() {
         instantiateRunner(successConfig);
-        successAnswer.setAttempt("rip");
-        answerRunner(successAnswer);
+        passwordAnswer.setAttempt("rip");
+        answerRunner(passwordAnswer);
         RunnerInstanceResource response = target("runners/" + runnerID + "/status").request()
                 .get(new GenericType<RunnerInstanceResource>() {
                 });

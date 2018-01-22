@@ -72,7 +72,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Example data on success",
-          "content": "{\n\"id\": \"872ac411-39ec-4674-922e-3a51b7ba522d\",\n\"status\": null\n}",
+          "content": "{\n  \"id\": \"872ac411-39ec-4674-922e-3a51b7ba522d\",\n  \"status\": null\n}",
           "type": "json"
         }
       ]
@@ -163,6 +163,37 @@ define({ "api": [
   },
   {
     "type": "get",
+    "url": "/runners/{id}/inputStatus",
+    "title": "Notify the current step on the runner with id {id}",
+    "name": "RunnerInputStatus",
+    "group": "Runners",
+    "version": "0.1.0",
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "EmptyAnswer",
+            "description": "<p>The answer was empty. Exactly <code>1</code> answer has to be given.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Example data on success",
+          "content": "{\n    \"success\": \"true\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "polyescape_engine/src/polytech/teamf/api/RunnerServices.java",
+    "groupTitle": "Runners"
+  },
+  {
+    "type": "get",
     "url": "/runners/{id}/status",
     "title": "Retrieve the status for the next step of the game on the runner with id {id}",
     "name": "RunnerStatus",
@@ -181,8 +212,8 @@ define({ "api": [
       },
       "examples": [
         {
-          "title": "Example data on success,",
-          "content": "the status can be ok if a correct answer has been given and there's another step after,\nfinish if a correct answer has been given and there's no more step\nor forbidden if no correct answer has been given (the player tries to skip the step)\n\t{\n\t\"id\": null,\n\t\"status\": \"ok/finish/forbidden\"\n\t}",
+          "title": "Example data on success: (the status can be ok if a correct answer has been given and there's another step after, finish if a correct answer has been given and there's no more step or forbidden if no correct answer has been given (the player tries to skip the step))",
+          "content": "{\n\"id\": null,\n\"status\": \"ok/finish/forbidden\"\n}",
           "type": "json"
         }
       ]
