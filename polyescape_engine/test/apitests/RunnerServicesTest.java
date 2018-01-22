@@ -59,7 +59,7 @@ public class RunnerServicesTest extends JerseyTest {
         successMultipleConfig.add(pluginResource);
 
         passwordAnswer = new PluginStatusResource("password");
-        caesarAnswer = new PluginStatusResource("hfjxfw");
+        caesarAnswer = new PluginStatusResource("caesar");
     }
 
     @After
@@ -151,6 +151,13 @@ public class RunnerServicesTest extends JerseyTest {
                 });
         assertFalse("Status shouldn't be empty", response.getStatus().isEmpty());
         assertEquals("Status should be ok", "ok", response.getStatus());
+
+        answerRunner(caesarAnswer);
+        response = target("runners/" + runnerID + "/status").request()
+                .get(new GenericType<RunnerInstanceResource>() {
+                });
+        assertFalse("Status shouldn't be empty", response.getStatus().isEmpty());
+        assertEquals("Status should be finish", "finish", response.getStatus());
     }
 
     @Test
