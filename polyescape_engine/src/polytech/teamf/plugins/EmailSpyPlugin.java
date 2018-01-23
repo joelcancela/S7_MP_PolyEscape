@@ -22,7 +22,7 @@ public class EmailSpyPlugin extends Plugin {
 	 */
 	public EmailSpyPlugin(String description, String plain_text) {
 
-		super("EmailSpyPlugin", description + "<br>Envoyez votre réponse à cet email : <a href=\"mailto:polyescape.olw5ew@zapiermail.com\">polyescape.olw5ew@zapiermail.com</a>"
+		super("EmailSpyPlugin", description + "<br>Envoyez votre réponse à cet email : <a href=\"mailto:polyescape.olw5ew@zapiermail.com?subject={{playerID}}\">polyescape.olw5ew@zapiermail.com</a>"
 		);
 
 		// MODEL
