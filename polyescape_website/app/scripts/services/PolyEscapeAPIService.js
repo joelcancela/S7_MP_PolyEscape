@@ -9,7 +9,7 @@
 angular.module('polyEscapeApp')
   .service('PolyEscapeAPIService', ['$http', '$q', function ($http, $q) {
 
-    //this.serverHost = "http://localhost:8080";
+    // this.serverHost = "http://localhost:8080";
     this.serverHost = "https://ns3265327.ip-5-39-78.eu:8443";
 
     this.getAvailablePlugins = function () {
@@ -18,6 +18,7 @@ angular.module('polyEscapeApp')
         method: 'GET',
         url: this.serverHost + '/plugins/list'
       }).then(function successCallback(data) {
+        console.log(data);
         deferred.resolve(data);
       }, function errorCallback(data) {
         deferred.reject("Failed to retrieve available plugins");
@@ -25,11 +26,11 @@ angular.module('polyEscapeApp')
       return deferred.promise;
     };
 
-    this.getPluginStatus = function () {
+    this.getPluginStatus = function (id) {
       var deferred = $q.defer();
       $http({
         method: 'GET',
-        url: this.serverHost + '/plugins/status'
+        url: this.serverHost + '/runners/'+id+'/inputStatus'
       }).then(function successCallback(data) {
         deferred.resolve(data);
       }, function errorCallback(data) {
@@ -45,7 +46,7 @@ angular.module('polyEscapeApp')
         url: this.serverHost + '/runners/instantiate',
         data: jsonSteps,
         headers: {
-        "Content-Type": "text/plain"
+        "Content-Type": "application/json"
       }
       }).then(function successCallback(data) {
         deferred.resolve(data);
@@ -55,11 +56,11 @@ angular.module('polyEscapeApp')
       return deferred.promise;
     };
 
-    this.getPluginDescription = function () {
+    this.getPluginDescription = function (id) {
       var deferred = $q.defer();
       $http({
         method: 'GET',
-        url: this.serverHost + '/plugins/description'
+        url: this.serverHost + '/runners/'+id+'/description'
       }).then(function successCallback(data) {
         deferred.resolve(data);
       }, function errorCallback(data) {
@@ -68,11 +69,11 @@ angular.module('polyEscapeApp')
       return deferred.promise;
     };
 
-    this.hasNextPlugin = function () {
+    this.hasNextPlugin = function (id) {
       var deferred = $q.defer();
       $http({
         method: 'GET',
-        url: this.serverHost + '/runners/status'
+        url: this.serverHost + '/runners/'+id+'/status'
       }).then(function successCallback(data) {
         deferred.resolve(data);
       }, function errorCallback(data) {
@@ -82,14 +83,14 @@ angular.module('polyEscapeApp')
     };
 
 
-    this.answerResponse = function (json) {
+    this.answerResponse = function (id, json) {
       var deferred = $q.defer();
       $http({
         method: 'POST',
-        url: this.serverHost + '/runners/answer',
+        url: this.serverHost + '/runners/'+id+'/answer',
         data:json,
         headers: {
-          "Content-Type": "text/plain"
+          "Content-Type": "application/json"
         }
       }).then(function successCallback(data) {
         deferred.resolve(data);

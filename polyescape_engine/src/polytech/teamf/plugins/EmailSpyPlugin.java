@@ -1,76 +1,74 @@
 package polytech.teamf.plugins;
 
-import org.json.JSONObject;
+import polytech.teamf.events.BadResponseEvent;
+import polytech.teamf.events.GoodResponseEvent;
+import polytech.teamf.events.IEvent;
+
+import java.util.Map;
 
 public class EmailSpyPlugin extends Plugin {
 
-    /**
-     * The original plain text. Is used by the validation process.
-     */
-    private String plain_text = "";
+	/**
+	 * The original plain text.
+	 * Is used by the validation process.
+	 */
+	private String plain_text = "";
 
-    /**
-     * Default constructor
-     * Used by the API Reflection Engine
-     */
-    public EmailSpyPlugin() {
-        this("", "");
-    }
+	/**
+	 * Initializes the plugin.
+	 *
+	 * @param description the plugin description
+	 * @param plain_text  the plain text to discover
+	 */
+	public EmailSpyPlugin(String description, String plain_text) {
 
-    /**
-     * Initializes the plugin
-     *
-     * @param description The plugin description
-     * @param plain_text The plain text to discover
-     */
-    public EmailSpyPlugin(String description, String plain_text) {
+		super("EmailSpyPlugin", description + "<br>Envoyez votre réponse à cet email : <a href=\"mailto:polyescape.olw5ew@zapiermail.com?subject={{playerID}}\">polyescape.olw5ew@zapiermail.com</a>"
+		);
 
-        super(description + "<br>Envoyez votre réponse à cet email : <a href=\"mailto:polyescape.olw5ew@zapiermail.com\">polyescape.olw5ew@zapiermail.com</a>",
-                "Epreuve mot de passe envoyé sur un email distant");
+		// MODEL
+		this.plain_text = plain_text;
+	}
 
-        // ARGS
-        super.getArgs().add("plain_text");
-        // SCHEMA
-        this.schema.put("attempt", "The user attempt");
+	public EmailSpyPlugin() {
+		super("polytech.teamf.plugins.EmailSpyPlugin", "");
+		args.put("description", "String");
+		args.put("plain_text", "String");
+	}
 
-        // FORM
-        this.plain_text = plain_text;
-        this.ans_format = "text";
-    }
+	@Override
+	public IEvent execute(Map<String, Object> args) throws Exception {
 
-    @Override
-    public JSONObject play(JSONObject args) {
+		if (!args.containsKey("attempt")) {
+			throw new IllegalArgumentException("Bad response format");
+		}
 
-        JSONObject ret = new JSONObject();
+		String response = (String) args.get("attempt");
 
-        try {
-            if (this.plain_text.equals(args.getString("attempt"))) {
-                this.isValidatedState = true;
-                ret.put(SUCCESS, "true");
-                isSuccess="true";
+		if (this.plain_text.equals(response)) {
+			return new GoodResponseEvent(this);
+		}
 
-            }
-            else {
-                ret.put(SUCCESS, "false");
-                isSuccess="false";
+		return new BadResponseEvent(this);
+	}
 
-            }
-        }
-        catch (Exception e) {
-            ret.put(SUCCESS, "false");
-            isSuccess="false";
+	@Override
+	public void onBadResponseEvent() {
 
-        }
+	}
 
-        return ret;
-    }
+	@Override
+	public void onGoodResponseEvent() {
 
-    public String toString() {
-        return new JSONObject()
-                .put("name", this.getName())
-                .put("description", this.getDescription())
-                .put("plain_text", this.plain_text)
-                .put("answer_format",this.getAns_format())
-                .put("use_remote_service", true).toString();
-    }
+	}
+
+	@Override
+	public void onStartEvent() {
+
+	}
+
+	@Override
+	public void onEndEvent() {
+
+	}
+
 }

@@ -1,40 +1,40 @@
 package polytech.teamf.plugins;
 
-import org.json.JSONObject;
+import polytech.teamf.events.IEvent;
 
-import java.util.List;
 import java.util.Map;
 
 public interface IPlugin {
 
     /**
-     * Plugin constructor arguments
-     *
-     * @return List
+     * Plugin Attributes.
      */
-    List<String> getArgs();
+    Map<String, Object> getAttributes();
 
     /**
-     * Plugin input schema
-     *
-     * @return Map
+     * Plugin Description Field.
      */
-    Map<String, String> getSchema();
+    String getDescription();
 
     /**
-     * Reads the input data submitted from an external entity to this plugin
-     * Outputs the response, given the plugin initialization and the user input
-     *
-     * @param args The inputs a JSObject
-     * @return JSObject
-     * @throws Exception Error if anything wrong happens
+     * Plugin Name Field.
      */
-    JSONObject play(JSONObject args) throws Exception;
-
+    String getName();
 
     /**
-     * return the status of the plugin : is the answer was right : true or false
+     * Reads the input data submitted from an external entity to this plugin.
+     * Outputs the response, given the plugin initialization and the user input.
      */
-    String getStatus();
+    IEvent execute(Map<String, Object> args) throws Exception;
+
+    /**
+     * Add a new nested plugin.
+     */
+    void addPlugin(Plugin p);
+
+    /**
+     * Notify the plugin plus the nested plugins of the event.
+     */
+    void sendEvent(IEvent e);
 
 }

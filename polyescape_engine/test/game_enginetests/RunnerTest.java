@@ -2,58 +2,100 @@ package game_enginetests;
 
 import org.junit.Before;
 import org.junit.Test;
-import polytech.teamf.game_engine.Runner;
 
+import polytech.teamf.gameengine.Runner;
+import polytech.teamf.gameengine.Runner;
+import polytech.teamf.jarloader.JarLoader;
+import polytech.teamf.resources.PluginDescriptionResource;
+import polytech.teamf.resources.PluginInstantiationResource;
+import polytech.teamf.resources.RunnerInstanceResource;
+import polytech.teamf.servletconfig.StartupListener;
+
+
+import javax.servlet.ServletContextEvent;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-public class RunnerTest{
-
+public class RunnerTest {
 
     private Runner runner;
 
-        @Before
-        public void setUp() {
+    @Before
+    public void setUp() {
 
-            runner = new Runner("[ { \"type\" : \"CaesarCipherPlugin\", \"description\" : \"dit 42\", \"plain_text\" : \"COUCOU\" ,\"cipher_padding\" : \"1\" } ]");
+
+        JarLoader.getInstance().loadServices("./resources/services/");
+        JarLoader.getInstance().loadPlugins("./resources/plugins/");
+
+        ArrayList<PluginInstantiationResource> list = new ArrayList<>();
+        PluginInstantiationResource p1 = new PluginInstantiationResource();
+        p1.setName("CaesarCipherPlugin");
+        HashMap<String, Object> hm = new HashMap<>();
+        hm.put("description", "a new description of cipher plugin");
+        hm.put("plain_text" , "TEST");
+        hm.put("cipher_padding" , new Integer(1));
+        p1.setArgs(hm);
+        list.add(p1);
+        list.add(p1);
+
+        runner = new Runner(list);
+
         }
-
 
         @Test
-        public void getDescriptionTests(){
-            assertEquals("test  description : ",runner.getDescription().getString("description") , "dit 42 DPVDPV");
-            assertEquals("test  format : ",runner.getDescription().getString("answer_format") , "text");
+        public void getCurrentPluginDescriptionTests () {
 
-
+            PluginDescriptionResource desc = runner.getCurrentPluginDescription();
+            assertEquals("{name=CaesarCipherPlugin, description=a new description of cipher plugin Voici le code à décrypter: UFTU}" ,
+                    desc.getAttributes().toString());
+            assertEquals("{attempt=class java.lang.String}" , desc.getResponseFormat().toString());
         }
-
 
         @Test
-        public void sendGuess_GetResponseTests(){
+        public void sendMessage () {
+            HashMap<String,Object> hm = new HashMap<>();
+            hm.put("attempt","AZER");
 
-            try {
+            assertEquals(runner.sendMessage(hm) , false);
 
-            assertEquals("test wrong answer" , runner.sendGuess_GetResponse("{attempt : 72 }").getString("success"), "false");
-            assertEquals("test right answer" , runner.sendGuess_GetResponse("{attempt :COUCOU}").getString("success"), "true");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            hm = new HashMap<>();
+            hm.put("attempt","TEST");
 
+            assertEquals(runner.sendMessage(hm) , true);
         }
-
 
         @Test
-        public void nextPluginTest(){
+        public void nextPluginTest () {
+            RunnerInstanceResource r = runner.nextPlugin();
+            assertEquals(r.getStatus(),"forbidden");
 
-            assertEquals("test is finished" ,  runner.nextPlugin().getString("status") , "finish");
+            HashMap<String,Object> hm = new HashMap<>();
 
-            runner = new Runner("[ { \"type\" : \"CaesarCipherPlugin\", \"description\" : \"dit 42\", \"plain_text\" : \"COUCOU\" ,\"cipher_padding\" : \"1\" },  { \"type\" : \"CaesarCipherPlugin\", \"description\" : \"dit 42\", \"plain_text\" : \"COUCOU\" ,\"cipher_padding\" : \"1\" } ]");
+            hm = new HashMap<>();
+            hm.put("attempt","TEST");
 
-            assertEquals("test is finished" ,  runner.nextPlugin().getString("status") , "ok");
+            assertEquals(runner.sendMessage(hm) , true);
+             r = runner.nextPlugin();
+            assertEquals(r.getStatus(),"ok");
+
+            hm = new HashMap<>();
+            hm.put("attempt","TEST");
+
+            assertEquals(runner.sendMessage(hm) , true);
+            r = runner.nextPlugin();
+            assertEquals(r.getStatus(),"finish");
+
+
         }
-
 
     }
+
 
 
 

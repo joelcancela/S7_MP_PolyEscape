@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-import base64
 import os
 import signal
 import sys
@@ -180,6 +179,8 @@ def update():
     print("[INFO] Updating project...")
     print("[INFO] `EscapeGame` is located at : '" + _wd + "'")
 
+    os.system(" cd ~/")
+
     print(" * Flushing project...")
     if os.path.exists(_wd):
         os.system("rm -rf " + _wd)
@@ -187,9 +188,10 @@ def update():
     print(" * Downloading remote repository (" + _git_branch + ")...")
     os.system("git clone -b " + _git_branch + " " + _git_url + " " + _wd)
 
-    print(" * Fix pom.xml (polyescape_engine module)...")
-    os.system("mv " + _wd + "/polyescape_engine/pom.xml " + _wd + "/polyescape_engine/pom.xml.bak")
-    os.system("cp ~/catalina/pom.xml " + _wd + "/polyescape_engine")
+    print(" * Fix project...")
+    if os.path.exists(_wd):
+        os.system("mv ./escapegame/polyescape_engine/pom.xml ./escapegame/polyescape_engine/pom.xml.bak")
+        os.system("cp ./catalina/pom.xml ./escapegame/polyescape_engine/pom.xml")
 
     free_lock()
 
@@ -217,8 +219,11 @@ def start():
 
     print("[INFO] Start server...")
 
+    os.system(" cd ~/")
+
     if os.path.exists(_wd):
         os.system("mvn install -f " + _wd + "/polyescape_engine/pom.xml -Dmaven.test.skip=true")
+        os.chdir("/home/polyescape/escapegame/polyescape_engine")
         os.system("screen mvn tomcat7:run-war -f " + _wd + "/polyescape_engine/pom.xml -Dmaven.test.skip=true")
 
 

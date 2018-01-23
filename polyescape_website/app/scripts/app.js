@@ -19,7 +19,7 @@ angular
     'ui.bootstrap',
     'timer'
   ])
-  .config(function ($routeProvider, $locationProvider) {
+  .config(function ($routeProvider, $locationProvider,$compileProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -41,5 +41,5 @@ angular
       });
 
     $locationProvider.hashPrefix('');
-
+    $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|tel|file|data|blob):/);
   });

@@ -8,9 +8,10 @@
  * Controller of the polyEscapeApp
  */
 angular.module('polyEscapeApp')
-  .controller('GameRunnerCtrl', ['$rootScope', '$scope', '$window', '$uibModal', 'PolyEscapeAPIService','$interval',
-    function ($rootScope, $scope, $window, $uibModal, PolyEscapeAPIService, $interval) {
+  .controller('GameRunnerCtrl', ['$rootScope', '$scope', '$window', '$uibModal', 'PolyEscapeAPIService', '$interval', '$interpolate',
+    function ($rootScope, $scope, $window, $uibModal, PolyEscapeAPIService, $interval, $interpolate) {
 
+      $rootScope.playerID = null;
       $rootScope.stepTimer = $rootScope.escapeGameTimeLimit * 60;
       $rootScope.currentPluginDescription = "";
       $rootScope.currentPluginIsInput = false;
@@ -38,24 +39,35 @@ angular.module('polyEscapeApp')
 
       $scope.submitAnswer = function () {
         console.log($scope.currentAnswer.answer);
-        var promise = PolyEscapeAPIService.answerResponse({"attempt": $scope.currentAnswer.answer});
+        var promise = PolyEscapeAPIService.answerResponse($rootScope.playerID, {"attempt": $scope.currentAnswer.answer});
         promise.then(function (result) {
-          $rootScope.correctAnswerGiven = result.data.success;
-          console.log("Response " + result.data.success);
+          console.log(result.data);
+          $rootScope.correctAnswerGiven = result.data.status;
+          console.log("Response " + result.data.status);
         }, function (reason) {
           alert('Failed to send request to answer ' + reason);
         });
       };
 
+      $scope.$on('timer-stopped', function (event, data) {
+        console.log('Timer Stopped - data = ', data);
+        var minutes = (($rootScope.escapeGameTimeLimit * 60) - (data.hours * 3600 + data.minutes * 60 + data.seconds)) / 60;
+        var hours = minutes / 60;
+        var realMinutes = minutes % 60;
+        var seconds = (($rootScope.escapeGameTimeLimit * 60) - (data.hours * 3600 + data.minutes * 60 + data.seconds)) % 60;
+        $rootScope.escapeGameTimeElapsed = Math.floor(hours) + "h: " + Math.floor(realMinutes) + "m: " + Math.floor(seconds)+"s";
+      });
+
       $scope.getToNextStep = function () {
         console.log("go to next step");
         if ($rootScope.correctAnswerGiven) {
-          var promise = PolyEscapeAPIService.hasNextPlugin();
+          var promise = PolyEscapeAPIService.hasNextPlugin($rootScope.playerID);
           promise.then(function (result) {
             if (result.data.status === 'ok') {
               //next item TODO
               console.log("next step ");
               $rootScope.correctAnswerGiven = undefined;
+              $scope.currentAnswer = {"answer": ""};
               getNextPlugin();
             } else if (result.data.status === 'finish') {
               $rootScope.$broadcast('timer-stop');
@@ -77,7 +89,7 @@ angular.module('polyEscapeApp')
         }
       };
 
-      $scope.timeElapsedCallback = function(){
+      $scope.timeElapsedCallback = function () {
         $rootScope.loseModalInstance = $uibModal.open($rootScope.loseModal);//creates modalForceToggle instance
         $rootScope.loseModalInstance.result.then(function (res) {//result of the modal
           if (res) {//if the user confirms the force toggle
@@ -87,27 +99,31 @@ angular.module('polyEscapeApp')
       };
 
       function getNextPlugin() {
-        var promise = PolyEscapeAPIService.getPluginDescription();
+        var promise = PolyEscapeAPIService.getPluginDescription($rootScope.playerID);
         promise.then(function (result) {
           console.log(result.data);
-          console.log(result.data.description);
-          $rootScope.currentPluginIsInput = result.data.use_remote_service;
-          $rootScope.currentPluginDescription = result.data.description;
-          if($rootScope.currentPluginIsInput){
-            intervalPromise =  $interval(triggerIntervalInputService, 3000);
+          if (Object.keys(result.data.responseFormat).length === 0) {
+            $rootScope.currentPluginIsInput = true;
+          } else {
+            $rootScope.currentPluginIsInput = false;
+          }
+          $rootScope.currentPluginDescription = $interpolate(result.data.attributes.description)($rootScope);
+          if ($rootScope.currentPluginIsInput) {
+            intervalPromise = $interval(triggerIntervalInputService, 3000);
           }
         }, function (reason) {
           alert('Failed to get next plugin ' + reason);
         });
       }
 
-      function triggerIntervalInputService(){
-        var promise = PolyEscapeAPIService.getPluginStatus();
+      function triggerIntervalInputService() {
+        var promise = PolyEscapeAPIService.getPluginStatus($rootScope.playerID);
         promise.then(function (result) {
-          console.log(result.data.status);
-          if(result.data.status === 'true'){
+          console.log(result.data);
+          if (result.data.status) {
             $interval.cancel(intervalPromise);
-            $rootScope.correctAnswerGiven = "true";
+            $rootScope.correctAnswerGiven = true;
+            $scope.getToNextStep();
           }
         }, function (reason) {
           alert('Failed to get next plugin ' + reason);
@@ -129,6 +145,7 @@ angular.module('polyEscapeApp')
           var promise = PolyEscapeAPIService.instantiateRunner($rootScope.escapeGameSteps);
           promise.then(function (result) {
             console.log(result);
+            $rootScope.playerID = result.data.id;
             console.log("Game On");
             //Display history
             //Ask for next plugin

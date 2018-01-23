@@ -1,54 +1,49 @@
 package polytech.teamf.api;
 
-import polytech.teamf.services.GoogleSheetsService;
-import polytech.teamf.services.PolyescapeEmailSpyService;
+import org.json.JSONArray;
+import polytech.teamf.services.EmailSpyService;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.HashMap;
+import java.util.Map;
 
-@Path("/services")
+@Path("/service")
 public class ServiceServices {
 
-    /**
-     * @api {get} /services/{service} Doc here
-     * @apiName Service
-     * @apiGroup Services
-     * @apiVersion 0.1.0
-     *
-     * @apiSuccess (200) {String} service Doc here
-     *
-     *
-     * http://localhost:8080/services/GoogleSheetsService?gsheet=%22https://docs.google.com/spreadsheets/d/17d4SfrjbdyPq9x8HEjumkfYN8b_aBPwaIHVFJnNqbG0/gviz/tq?tqx=out:csv%22
-     *
-     * @apiSuccessExample Example data on success
-     * {
-     *     "example": "example"
-     * }
-     */
-
-    /**
-     * polyescape.olw5ew@zapiermail.com
-     */
     @POST
-    @Path("/PolyescapeEmailSpy")
+    @Path("/{service}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void postTwitterDMService(String json) {
-        String[] args = new String[1];
-        args[0] = json;
-        new PolyescapeEmailSpyService(args).execute();
+    public Response getPostService(@PathParam("service") String serviceName, String json) {
+        if (serviceName.isEmpty()) { // rather test if the service name doesn't exist
+            return Response.status(400).build();
+        } else {
+
+            /* STACK INPUT SERVICES HERE */
+
+            if (serviceName.equals("EmailSpyService")) {
+                Map<String, Object> callArgs = new HashMap<>();
+                callArgs.put("msg", new JSONArray(json));
+                new EmailSpyService().call(callArgs);
+            }
+
+            return Response.ok().build();
+        }
     }
 
-    /**
-     * @param gsheet
-     * @return
-     */
+    // TODO : Implement GET if required
+
+    /*
     @GET
-    @Path("/GoogleSheetsService")
-    @Produces(MediaType.APPLICATION_JSON)
-    public String getService(@QueryParam("gsheet") String gsheet) {
-        String[] args = new String[1];
-        args[0] = gsheet.replace("\"", "");
-        return new GoogleSheetsService(args).execute().toString();
+    @Path("/{service}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getGetService(@PathParam("service") String serviceName) {
+        if (serviceName.isEmpty()) { // rather test if the service name doesn't exist
+            return Response.status(400).build();
+        } else {
+            return Response.ok().build();
+        }
     }
-
+    */
 }
