@@ -8,7 +8,7 @@
  * Controller of the polyEscapeApp
  */
 angular.module('polyEscapeApp')
-  .controller('GameRunnerCtrl', ['$rootScope', '$scope', '$window', '$uibModal', 'PolyEscapeAPIService','$interval','$interpolate',
+  .controller('GameRunnerCtrl', ['$rootScope', '$scope', '$window', '$uibModal', 'PolyEscapeAPIService', '$interval', '$interpolate',
     function ($rootScope, $scope, $window, $uibModal, PolyEscapeAPIService, $interval, $interpolate) {
 
       $rootScope.playerID = null;
@@ -49,11 +49,13 @@ angular.module('polyEscapeApp')
         });
       };
 
-      $scope.$on('timer-stopped', function (event, data){
+      $scope.$on('timer-stopped', function (event, data) {
         console.log('Timer Stopped - data = ', data);
-        var days = $rootScope.escapeGameTimeLimit/(24*60);
-        var hours = ($rootScope.escapeGameTimeLimit%(24*60)) / 60;
-        var min = ($rootScope.escapeGameTimeLimit%(24*60)) % 60;
+        var minutes = (($rootScope.escapeGameTimeLimit * 60) - (data.hours * 3600 + data.minutes * 60 + data.seconds)) / 60;
+        var hours = minutes / 60;
+        var realMinutes = minutes % 60;
+        var seconds = (($rootScope.escapeGameTimeLimit * 60) - (data.hours * 3600 + data.minutes * 60 + data.seconds)) % 60;
+        $rootScope.escapeGameTimeElapsed = Math.floor(hours) + "h: " + Math.floor(realMinutes) + "m: " + Math.floor(seconds)+"s";
       });
 
       $scope.getToNextStep = function () {
@@ -87,7 +89,7 @@ angular.module('polyEscapeApp')
         }
       };
 
-      $scope.timeElapsedCallback = function(){
+      $scope.timeElapsedCallback = function () {
         $rootScope.loseModalInstance = $uibModal.open($rootScope.loseModal);//creates modalForceToggle instance
         $rootScope.loseModalInstance.result.then(function (res) {//result of the modal
           if (res) {//if the user confirms the force toggle
@@ -100,25 +102,25 @@ angular.module('polyEscapeApp')
         var promise = PolyEscapeAPIService.getPluginDescription($rootScope.playerID);
         promise.then(function (result) {
           console.log(result.data);
-          if(Object.keys(result.data.responseFormat).length === 0){
+          if (Object.keys(result.data.responseFormat).length === 0) {
             $rootScope.currentPluginIsInput = true;
-          }else{
+          } else {
             $rootScope.currentPluginIsInput = false;
           }
           $rootScope.currentPluginDescription = $interpolate(result.data.attributes.description)($rootScope);
-          if($rootScope.currentPluginIsInput){
-            intervalPromise =  $interval(triggerIntervalInputService, 3000);
+          if ($rootScope.currentPluginIsInput) {
+            intervalPromise = $interval(triggerIntervalInputService, 3000);
           }
         }, function (reason) {
           alert('Failed to get next plugin ' + reason);
         });
       }
 
-      function triggerIntervalInputService(){
+      function triggerIntervalInputService() {
         var promise = PolyEscapeAPIService.getPluginStatus($rootScope.playerID);
         promise.then(function (result) {
           console.log(result.data);
-          if(result.data.status){
+          if (result.data.status) {
             $interval.cancel(intervalPromise);
             $rootScope.correctAnswerGiven = true;
             $scope.getToNextStep();
