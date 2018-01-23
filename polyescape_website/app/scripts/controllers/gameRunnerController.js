@@ -8,8 +8,8 @@
  * Controller of the polyEscapeApp
  */
 angular.module('polyEscapeApp')
-  .controller('GameRunnerCtrl', ['$rootScope', '$scope', '$window', '$uibModal', 'PolyEscapeAPIService','$interval',
-    function ($rootScope, $scope, $window, $uibModal, PolyEscapeAPIService, $interval) {
+  .controller('GameRunnerCtrl', ['$rootScope', '$scope', '$window', '$uibModal', 'PolyEscapeAPIService','$interval','$interpolate',
+    function ($rootScope, $scope, $window, $uibModal, PolyEscapeAPIService, $interval, $interpolate) {
 
       $rootScope.playerID = null;
       $rootScope.stepTimer = $rootScope.escapeGameTimeLimit * 60;
@@ -49,6 +49,13 @@ angular.module('polyEscapeApp')
         });
       };
 
+      $scope.$on('timer-stopped', function (event, data){
+        console.log('Timer Stopped - data = ', data);
+        var days = $rootScope.escapeGameTimeLimit/(24*60);
+        var hours = ($rootScope.escapeGameTimeLimit%(24*60)) / 60;
+        var min = ($rootScope.escapeGameTimeLimit%(24*60)) % 60;
+      });
+
       $scope.getToNextStep = function () {
         console.log("go to next step");
         if ($rootScope.correctAnswerGiven) {
@@ -58,6 +65,7 @@ angular.module('polyEscapeApp')
               //next item TODO
               console.log("next step ");
               $rootScope.correctAnswerGiven = undefined;
+              $scope.currentAnswer = {"answer": ""};
               getNextPlugin();
             } else if (result.data.status === 'finish') {
               $rootScope.$broadcast('timer-stop');
@@ -97,7 +105,7 @@ angular.module('polyEscapeApp')
           }else{
             $rootScope.currentPluginIsInput = false;
           }
-          $rootScope.currentPluginDescription = result.data.attributes.description;
+          $rootScope.currentPluginDescription = $interpolate(result.data.attributes.description)($rootScope);
           if($rootScope.currentPluginIsInput){
             intervalPromise =  $interval(triggerIntervalInputService, 3000);
           }
@@ -113,6 +121,7 @@ angular.module('polyEscapeApp')
           if(result.data.status){
             $interval.cancel(intervalPromise);
             $rootScope.correctAnswerGiven = true;
+            $scope.getToNextStep();
           }
         }, function (reason) {
           alert('Failed to get next plugin ' + reason);
