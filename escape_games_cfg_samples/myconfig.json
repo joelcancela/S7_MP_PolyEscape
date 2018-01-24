@@ -1,0 +1,25 @@
+[
+    {
+        "name": "MultipleChoiceQuestionPlugin",
+        "args": {
+            "description": "Il se trouve qu'un invité a laissé un cadeau mystère verrouillé par un mot de passe à 4 chiffres<br> Alice déduit 3 possibilités de réponse :<br> sa date de naissance : 1869<br> L’année en cours : 1903<br> L’année où elle est entrée dans le monde des merveilles : 1879<br>",
+            "answers_csv": "1869,1903,1879",
+            "correct_answers_csv": "1869"
+        }
+    },
+    {
+        "name": "CaesarCipherPlugin",
+        "args": {
+            "description": "Alice ouvre le cadeau et découvre un mot chiffré. Il semble que le mot chiffré soit basé sur le chiffrement de César.<br>",
+            "plain_text": "Which Pill Am I Taking ?",
+            "cipher_padding": 7
+        }
+    },
+    {
+        "name": "polytech.teamf.plugins.EmailSpyPlugin",
+        "args": {
+            "description": "Alice saisit que le message demandé est “Which Pill Am I Taking ?”<br> Elle regarde parmis ses médicaments, elle remarque deux flacons :<br> Un flacon “RED PILLS”, Un autre “BLUE PILLS”<br> Au dos du message, elle lit qu’elle doit répondre à cette question en envoyant un mail.<br>",
+            "plain_text": "BLUE PILLS"
+        }
+    }
+]

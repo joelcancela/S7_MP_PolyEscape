@@ -7,6 +7,10 @@ version 0.16.0.
 
 Run `grunt` for building and `grunt serve` for preview.
 
-## Testing
+## Testing (No tests for now)
 
 Running `grunt test` will run the unit tests with karma.
+
+## TODO
+
+- Modal to configure a single step

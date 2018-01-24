@@ -2,7 +2,7 @@
   {
     "type": "get",
     "url": "/plugins/list",
-    "title": "The list of available plugins",
+    "title": "Retrieve the list of available plugins",
     "name": "PluginsList",
     "group": "Plugins",
     "version": "0.1.0",
@@ -134,7 +134,7 @@
   {
     "type": "get",
     "url": "/runners/{id}/description",
-    "title": "The current played plugin description on the runner with id {id}",
+    "title": "Get the current played plugin description on the runner with id {id}",
     "name": "RunnerDescription",
     "group": "Runners",
     "version": "0.1.0",
@@ -164,7 +164,7 @@
   {
     "type": "get",
     "url": "/runners/{id}/inputStatus",
-    "title": "Notify the current step on the runner with id {id}",
+    "title": "Get the status for the current step on the runner with id {id}",
     "name": "RunnerInputStatus",
     "group": "Runners",
     "version": "0.1.0",
@@ -183,7 +183,7 @@
     "success": {
       "examples": [
         {
-          "title": "Example data on success",
+          "title": "Example data on success, this request is mostly used when the step is using a service that's calls our API. (\"Input\" services like mails)",
           "content": "{\n    \"success\": \"true\"\n}",
           "type": "json"
         }

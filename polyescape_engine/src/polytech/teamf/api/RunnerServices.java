@@ -133,7 +133,7 @@ public class RunnerServices {
 
 
 	/**
-	 * @api {get} /runners/{id}/description The current played plugin description on the runner with id {id}
+	 * @api {get} /runners/{id}/description Get the current played plugin description on the runner with id {id}
 	 * @apiName RunnerDescription
 	 * @apiGroup Runners
 	 * @apiVersion 0.1.0
@@ -165,14 +165,14 @@ public class RunnerServices {
 	}
 
     /**
-     * @api {get} /runners/{id}/inputStatus Notify the current step on the runner with id {id}
+     * @api {get} /runners/{id}/inputStatus Get the status for the current step on the runner with id {id}
      * @apiName RunnerInputStatus
      * @apiGroup Runners
      * @apiVersion 0.1.0
      *
      * @apiError EmptyAnswer The answer was empty. Exactly <code>1</code> answer has to be given.
      *
-     * @apiSuccessExample Example data on success
+     * @apiSuccessExample Example data on success, this request is mostly used when the step is using a service that's calls our API. ("Input" services like mails)
      * {
      *     "success": "true"
      * }

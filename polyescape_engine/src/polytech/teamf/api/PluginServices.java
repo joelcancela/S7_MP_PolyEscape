@@ -15,7 +15,7 @@ import java.util.List;
 public class PluginServices {
 
     /**
-     * @api {get} /plugins/list The list of available plugins
+     * @api {get} /plugins/list Retrieve the list of available plugins
      * @apiName PluginsList
      * @apiGroup Plugins
      * @apiVersion 0.1.0
