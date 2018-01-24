@@ -3,6 +3,7 @@
 ## TODO
 
 - Display all possibles answers for QCM
+- Services using "input services" can't be made as plugins for now because we haven't found yet a way to create dynamic routes
 
 ## Notes
 
