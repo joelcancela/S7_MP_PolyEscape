@@ -17,7 +17,7 @@
 - Extends either Plugin or Service
   - Constaints :
 
-        * For plugin your constructor args must start with String description, followed by your attributes sorted by types (from java.lang) descending and sorted by name ascending
+        * For plugin your constructor args must start with String description, followed by your attributes sorted by types (from java.lang, no primitives) descending and sorted by name ascending
         (i.e. public CaesarCipherPlugin(String description, String plain_text, Integer cipher_padding))
 
 - Override the corresponding methods
