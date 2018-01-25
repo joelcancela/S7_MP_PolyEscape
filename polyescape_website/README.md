@@ -14,3 +14,7 @@ Running `grunt test` will run the unit tests with karma.
 ## TODO
 
 - Modal to configure a single step
+
+## Notes
+
+- This interface is linked to a server by default if you want to use your own server with this interface, change the **this.serverHost** value, located in *app\scripts\services\PolyEscapeAPIService.js*

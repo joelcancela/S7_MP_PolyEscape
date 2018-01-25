@@ -5,6 +5,9 @@
 - Display all possibles answers for QCM
 - Services using "input services" can't be made as plugins for now because we haven't found yet a way to create dynamic routes
 - Need to implement a MapAdapter class to make XML request work for the *instantiate* route.
+- Plugins loading requires the server to be rebooted while we could reload them without reboot
+- Plugins shouldn't only be step types of an escape game (they could also alter the game context, i.e. hints, penalties)
+- The runner should handle the timer
 
 ## Notes
 
