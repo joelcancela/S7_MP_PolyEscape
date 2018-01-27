@@ -18,7 +18,6 @@ angular.module('polyEscapeApp')
         method: 'GET',
         url: this.serverHost + '/plugins/list'
       }).then(function successCallback(data) {
-        console.log(data);
         deferred.resolve(data);
       }, function errorCallback(data) {
         deferred.reject("Failed to retrieve available plugins");

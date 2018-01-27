@@ -148,7 +148,7 @@ public class JarLoader {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Oops.. Encounter an issue while parsing jar" + e.toString());
+			System.out.println("Oops.. Encountered an issue while parsing jar" + e.toString());
 		}
 		return res;
 	}
@@ -174,7 +174,7 @@ public class JarLoader {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Oops.. Encounter an issue while parsing jar" + e.toString());
+			System.out.println("Oops.. Encountered an issue while parsing jar" + e.toString());
 		}
 		return metaPlugins;
 	}

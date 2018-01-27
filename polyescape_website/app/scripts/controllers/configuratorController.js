@@ -13,19 +13,16 @@ angular.module('polyEscapeApp')
 
       $rootScope.timelimitModal = {
         templateUrl: 'views/modals/timeLimitModal.html',
-        // backdrop: 'static',
         keyboard: false
       };
 
       $rootScope.storyModal = {
         templateUrl: 'views/modals/storyModal.html',
-        // backdrop: 'static',
         keyboard: false
       };
 
       $rootScope.addStepModal = {
         templateUrl: 'views/modals/addStepModal.html',
-        // backdrop: 'static',
         keyboard: false
       };
 
@@ -39,7 +36,6 @@ angular.module('polyEscapeApp')
       function init() {
         var promise = PolyEscapeAPIService.getAvailablePlugins();
         promise.then(function (result) {
-          // alert('Connexion ok');
           $rootScope.stepTypes = result.data;
         }, function (reason) {
           alert('Failed to connect to server: ' + reason);
@@ -47,31 +43,28 @@ angular.module('polyEscapeApp')
       };
 
       $scope.addStep = function () {
-        $rootScope.addStepModalInstance = $uibModal.open($rootScope.addStepModal);//creates modalForceToggle instance
+        $rootScope.addStepModalInstance = $uibModal.open($rootScope.addStepModal);//creates modal instance
         $rootScope.addStepModalInstance.result.then(function (res) {//result of the modal
           if (res) {//if the user confirms the force toggle
             $rootScope.escapeGameSteps.push(res);
-            console.log("Added step " + res);
           }
         });
       };
 
       $scope.setTimeLimit = function () {
-        $rootScope.timelimitModalInstance = $uibModal.open($rootScope.timelimitModal);//creates modalForceToggle instance
+        $rootScope.timelimitModalInstance = $uibModal.open($rootScope.timelimitModal);//creates modal instance
         $rootScope.timelimitModalInstance.result.then(function (res) {//result of the modal
           if (res) {//if the user confirms the force toggle
             $rootScope.escapeGameTimeLimit = res;
-            console.log("New time limit " + res);
           }
         });
       };
 
       $scope.setStory = function () {
-        $rootScope.storyModalInstance = $uibModal.open($rootScope.storyModal);//creates modalForceToggle instance
+        $rootScope.storyModalInstance = $uibModal.open($rootScope.storyModal);//creates modal instance
         $rootScope.storyModalInstance.result.then(function (res) {//result of the modal
           if (res) {//if the user confirms the force toggle
             $rootScope.escapeGameStory = res;
-            console.log("New story " + res);
           }
         });
       };
@@ -99,12 +92,11 @@ angular.module('polyEscapeApp')
         var jsonType = {name: JSON.parse(stepSelectedType).name};
         var jsonStep = angular.extend({}, jsonType, $rootScope.stepArgsValue[$rootScope.stepCreated]);
         $rootScope.stepCreated++;
-        console.dir($rootScope.escapeGameSteps);
         return jsonStep;
       };
 
       $scope.configStep = function (index) {
-        //TODO
+        //TODO configure a single step
       };
 
       $scope.removeStep = function (index) {
@@ -123,16 +115,16 @@ angular.module('polyEscapeApp')
         }
       };
 
-      $scope.downloadConfig = function() {
+      $scope.downloadConfig = function () {
         return encodeURIComponent(JSON.stringify($rootScope.escapeGameSteps));
       };
 
 
-      $scope.loadConfig= function(){
+      $scope.loadConfig = function () {
         document.getElementById('file').click();
       };
 
-      $scope.loadConfigOnSubmit = function($fileContent) {
+      $scope.loadConfigOnSubmit = function ($fileContent) {
         $rootScope.escapeGameSteps = JSON.parse($fileContent);
       };
 

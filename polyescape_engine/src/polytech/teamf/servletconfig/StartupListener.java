@@ -1,7 +1,6 @@
 package polytech.teamf.servletconfig;
 
 import polytech.teamf.jarloader.JarLoader;
-import polytech.teamf.plugins.MetaPlugin;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -32,9 +31,6 @@ public class StartupListener implements ServletContextListener {
             e.printStackTrace();
         } catch (InstantiationException e) {
             e.printStackTrace();
-        }
-        for (MetaPlugin plugin : JarLoader.getInstance().getMetaPlugins()) {
-            System.out.println(plugin.toString());
         }
     }
 
