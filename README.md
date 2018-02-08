@@ -1,8 +1,35 @@
-# PolyEscape Team F
+# PolyEscape (Team F)
 
-Nécessite maven, Node.js, grunt et bower
+Ce projet s'est déroulé pendant le mois de Janvier 2018, le sujet portait sur le développement d'une application permettant de créer des *escape games*.
+Nous avions deux axes orientés **Architecture Logicielle** sur lesquels notre projet devait s'appuyer :
+- Extensibilité & Interopérabilité
+- Usine Logicielle & Armée de clones
 
-Lancement du serveur :
+Ce projet est composé de deux parties :
+* Une API REST codée avec Jersey (JAX-RS) qui interagit avec des services externes.
+* Une interface web codée en AngularJS qui sert seulement à démontrer que notre API est utilisable.
+
+## Screenshots
+
+![](img/1.png | width=100)
+![](img/2.png | width=100)
+![](img/3.png | width=100)
+![](img/4.png | width=100)
+![](img/5.png | width=100)
+![](img/6.png | width=100)
+![](img/7.png | width=100)
+![](img/8.png | width=100)
+![](img/9.png | width=100)
+
+### Pré-requis
+
+* Java 8
+* maven
+* Node.js
+* grunt
+* bower
+
+### Lancement du serveur :
 
 ```bash
 cd polyescape_engine
@@ -11,7 +38,7 @@ mvn install && mvn tomcat7:run-war
 Serveur lancé par défaut sur le port 8080
 
 
-Lancement de l'interface utilisateur :
+### Lancement de l'interface utilisateur :
 
 ```bash
 cd polyescape_website
@@ -26,14 +53,14 @@ grunt serve
 ```
 Interface lancée par défaut sur le port 9000
 
-Documentation du moteur de jeu:
+### Documentation du moteur de jeu:
 
 ```bash
 cd doc
 ./index.html
 ```
 
-Gestion de la documentation: (avec apidoc)
+### Gestion de la documentation (avec apidoc)
 
 * Installation d'*apidoc*
 
@@ -48,4 +75,10 @@ npm install -g apidoc
 apidoc -i polyescape_engine
 ```
 
-Exemples de configuration d'Escape Games disponibles dans *escape_games_cfg_samples*
+### Notes
+* Services utilisés:
+    * Zapier
+    * API de chiffrement en code César faite par moi-même.
+* Exemples de configuration d'Escape Games disponibles dans *escape_games_cfg_samples*
+* Pour plus d'informations sur l'API REST, voir le README [ici](polyescape_engine/README.md).
+* Pour plus d'informations sur l'interface, voir le README [ici](polyescape_website/README.md).
