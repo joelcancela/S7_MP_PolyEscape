@@ -2,8 +2,8 @@
 
 Ce projet s'est déroulé pendant le mois de Janvier 2018, le sujet portait sur le développement d'une application permettant de créer des *escape games*.
 Nous avions deux axes orientés **Architecture Logicielle** sur lesquels notre projet devait s'appuyer :
-- Extensibilité & Interopérabilité
-- Usine Logicielle & Armée de clones
+- Extensibilité & Interopérabilité (Appeler et être appelé par des services externes)
+- Usine Logicielle & Armée de clones (Création de plugins)
 
 Ce projet est composé de deux parties :
 * Une API REST codée avec Jersey (JAX-RS) qui interagit avec des services externes.
@@ -11,15 +11,11 @@ Ce projet est composé de deux parties :
 
 ## Screenshots
 
-![](img/1.png | width=100)
-![](img/2.png | width=100)
-![](img/3.png | width=100)
-![](img/4.png | width=100)
-![](img/5.png | width=100)
-![](img/6.png | width=100)
-![](img/7.png | width=100)
-![](img/8.png | width=100)
-![](img/9.png | width=100)
+<img src="img/1.png" width="420"><img src="img/2.png" width="420">
+<img src="img/3.png" width="420"><img src="img/4.png" width="420">
+<img src="img/5.png" width="420"><img src="img/6.png" width="420">
+<img src="img/7.png" width="420"><img src="img/8.png" width="420">
+<img src="img/9.png" width="420">
 
 ### Pré-requis
 
