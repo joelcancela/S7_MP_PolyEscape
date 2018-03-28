@@ -18,7 +18,7 @@ public class CaesarCipherService extends Service {
     public CaesarCipherService() {
         this.name = "Service de cryptage en Code César";
         this.inputService = false;
-        this.serviceHost = "https://www.joelcancela.fr/services/fun/caesar_cipher.php";
+        this.serviceHost = "https://www.joelcancela.fr/services/misc/caesar_cipher.php";
     }
 
     @Override
