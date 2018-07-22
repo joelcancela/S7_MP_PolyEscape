@@ -60,7 +60,7 @@ public class CaesarCipherPlugin extends Plugin {
 	private String toCaesar(String plain_text, int cipher_padding) {
 		Map<String,Object> args = new HashMap<>();
 		args.put("message",plain_text);
-		args.put("padding",cipher_padding);
+		args.put("shift",cipher_padding);
 		JSONObject response = new JSONObject(caesar.call(args));
 		return response.getString("result");
 	}
